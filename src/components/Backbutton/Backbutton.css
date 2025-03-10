@@ -1,0 +1,10 @@
+.backbutton{
+    font-size: 3em;
+    margin-right: 80%;
+    color: var(--primary-color);
+    transition:  0.3s all ease;
+}
+.backbutton:hover{
+    transform: translateX(-10px);
+    color: #447baf;
+}

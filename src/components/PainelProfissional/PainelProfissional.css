@@ -1,0 +1,188 @@
+/* Painel Profissional Styles */
+.painel-profissional {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  opacity: 0;
+  transition: all 0.9s ease;
+}
+.appear{
+  opacity: 1;
+
+}
+
+.painel-profissional h1 {
+  color: #1d3557;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.profile-section,
+.avaliacao-section,
+.servicos-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section h2,
+.avaliacao-section h2,
+.servicos-section h2 {
+  color: #457b9d;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+/* Details View */
+.details {
+  display: grid;
+  gap: 1rem;
+}
+
+.details p {
+  font-size: 1.1rem;
+  color: #1d3557;
+  padding: 0.5rem 0;
+}
+
+.details strong {
+  color: #457b9d;
+  margin-right: 0.5rem;
+}
+
+/* Edit Form */
+.form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.form label {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #457b9d;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: #457b9d;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.1);
+}
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Buttons */
+.profile-section button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-section button:first-of-type {
+  background: #e63946;
+  color: white;
+  margin-right: 1rem;
+}
+
+.profile-section button:last-of-type {
+  background: #457b9d;
+  color: white;
+}
+
+.profile-section button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section button:active {
+  transform: translateY(0);
+}
+
+/* Avaliações */
+.avaliacao-section p {
+  font-size: 1.1rem;
+  color: #1d3557;
+  line-height: 1.6;
+}
+
+/* Serviços */
+.servicos-section ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.servicos-section li {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  color: #1d3557;
+  font-weight: 500;
+}
+.headerbotao{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vh;
+  
+
+}
+.botaovolta{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  background-color: none;
+  border: none;
+  font-size: 3em;
+}
+.botao-logout{
+  font-size: 1.3em;
+  margin-top: 1em;
+  background-color: #e63946;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .painel-profissional {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .profile-section,
+  .avaliacao-section,
+  .servicos-section {
+    padding: 1.5rem;
+  }
+
+  .form {
+    gap: 1rem;
+  }
+
+  .profile-section button {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+}

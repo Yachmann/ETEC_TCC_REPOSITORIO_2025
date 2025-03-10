@@ -1,0 +1,108 @@
+.login-cliente-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 2rem;
+  }
+  
+  .login-cliente-container h1 {
+    color: #1d3557;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .login-cliente-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-cliente-form label {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  
+  .login-cliente-form label span {
+    display: block;
+    color: #457b9d;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .login-cliente-form input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .login-cliente-form input:focus {
+    border-color: #457b9d;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.1);
+  }
+  
+  .login-cliente-form button {
+    width: 100%;
+    padding: 1rem;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+  }
+  
+  .login-cliente-form button:hover {
+    background: #d62b38;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+  }
+  
+  .login-cliente-form p {
+    margin-top: 1rem;
+    text-align: center;
+    color: #1d3557;
+  }
+  
+  .login-cliente-form a {
+    color: #e63946;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .login-cliente-form a:hover {
+    color: #d62b38;
+    text-decoration: underline;
+  }
+  
+  .message {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  .message.error {
+    background-color: #ffe3e3;
+    color: #e63946;
+  }
+  
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+  }

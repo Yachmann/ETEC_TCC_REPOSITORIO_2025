@@ -1,0 +1,87 @@
+.servico-pedido-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .servico-pedido-form h3 {
+    color: #1d3557;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .servico-pedido-form label {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  
+  .servico-pedido-form label span {
+    display: block;
+    color: #457b9d;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .servico-pedido-form textarea,
+  .servico-pedido-form input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .servico-pedido-form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .servico-pedido-form textarea:focus,
+  .servico-pedido-form input:focus {
+    border-color: #457b9d;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.1);
+  }
+  
+  .servico-pedido-form button {
+    width: 100%;
+    padding: 1rem;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  .servico-pedido-form button:hover {
+    background: #d62b38;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+  }
+  
+  .message {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  .message.error {
+    background-color: #ffe3e3;
+    color: #e63946;
+  }
+  
+  .message.success {
+    background-color: #d4edda;
+    color: #155724;
+  }

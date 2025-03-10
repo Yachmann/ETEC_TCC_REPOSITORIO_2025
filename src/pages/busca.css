@@ -1,0 +1,54 @@
+/* Header */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #333;
+}
+
+.header h1 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+* Container de busca */
+.busca {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.busca select,
+.busca input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.busca input {
+    width: 250px;
+}
+
+/* Botão */
+.busca button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.busca button:hover {
+    background-color: #555;
+}

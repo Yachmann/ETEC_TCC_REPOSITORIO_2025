@@ -1,0 +1,177 @@
+/* User Page Styles */
+.usuario-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+  
+  .usuario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .usuario-header h1 {
+    color: #1d3557;
+    font-size: 2.5rem;
+  }
+  
+  .logout-button {
+    background: #e63946;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .logout-button:hover {
+    background: #d62b38;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+  }
+  
+  .perfil-secao {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .perfil-secao h2 {
+    color: #457b9d;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+  }
+  
+  .detalhes {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .detalhes p {
+    font-size: 1.1rem;
+    color: #1d3557;
+    padding: 0.5rem 0;
+  }
+  
+  .detalhes strong {
+    color: #457b9d;
+    margin-right: 0.5rem;
+  }
+  
+  .form {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .form label {
+    display: grid;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #457b9d;
+  }
+  
+  .form input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .form input:focus {
+    border-color: #457b9d;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.1);
+  }
+  
+  .form button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .form button:first-of-type {
+    background: #e63946;
+    color: white;
+    margin-right: 1rem;
+  }
+  
+  .form button:last-of-type {
+    background: #457b9d;
+    color: white;
+  }
+  
+  .form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .servicos-secao {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .servicos-secao h2 {
+    color: #457b9d;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+  }
+  
+  .servicos-secao ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .servicos-secao li {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .servicos-secao li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  .servicos-secao p {
+    margin: 0.5rem 0;
+    color: #1d3557;
+  }
+  
+  @media (max-width: 768px) {
+    .usuario-container {
+      padding: 1rem;
+      margin: 1rem;
+    }
+  
+    .usuario-header {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+  
+    .form button {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
+  }

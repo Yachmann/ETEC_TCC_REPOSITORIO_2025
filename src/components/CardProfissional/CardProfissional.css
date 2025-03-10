@@ -1,0 +1,75 @@
+.card {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 300px;
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  .card-appear {
+    opacity: 1; /* End with opacity 1 */
+    transform: translateY(0); /* End with no translation */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Define the transition */
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .card h4 {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  
+  .card div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .card p {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .card .email, .card .telefone {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+  
+  .card button {
+    margin-top: auto;
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+  }
+  
+  .card button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+  
+  .card button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
