@@ -3,7 +3,8 @@ import Stripe from 'stripe';
 import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
 const app = express();
-const stripe = new Stripe('sk_test_51RBKTy2REZNadT9sKpyK2MF9hzFvOMu89OgKzyj1nVrBCee9Zw21WWrLalEM2ROU0RQV01RoJARLYLq8pdUcAfyg00xsW4sx0G'); // Substitua pela sua chave secreta do Stripe
+const stripeKey = process.env.STRIPE_API_KEY;
+const stripe = new Stripe(stripeKey); // Substitua pela sua chave secreta do Stripe
 
 app.use(cors());
 app.use(express.json());
