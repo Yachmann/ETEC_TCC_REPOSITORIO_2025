@@ -31,3 +31,7 @@
   .login-form button:active {
     transform: translateY(0);
   }
+  .link{
+    text-decoration: none;
+    color: #e63946;
+  }

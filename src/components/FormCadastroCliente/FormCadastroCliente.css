@@ -1,79 +1,96 @@
-.cadastro-cliente-form {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.cadastro-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 2rem;
+}
+
+.cadastro-form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.cadastro-form h2 {
+  color: #1d3557;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.cadastro-form button {
+  width: 100%;
+  padding: 1rem;
+  background: #e63946;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cadastro-form button:hover {
+  background: #d62b38;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+
+.cadastro-form button:active {
+  transform: translateY(0);
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.message.error {
+  background-color: #ffe3e3;
+  color: #e63946;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .cadastro-cliente-form h2 {
-    color: #1d3557;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group label {
-    display: block;
-    color: #457b9d;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-  }
-  
-  .form-group input:focus {
-    border-color: #457b9d;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.1);
-  }
-  
-  .cadastro-cliente-form button {
-    width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cadastro-container {
     padding: 1rem;
-    background: #e63946;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1.5rem;
   }
   
-  .cadastro-cliente-form button:hover {
-    background: #d62b38;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+  .cadastro-form {
+    padding: 1.5rem;
   }
   
-  .message {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: 500;
+  .cadastro-form h2 {
+    font-size: 1.75rem;
   }
-  
-  .message.error {
-    background-color: #ffe3e3;
-    color: #e63946;
-  }
-  
-  .message.success {
-    background-color: #d4edda;
-    color: #155724;
-  }
+}

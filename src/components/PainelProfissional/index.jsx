@@ -5,6 +5,8 @@ import Backbutton from '../Backbutton';
 import supabase from '../../../supabase';
 import ServicoForm from '../ServicoForm';
 import Servico from '../Servico';
+import AssinarPlano from '../AssinarPlano';
+import VerificarAssinatura from '../VerificarAssinatura';
 
 const PainelProfissional = ({ profissional }) => {
   const [formData, setFormData] = useState(profissional);
@@ -97,6 +99,7 @@ const PainelProfissional = ({ profissional }) => {
         <Backbutton rota={'/'}/>
         <button className='botao-logout' onClick={HandleLogout}>Logout</button>
       </div>  
+        <AssinarPlano profissionalId={profissional.id} />
       <div className={`painel-profissional ${appear ? 'appear' : ''}`}>
         <h1>Painel do Profissional</h1>
         <div className="profile-section">
@@ -187,7 +190,7 @@ const PainelProfissional = ({ profissional }) => {
         </div>
         <div className="servicos-section">
           <h2>Serviços Requeridos</h2>
-          
+          <VerificarAssinatura profissionalId={profissional.id} />
           <ul>
             {servicos.map(servico => (
               <Servico key={servico.id} servico={servico} aoAlterarStatus={HandleStatusMudado} />

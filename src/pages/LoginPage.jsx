@@ -36,7 +36,7 @@ const LoginPage = () => {
     return (
         <div className="login-container">
             <Backbutton rota={'/'}/>
-            <h1>Login</h1>
+            <h1>Login de Profissional</h1>
             {error && <p className="error-message">{error}</p>}
             <LoginForm onLogin={HandleLogin}/>
         </div>

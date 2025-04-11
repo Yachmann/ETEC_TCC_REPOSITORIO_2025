@@ -23,7 +23,7 @@ const navigate = useNavigate()
           <div className="nav-links">
             <a href="#how-it-works">Como Funciona</a>
             
-            <Link to="/login" className="btn-secondary">Logar como Profissional</Link>
+            <Link to="/loginprofissional" className="btn-secondary">Logar como Profissional</Link>
             <Link to="/buscar" className="btn-primary">Achar Profissional</Link>
           </div>
         </nav>

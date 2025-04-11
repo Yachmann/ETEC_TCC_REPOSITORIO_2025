@@ -178,8 +178,8 @@ const UsuarioPage = () => {
             <ul>
               {servicos.map((servico) => (
                 <li key={servico.id}>
-                  <p>Detalhes: {servico.detalhes}</p>
-                  <p>Status: {servico.status}</p>
+                  <p >Detalhes: {servico.detalhes}</p>
+                  <p className={servico.status.toLowerCase()}>Status: {servico.status}</p>
                 </li>
               ))}
             </ul>

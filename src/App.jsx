@@ -12,6 +12,7 @@ import AvaliacaoPage from './pages/AvaliacaoPage';
 import CadastroClientePage from './pages/CadastroClientePage';
 import LoginClientePage from './pages/LoginClientePage';
 import UsuarioPage from './pages/UsuarioPage';
+import SuccessPage from './pages/SuccessPage';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
       <Route path='/cadastrocliente' element={<CadastroClientePage/>}></Route>
       <Route path='/logincliente' element={<LoginClientePage/>}></Route>
       <Route path='/usuario/:id' element={<UsuarioPage/>}></Route>
+      <Route path='/success' element={<SuccessPage/>}></Route>
     </Routes>
    </Router>
   )

@@ -1,6 +1,7 @@
 import CampoTexto from "../CampoTexto";
 import { useState } from "react";
 import './LoginForm.css';
+import { Link } from "react-router-dom";
 
 const LoginForm = ({onLogin}) => {
     const [email, setEmail] = useState('');
@@ -30,6 +31,7 @@ const LoginForm = ({onLogin}) => {
                 required
                 type="password"
             />
+            <p>Nao tem uma conta? <Link className="link" to={'/cadastro'}>Cadastre-se</Link></p>
             <button type="submit">ENTRAR</button>
         </form>
     );

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CampoTexto from "../CampoTexto";
 import supabase from "../../../supabase";
+import './FormCadastroCliente.css';
+import Backbutton from "../BackButton";
 
 const FormCadastroCliente = () => {
   const [nome, setNome] = useState('');
@@ -30,7 +32,6 @@ const FormCadastroCliente = () => {
     if (error) {
       setMessage('Erro ao registrar usuário: ' + error.message);
     } else if (data && data.user) {
-      // Save additional user info in the database
       const { error: userError } = await supabase
         .from('usuarios')
         .insert([{ id: data.user.id, nome, telefone, dataNascimento, endereco, email }]);
@@ -39,7 +40,6 @@ const FormCadastroCliente = () => {
         setMessage('Erro ao salvar informações do usuário: ' + userError.message);
       } else {
         setMessage('Usuário registrado com sucesso!');
-        
         navigate('/logincliente');
       }
     } else {
@@ -48,61 +48,74 @@ const FormCadastroCliente = () => {
   };
 
   return (
-    <>
-      <form className="cadastro-cliente-form" onSubmit={handleSubmit}>
+    <div className="cadastro-container">
+      <Backbutton rota={'/logincliente'} />
+      <form className="cadastro-form" onSubmit={handleSubmit}>
+        <h2>Cadastro de Cliente</h2>
         <CampoTexto
-          type={'text'}
-          Label={'Nome'}
-          PlaceHolder={'Digite aqui...'}
+          type="text"
+          Label="Nome Completo"
+          PlaceHolder="Digite seu nome..."
           aoAlterar={setNome}
           valor={nome}
+          required
         />
         <CampoTexto
-          type={'email'}
-          Label={'E-mail'}
-          PlaceHolder={'Digite aqui...'}
+          type="email"
+          Label="E-mail"
+          PlaceHolder="Digite seu email..."
           aoAlterar={setEmail}
           valor={email}
+          required
         />
         <CampoTexto
-          type={'text'}
-          Label={'Telefone'}
-          PlaceHolder={'Digite aqui...'}
+          type="tel"
+          Label="Telefone"
+          PlaceHolder="Digite seu telefone..."
           aoAlterar={setTelefone}
           valor={telefone}
+          required
         />
         <CampoTexto
-          type={'date'}
-          Label={'Data de Nascimento: '}
-          PlaceHolder={'Digite aqui...'}
+          type="date"
+          Label="Data de Nascimento"
+          PlaceHolder="Selecione sua data de nascimento..."
           aoAlterar={setDataNascimento}
           valor={dataNascimento}
+          required
         />
         <CampoTexto
-          type={'text'}
-          Label={'Endereço'}
-          PlaceHolder={'Digite aqui...'}
+          type="text"
+          Label="Endereço"
+          PlaceHolder="Digite seu endereço completo..."
           aoAlterar={setEndereco}
           valor={endereco}
+          required
         />
         <CampoTexto
-          type={'password'}
-          Label={'Senha'}
-          PlaceHolder={'Digite aqui...'}
+          type="password"
+          Label="Senha"
+          PlaceHolder="Digite sua senha..."
           aoAlterar={setSenha}
           valor={senha}
+          required
         />
         <CampoTexto
-          type={'password'}
-          Label={'Confirme sua Senha'}
-          PlaceHolder={'Digite aqui...'}
+          type="password"
+          Label="Confirme sua Senha"
+          PlaceHolder="Digite sua senha novamente..."
           aoAlterar={setSenhaConfirma}
           valor={senhaConfirma}
+          required
         />
-        <button type="submit">Cadastrar</button>
-        {message && <p>{message}</p>}
+        <button type="submit">CADASTRAR</button>
+        {message && (
+          <p className={`message ${message.includes('Erro') ? 'error' : 'success'}`}>
+            {message}
+          </p>
+        )}
       </form>
-    </>
+    </div>
   );
 };
 

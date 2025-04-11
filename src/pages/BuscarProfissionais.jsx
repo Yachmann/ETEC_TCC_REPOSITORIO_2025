@@ -17,16 +17,17 @@ function BuscarProfissionais() {
   const searchOptions = ["Nome", "Localização", "Profissão", "Anos de Experiência"];
 
   useEffect(() => {
-    async function fetchUserId() {
+    async function checkSession() {
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError) {
-        console.error('Erro ao obter sessão do usuário:', sessionError);
-      } else if (sessionData && sessionData.session) {
+      if (sessionError || !sessionData.session) {
+        // Redireciona para a página de login se não houver sessão ativa
+        navegar('/logincliente');
+      } else {
         setUserId(sessionData.session.user.id);
       }
     }
-    fetchUserId();
-  }, []);
+    checkSession();
+  }, [navegar]);
   useEffect(() => {
     async function fetchData() {
       const { data, error } = await supabase.from("profissionais").select("*");
@@ -91,7 +92,7 @@ const HandleProfissionalPage = (e) => {
             <option key='Nome' value={'Nome'}>Nome</option>
             <option key='localizacao' value={'localizacao'}>Localização</option>
             <option key='profissao' value={'profissao'}>Profissão</option>
-            <option key='anosExperiencia' value={'anosExperiencia'}>Anos de Experiencia</option>
+            
            
         </select>
           

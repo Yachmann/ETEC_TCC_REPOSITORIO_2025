@@ -157,6 +157,17 @@
     margin: 0.5rem 0;
     color: #1d3557;
   }
+  .pendente{
+    background-color: rgb(255, 72, 72);
+    color: white  ;
+  }
+  
+  .emprogresso{
+    background-color:  orange;
+  }
+  .completo{
+    background-color: yellowgreen;
+  }
   
   @media (max-width: 768px) {
     .usuario-container {
