@@ -39,8 +39,8 @@ app.post('/create-checkout-session', async (req, res) => {
 
 
 const supabase = createClient(
-  'https://nqtjvyliouaxzuqmfwsr.supabase.co', // Substitua pela URL do seu Supabase
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xdGp2eWxpb3VheHp1cW1md3NyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NzMzNzUsImV4cCI6MjA1NjE0OTM3NX0.uwHHVj2L-UubL2NlOOGqIRsaMhp0JXrx4vveFINIRxc' // Substitua pela sua chave pública do Supabase
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
 );
 
 app.get('/subscription-status/:sessionId', async (req, res) => {
