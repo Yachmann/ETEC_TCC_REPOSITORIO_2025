@@ -1,7 +1,9 @@
 import express from 'express';
 import Stripe from 'stripe';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+dotenv.config();
 const app = express();
 const stripeKey = process.env.STRIPE_API_KEY;
 const stripe = new Stripe(stripeKey); // Substitua pela sua chave secreta do Stripe
