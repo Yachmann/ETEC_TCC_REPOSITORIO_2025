@@ -1,6 +1,7 @@
 .profissionalProfile {
     max-width: 1200px;
     margin: 2rem auto;
+    margin-top: -1.0rem;
     padding: 2rem;
     background: var(--card-background);
     border-radius: var(--border-radius);

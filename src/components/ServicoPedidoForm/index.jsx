@@ -43,7 +43,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
     <form className="servico-pedido-form" onSubmit={handleSubmit}>
       <h3>Solicitar Serviço</h3>
       <label>
-        <span>Detalhes do Serviço:</span>
+        <span >Detalhes do Serviço:</span>
         <textarea
           value={detalhes}
           onChange={(e) => setDetalhes(e.target.value)}
