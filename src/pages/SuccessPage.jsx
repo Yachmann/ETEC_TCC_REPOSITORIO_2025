@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const SuccessPage = () => {
   const [status, setStatus] = useState('');
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
@@ -25,7 +26,7 @@ const SuccessPage = () => {
   if (!sessionId) {
     return <p>Erro: ID da sessão não encontrado.</p>;
   }
-
+  navigate(`/`); // Redireciona para o painel profissional após verificar o status da assinatura
   return (
     <div>
       <h1>Pagamento Concluído</h1>

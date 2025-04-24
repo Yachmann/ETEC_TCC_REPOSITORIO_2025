@@ -12,7 +12,7 @@ const PainelProfissional = ({ profissional }) => {
   const [formData, setFormData] = useState(profissional);
   const [isEditing, setIsEditing] = useState(false);
   const [servicos, setServicos] = useState([]);
-  const [pedidosServicos,setPedidosServicos] = useState([])
+  const [pedidosServicos, setPedidosServicos] = useState([])
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const PainelProfissional = ({ profissional }) => {
     const { data, error } = await supabase
       .from('servicos_pedidos')
       .select('*')
-      .eq('profissional_id',profissional.id);
+      .eq('profissional_id', profissional.id);
 
     if (error) {
       console.error('Erro ao Buscar Pedidos de Serviço:', error);
@@ -47,26 +47,26 @@ const PainelProfissional = ({ profissional }) => {
   };
 
 
-  const HandleServicoCriado =  async (novoServico,pedidoId) => {
-    const {data,error} = await supabase
-    .from('servicos')
-    .insert([novoServico])
-    .select('*')
+  const HandleServicoCriado = async (novoServico, pedidoId) => {
+    const { data, error } = await supabase
+      .from('servicos')
+      .insert([novoServico])
+      .select('*')
 
     if (error) {
       console.error('Erro ao criar serviço:', error);
-    }else if(data && data.length > 0){
+    } else if (data && data.length > 0) {
       setServicos([...servicos, data[0]]);
-      setPedidosServicos(pedidosServicos.filter(pedido=> pedido.id !== pedidoId))
+      setPedidosServicos(pedidosServicos.filter(pedido => pedido.id !== pedidoId))
 
-    }else{
+    } else {
       console.warn('O serviço foi criado, mas nenhum dado foi retornado.');
     }
-    
+
   };
 
   const HandleStatusMudado = (servicoId, statusNovo) => {
-    setServicos(servicos.map(servico => servico.id === servicoId ? { ...servico, status:statusNovo } : servico));
+    setServicos(servicos.map(servico => servico.id === servicoId ? { ...servico, status: statusNovo } : servico));
     console.log(statusNovo)
   };
 
@@ -96,10 +96,10 @@ const PainelProfissional = ({ profissional }) => {
   return (
     <div>
       <div className='headerbotao'>
-        <Backbutton rota={'/'}/>
+        <Backbutton rota={'/'} />
         <button className='botao-logout' onClick={HandleLogout}>Logout</button>
-      </div>  
-        <AssinarPlano profissionalId={profissional.id} />
+      </div>
+      <AssinarPlano profissionalId={profissional.id} />
       <div className={`painel-profissional ${appear ? 'appear' : ''}`}>
         <h1>Painel do Profissional</h1>
         <div className="profile-section">
@@ -188,47 +188,48 @@ const PainelProfissional = ({ profissional }) => {
           <h2>Avaliações</h2>
           <p>{profissional.avaliacao}</p>
         </div>
-        <div className="servicos-section">
-          <h2>Serviços Requeridos</h2>
-          <VerificarAssinatura profissionalId={profissional.id} />
-          <ul>
-            {servicos.map(servico => (
-              <Servico key={servico.id} servico={servico} aoAlterarStatus={HandleStatusMudado} />
-            ))}
-          </ul>
-        </div>
-        <div className="service-pedidos-section">
-          <h2>Pedidos de Serviço</h2>
-          <ul>
-  {pedidosServicos.map(pedido => {
-    // Verifica se existe um serviço associado a este pedido
-    const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
+        <VerificarAssinatura profissionalId={profissional.id}>
+          <div className="servicos-section">
+            <h2>Serviços Requeridos</h2>
+            <ul>
+              {servicos.map(servico => (
+                <Servico key={servico.id} servico={servico} aoAlterarStatus={HandleStatusMudado} />
+              ))}
+            </ul>
+          </div>
+          <div className="service-pedidos-section">
+            <h2>Pedidos de Serviço</h2>
+            <ul>
+              {pedidosServicos.map(pedido => {
+                // Verifica se existe um serviço associado a este pedido
+                const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
 
-              return (
-                <li key={pedido.id}>
-                  <p>User ID: {pedido.user_id}</p>
-                  <p>Detalhes: {pedido.detalhes}</p>
-                  <p>Endereço: {pedido.endereco}</p>
-                  {jaCriado &&(
-                    <h4 className='jacriado'>Ja Criado</h4>
-                  )}
+                return (
+                  <li key={pedido.id}>
+                    <p>User ID: {pedido.user_id}</p>
+                    <p>Detalhes: {pedido.detalhes}</p>
+                    <p>Endereço: {pedido.endereco}</p>
+                    {jaCriado && (
+                      <h4 className='jacriado'>Ja Criado</h4>
+                    )}
 
-                  {!jaCriado && (
-                    <button onClick={() => HandleServicoCriado({ 
-                      profissional_id: profissional.id, 
-                      usuario_id: pedido.user_id, 
-                      status: 'Pendente', 
-                      detalhes: pedido.detalhes, 
-                      endereco: pedido.endereco
-                    }, pedido.id)}>
-                      Criar Serviço
-                    </button>
-                  )}
-                </li>
-              );
-            })}
-        </ul>
-        </div>
+                    {!jaCriado && (
+                      <button onClick={() => HandleServicoCriado({
+                        profissional_id: profissional.id,
+                        usuario_id: pedido.user_id,
+                        status: 'Pendente',
+                        detalhes: pedido.detalhes,
+                        endereco: pedido.endereco
+                      }, pedido.id)}>
+                        Criar Serviço
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </VerificarAssinatura>
       </div>
     </div>
   );
