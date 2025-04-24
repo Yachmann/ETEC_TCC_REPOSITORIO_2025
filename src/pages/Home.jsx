@@ -12,13 +12,14 @@ const navigate = useNavigate()
   //   navigate(`logged/${profissionalData.id}`)}})
     return(
         <>
+        
             <div className="container">
       {/* Hero Section */}
       <header className="hero">
         <nav className="navbar">
           <div className="logo">
-            <AlertCircle color="#e63946" size={32} />
-            <h1>Emergency Pro</h1>
+            
+            <h1>Contrat<span>Aí</span></h1>
           </div>
           <div className="nav-links">
             <a href="#how-it-works">Como Funciona</a>

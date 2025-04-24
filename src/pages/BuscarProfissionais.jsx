@@ -5,6 +5,7 @@ import './busca.css'
 import { Link, useNavigate } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { CiUser } from "react-icons/ci";
 
 function BuscarProfissionais() {
   const [profissionais, setProfissionais] = useState([]);
@@ -80,10 +81,11 @@ const HandleProfissionalPage = (e) => {
   return (
     <>
     <Backbutton rota={'/'}/>
-    <Link to={`/usuario/${userId}`}><GiHamburgerMenu/></Link>
+    <Link className="user-icon" to={`/usuario/${userId}`}><CiUser/></Link>
       <div className="container">
         <div className="header">
-        <h1>Buscar Profissionais</h1>
+          
+        <h1>Buscar Profissionais</h1> 
         <div className="busca">
           <h3 style={{color: 'white'}}>Filtrar por:</h3>
         <select value={selectedSearch} onChange={(e)=>setSelectedSearch(e.target.value)}>
