@@ -101,7 +101,7 @@ const UsuarioPage = () => {
   return (
     <div className="usuario-container">
       <div className="usuario-header">
-        <Backbutton rota={'/buscar'} />
+        <Backbutton rota={'/buscar'} />  
         <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
       

@@ -6,20 +6,30 @@
     justify-content: center;
     width: 100%;
     padding: 20px;
-    background-color: #333;
+   margin-top: -3.0rem;
 }
 
-
-
-.user-icon{
+.user-icon {
     color: black;
     font-size: 3.0rem;
+    display: inline-block;
+    transition: all 0.4s ease;
 }
 
+.user-icon:hover {
+    color: #457b9d;
+    transform: scale(1.1);
+  }
+
 .header h1 {
-    color: #fff;
+    color: #1d3557;
     font-size: 1.8rem;
-    margin-bottom: 10px;
+    
+}
+.header h3 {
+    color: #457b9d;
+    font-size: 1.8rem;
+    margin-top: 1.2rem;
 }
 * Container de busca */
 .busca {
@@ -58,4 +68,8 @@
 
 .busca button:hover {
     background-color: #555;
+}
+
+input{
+    margin-top: 5px;
 }

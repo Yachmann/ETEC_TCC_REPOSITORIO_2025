@@ -80,14 +80,15 @@ const HandleProfissionalPage = (e) => {
 
   return (
     <>
-    <Backbutton rota={'/'}/>
-    <Link className="user-icon" to={`/usuario/${userId}`}><CiUser/></Link>
+   
       <div className="container">
+      <Backbutton style="" rota={'/'}/>
+      <Link className="user-icon" to={`/usuario/${userId}`}><CiUser/></Link>
         <div className="header">
           
         <h1>Buscar Profissionais</h1> 
         <div className="busca">
-          <h3 style={{color: 'white'}}>Filtrar por:</h3>
+          <h3>Filtrar por:</h3>
         <select value={selectedSearch} onChange={(e)=>setSelectedSearch(e.target.value)}>
             <option value='' disabled>Escolha um filtro...</option>
             {/* {searchOptions.map(item => (<option key={item} value={item}>{item}</option>))} */}
