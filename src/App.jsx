@@ -13,6 +13,7 @@ import CadastroClientePage from './pages/CadastroClientePage';
 import LoginClientePage from './pages/LoginClientePage';
 import UsuarioPage from './pages/UsuarioPage';
 import SuccessPage from './pages/SuccessPage';
+import AboutPage from './pages/AboutPage';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
       <Route path='/logincliente' element={<LoginClientePage/>}></Route>
       <Route path='/usuario/:id' element={<UsuarioPage/>}></Route>
       <Route path='/success' element={<SuccessPage/>}></Route>
+      <Route path='/about' element={<AboutPage/>}></Route>
     </Routes>
    </Router>
   )

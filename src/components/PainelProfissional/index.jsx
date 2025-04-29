@@ -238,7 +238,7 @@ const PainelProfissional = ({ profissional }) => {
           {avaliacoes.map(avaliacao => (
             <div key={avaliacao.id} className="avaliacao-item">
              
-              <p><strong>Avaliação:</strong> {avaliacao.nota}</p>
+              <p><strong>Nota:</strong> {avaliacao.nota}</p>
               <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
             </div>
           ))}
@@ -255,13 +255,14 @@ const PainelProfissional = ({ profissional }) => {
           </div>
           <div className="service-pedidos-section">
             <h2>Pedidos de Serviço</h2>
-            <ul>
+            <ul className='pedido_servico_container'>
               {pedidosServicos.map(pedido => {
                 // Verifica se existe um serviço associado a este pedido
                 const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
 
                 return (
-                  <li key={pedido.id}>
+                  
+                  <li className='pedido_servico' key={pedido.id}>
                     <p>User ID: {pedido.user_id}</p>
                     <p>Detalhes: {pedido.detalhes}</p>
                     <p>Endereço: {pedido.endereco}</p>
@@ -281,6 +282,7 @@ const PainelProfissional = ({ profissional }) => {
                       </button>
                     )}
                   </li>
+                  
                 );
               })}
             </ul>

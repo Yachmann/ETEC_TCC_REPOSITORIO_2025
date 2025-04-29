@@ -22,7 +22,7 @@ const navigate = useNavigate()
             <h1>Contrat<span>Aí</span></h1>
           </div>
           <div className="nav-links">
-            <a href="#how-it-works">Como Funciona</a>
+            <a href="about">Como Funciona</a>
             
             <Link to="/loginprofissional" className="btn-secondary">Logar como Profissional</Link>
             <Link to="/buscar" className="btn-primary">Achar Profissional</Link>
