@@ -39,9 +39,10 @@ const Servico = ({ servico, aoAlterarStatus }) => {
       </p>
       {statusAtual !== "Completo" && (
         <>
+          {statusAtual !== "EmProgresso" && (
           <button onClick={() => handleStatusChange("EmProgresso")}>
             Começar Serviço
-          </button>
+          </button>)}
           <button onClick={() => handleStatusChange("Completo")}>
             Completar Serviço
           </button>

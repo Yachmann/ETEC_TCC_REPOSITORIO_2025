@@ -164,6 +164,16 @@
   margin-top: 1em;
   background-color: #e63946;
 }
+.avaliacoes-container{
+  display: flex;
+  justify-content: center;
+  gap: 10em;
+  flex-wrap: wrap; 
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 2em;
+  background-color: #f1faee;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .painel-profissional {

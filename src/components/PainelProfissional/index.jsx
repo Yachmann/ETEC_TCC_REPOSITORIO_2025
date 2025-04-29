@@ -13,11 +13,19 @@ const PainelProfissional = ({ profissional }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [servicos, setServicos] = useState([]);
   const [pedidosServicos, setPedidosServicos] = useState([])
+  const [assinaturaAtiva, setAssinaturaAtiva] = useState(false);
+  const [avaliacoes, setAvaliacoes] = useState([])
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    const verificarAssinatura = async () => {
+      setAssinaturaAtiva(await checkAssinaturaAtiva());
+    }
+    verificarAssinatura();
     fetchServicos();
     fetchServicosPedidos();
+    fetchAvaliacoes();
   }, []);
 
   const fetchServicos = async () => {
@@ -32,6 +40,19 @@ const PainelProfissional = ({ profissional }) => {
       setServicos(data);
     }
   };
+  const fetchAvaliacoes = async () => {
+    const { data, error } = await supabase
+      .from(`avaliacoes`)
+      .select('*')
+      .eq('profissional_id',profissional.id)
+      if (error) {
+        console.error('Erro ao Buscar Avaliacoes:', error);
+      }
+      else{
+        console.log(data)
+        setAvaliacoes(data)
+      }
+  }
 
   const fetchServicosPedidos = async () => {
     const { data, error } = await supabase
@@ -87,7 +108,32 @@ const PainelProfissional = ({ profissional }) => {
       setAppear(true);
     }, 100);
   }, []);
+  const checkAssinaturaAtiva = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('assinaturas')
+        .select('id')
+        .eq('profissional_id', profissional.id)
+        .eq('status', 'ativo')
 
+
+      if (error) {
+        console.error('Erro ao verificar assinatura:', error.message);
+        return false;
+      }
+
+      if (data) {
+        console.log('Assinatura ativa encontrada:', data);
+        return true;
+      } else {
+        console.log('Nenhuma assinatura ativa encontrada.');
+        return false;
+      }
+    } catch (err) {
+      console.error('Erro inesperado ao verificar assinatura:', err.message);
+      return false;
+    }
+  };
   const HandleLogout = () => {
     localStorage.removeItem('profissional');
     navigate('/');
@@ -99,7 +145,9 @@ const PainelProfissional = ({ profissional }) => {
         <Backbutton rota={'/'} />
         <button className='botao-logout' onClick={HandleLogout}>Logout</button>
       </div>
-      <AssinarPlano profissionalId={profissional.id} />
+      {assinaturaAtiva ? null : (<AssinarPlano profissionalId={profissional.id} />)}
+
+
       <div className={`painel-profissional ${appear ? 'appear' : ''}`}>
         <h1>Painel do Profissional</h1>
         <div className="profile-section">
@@ -186,7 +234,15 @@ const PainelProfissional = ({ profissional }) => {
         </div>
         <div className="avaliacao-section">
           <h2>Avaliações</h2>
-          <p>{profissional.avaliacao}</p>
+          <div className='avaliacoes-container'>
+          {avaliacoes.map(avaliacao => (
+            <div key={avaliacao.id} className="avaliacao-item">
+             
+              <p><strong>Avaliação:</strong> {avaliacao.nota}</p>
+              <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
+            </div>
+          ))}
+          </div>
         </div>
         <VerificarAssinatura profissionalId={profissional.id}>
           <div className="servicos-section">
