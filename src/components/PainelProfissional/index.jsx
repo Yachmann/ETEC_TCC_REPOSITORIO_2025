@@ -9,6 +9,7 @@ import AssinarPlano from '../AssinarPlano';
 import VerificarAssinatura from '../VerificarAssinatura';
 
 const PainelProfissional = ({ profissional }) => {
+  const [usuarios, setUsuarios] = useState({});
   const [formData, setFormData] = useState(profissional);
   const [isEditing, setIsEditing] = useState(false);
   const [servicos, setServicos] = useState([]);
@@ -20,14 +21,48 @@ const PainelProfissional = ({ profissional }) => {
 
   useEffect(() => {
     const verificarAssinatura = async () => {
-      setAssinaturaAtiva(await checkAssinaturaAtiva());
-    }
+      const ativa = await checkAssinaturaAtiva();
+      setAssinaturaAtiva(ativa);
+    };
     verificarAssinatura();
+  }, []);
+
+  useEffect(() => {
     fetchServicos();
     fetchServicosPedidos();
     fetchAvaliacoes();
   }, []);
 
+  useEffect(() => {
+    if (servicos.length > 0 || pedidosServicos.length > 0) {
+      fetchUsuarios();
+    }
+  }, [servicos, pedidosServicos]);
+
+
+  const fetchUsuarios = async () => {
+    const userIds = [
+      ...new Set([
+        ...servicos.map(s => s.usuario_id),
+        ...pedidosServicos.map(p => p.user_id)
+      ])
+    ];
+
+    if (userIds.length === 0) return;
+
+    const { data, error } = await supabase
+      .from('usuarios')
+      .select('id, nome, email, telefone')
+      .in('id', userIds);
+
+    if (error) {
+      console.error('Erro ao buscar dados dos usuários:', error);
+    } else {
+      const usuariosMap = {};
+      data.forEach(u => usuariosMap[u.id] = u);
+      setUsuarios(usuariosMap);
+    }
+  };
   const fetchServicos = async () => {
     const { data, error } = await supabase
       .from('servicos')
@@ -44,14 +79,14 @@ const PainelProfissional = ({ profissional }) => {
     const { data, error } = await supabase
       .from(`avaliacoes`)
       .select('*')
-      .eq('profissional_id',profissional.id)
-      if (error) {
-        console.error('Erro ao Buscar Avaliacoes:', error);
-      }
-      else{
-        console.log(data)
-        setAvaliacoes(data)
-      }
+      .eq('profissional_id', profissional.id)
+    if (error) {
+      console.error('Erro ao Buscar Avaliacoes:', error);
+    }
+    else {
+      console.log(data)
+      setAvaliacoes(data)
+    }
   }
 
   const fetchServicosPedidos = async () => {
@@ -114,26 +149,23 @@ const PainelProfissional = ({ profissional }) => {
         .from('assinaturas')
         .select('id')
         .eq('profissional_id', profissional.id)
-        .eq('status', 'ativo')
-
+        .eq('status', 'active');
 
       if (error) {
         console.error('Erro ao verificar assinatura:', error.message);
         return false;
       }
 
-      if (data) {
-        console.log('Assinatura ativa encontrada:', data);
-        return true;
-      } else {
-        console.log('Nenhuma assinatura ativa encontrada.');
-        return false;
-      }
+      const assinaturaEstaAtiva = data && data.length > 0;
+      console.log('Assinatura ativa?', assinaturaEstaAtiva, data);
+      return assinaturaEstaAtiva;
+
     } catch (err) {
       console.error('Erro inesperado ao verificar assinatura:', err.message);
       return false;
     }
   };
+
   const HandleLogout = () => {
     localStorage.removeItem('profissional');
     navigate('/');
@@ -145,6 +177,7 @@ const PainelProfissional = ({ profissional }) => {
         <Backbutton rota={'/'} />
         <button className='botao-logout' onClick={HandleLogout}>Logout</button>
       </div>
+      {console.log('Renderização do componente. Assinatura ativa:', assinaturaAtiva)}
       {assinaturaAtiva ? null : (<AssinarPlano profissionalId={profissional.id} />)}
 
 
@@ -235,13 +268,13 @@ const PainelProfissional = ({ profissional }) => {
         <div className="avaliacao-section">
           <h2>Avaliações</h2>
           <div className='avaliacoes-container'>
-          {avaliacoes.map(avaliacao => (
-            <div key={avaliacao.id} className="avaliacao-item">
-             
-              <p><strong>Nota:</strong> {avaliacao.nota}</p>
-              <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
-            </div>
-          ))}
+            {avaliacoes.map(avaliacao => (
+              <div key={avaliacao.id} className="avaliacao-item">
+
+                <p><strong>Nota:</strong> {avaliacao.nota}</p>
+                <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
+              </div>
+            ))}
           </div>
         </div>
         <VerificarAssinatura profissionalId={profissional.id}>
@@ -249,7 +282,12 @@ const PainelProfissional = ({ profissional }) => {
             <h2>Serviços Requeridos</h2>
             <ul>
               {servicos.map(servico => (
-                <Servico key={servico.id} servico={servico} aoAlterarStatus={HandleStatusMudado} />
+                <Servico
+                  key={servico.id}
+                  servico={servico}
+                  usuario={usuarios[servico.usuario_id]}
+                  aoAlterarStatus={HandleStatusMudado}
+                />
               ))}
             </ul>
           </div>
@@ -257,17 +295,16 @@ const PainelProfissional = ({ profissional }) => {
             <h2>Pedidos de Serviço</h2>
             <ul className='pedido_servico_container'>
               {pedidosServicos.map(pedido => {
-                // Verifica se existe um serviço associado a este pedido
                 const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
 
                 return (
-                  
                   <li className='pedido_servico' key={pedido.id}>
-                    <p>User ID: {pedido.user_id}</p>
-                    <p>Detalhes: {pedido.detalhes}</p>
-                    <p>Endereço: {pedido.endereco}</p>
+                    <p><strong>User ID:</strong> {pedido.user_id}</p>
+                    <p><strong>Detalhes:</strong> {pedido.detalhes}</p>
+                    <p><strong>Endereço:</strong> {pedido.endereco}</p>
+
                     {jaCriado && (
-                      <h4 className='jacriado'>Ja Criado</h4>
+                      <h4 className='jacriado'>Já Criado</h4>
                     )}
 
                     {!jaCriado && (
@@ -282,10 +319,10 @@ const PainelProfissional = ({ profissional }) => {
                       </button>
                     )}
                   </li>
-                  
                 );
               })}
             </ul>
+
           </div>
         </VerificarAssinatura>
       </div>

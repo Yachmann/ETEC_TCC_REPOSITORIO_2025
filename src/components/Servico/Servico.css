@@ -1,0 +1,136 @@
+/* Estilo do item de serviço */
+/* Estilo do item de serviço */
+li {
+  padding: 20px;
+  margin: 16px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s ease;
+  position: relative; /* Adiciona posição relativa para permitir o posicionamento do status */
+}
+
+li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Novo estilo para o status no topo direito */
+li p[style] {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #fff;
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 15px;
+  width: fit-content;
+  position: absolute; /* Faz o status flutuar no topo direito */
+  top: 10px; /* Ajuste para o topo */
+  right: 10px; /* Ajuste para a direita */
+}
+
+/* Status */
+.status {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+
+/* Parágrafos e títulos */
+.paragrafo {
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.servico-item-titulo {
+  font-weight: 600;
+  color: #222;
+}
+
+
+/* Botões de ação */
+.botoes-servico {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.contato-titulo{
+  background-color: #35688a;
+  color: #fff;
+  margin-bottom: 0.3em;
+}
+.botao-servico {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #fff;
+  background-color: #457b9d;
+  transition: all 0.2s ease-in-out;
+}
+
+.botao-servico:hover {
+  background-color: #35688a;
+  transform: translateY(-2px);
+}
+
+.botao-servico:active {
+  transform: translateY(0);
+}
+
+/* Contato do usuário */
+.contato-usuario {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  gap: 6px;
+}
+
+.botao-contatar {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  text-decoration: none;
+  width: fit-content;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.botao-contatar:hover {
+  background-color: #45a049;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  li {
+    padding: 16px;
+  }
+
+  .paragrafo {
+    font-size: 14px;
+  }
+
+  .botao-servico,
+  .botao-contatar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .botoes-servico {
+    flex-direction: column;
+  }
+}

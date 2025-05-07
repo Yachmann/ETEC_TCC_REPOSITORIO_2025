@@ -1,4 +1,3 @@
-import { useState } from 'react'
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css'
@@ -19,23 +18,23 @@ function App() {
 
 
   return (
-   <Router>
-    <Routes>
-      <Route path="/" element={<Home/>}></Route>
-      <Route path="/cadastro" element={<Cadastro/>}></Route>
-      <Route path="/buscar" element={<BuscarProfissionais/>}></Route>
-      <Route path='*' element={<h1>Not Found</h1>}></Route>
-      <Route path='/profissional/:id' element={<ProfissionalPage/>}></Route>
-      <Route path='/logged/:id' element={<LoggedPage/>}></Route>
-      <Route path='/loginprofissional' element={<LoginPage/>}></Route>
-      <Route path='/avaliar/:id' element={<AvaliacaoPage/>}></Route>
-      <Route path='/cadastrocliente' element={<CadastroClientePage/>}></Route>
-      <Route path='/logincliente' element={<LoginClientePage/>}></Route>
-      <Route path='/usuario/:id' element={<UsuarioPage/>}></Route>
-      <Route path='/success' element={<SuccessPage/>}></Route>
-      <Route path='/about' element={<AboutPage/>}></Route>
-    </Routes>
-   </Router>
+    <Router>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/cadastro" element={<Cadastro />}></Route>
+          <Route path="/buscar" element={<BuscarProfissionais />}></Route>
+          <Route path='*' element={<h1>Not Found</h1>}></Route>
+          <Route path='/profissional/:id' element={<ProfissionalPage />}></Route>
+          <Route path='/logged/:id' element={<LoggedPage />}></Route>
+          <Route path='/loginprofissional' element={<LoginPage />}></Route>
+          <Route path='/avaliar/:id' element={<AvaliacaoPage />}></Route>
+          <Route path='/cadastrocliente' element={<CadastroClientePage />}></Route>
+          <Route path='/logincliente' element={<LoginClientePage />}></Route>
+          <Route path='/usuario/:id' element={<UsuarioPage />}></Route>
+          <Route path='/success' element={<SuccessPage />}></Route>
+          <Route path='/about' element={<AboutPage />}></Route>
+        </Routes>
+    </Router>
   )
 }
 

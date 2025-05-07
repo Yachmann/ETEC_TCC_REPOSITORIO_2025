@@ -1,7 +1,8 @@
 import supabase from "../../../supabase";
 import { useState, useEffect } from "react";
+import './Servico.css'
+const Servico = ({ servico, aoAlterarStatus, usuario }) => {
 
-const Servico = ({ servico, aoAlterarStatus }) => {
   const [statusAtual, setStatusAtual] = useState(servico.status);
 
   const handleStatusChange = async (statusNovo) => {
@@ -32,20 +33,52 @@ const Servico = ({ servico, aoAlterarStatus }) => {
 
   return (
     <li key={servico.id}>
-      <p>User ID: {servico.user_id}</p>
-      <p>Details: {servico.detalhes}</p>
+      <p className="paragrafo"> <div className="servico-item-titulo">User ID:</div> {servico.usuario_id}</p>
+      <p className="paragrafo"> <div className="servico-item-titulo">Details:</div> {servico.detalhes}</p>
+      <p className="paragrafo"> <div className="servico-item-titulo">Endereço:</div> {servico.endereco}</p>
+      {usuario && (
+        <div>
+          <p className="contato-titulo"><strong>Contato do Usuário:</strong></p>
+        <div className="contato-usuario">
+          <a
+            href={`mailto:${usuario.email}`}
+            className="botao-contatar"
+          >
+            Enviar Email
+          </a>
+          <a
+            href={`tel:${usuario.telefone}`}
+            className="botao-contatar"
+          >
+            Ligar
+          </a>
+          <a
+            href={`https://wa.me/55${usuario.telefone.replace(/\D/g, '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="botao-contatar"
+          >
+            WhatsApp
+          </a>
+        </div>
+        </div>
+      )}
+
+
       <p style={{ background: DefinirEstiloFundo(statusAtual) }}>
-        Status: {statusAtual}
+        <div className="status">Status:  </div>{statusAtual}
       </p>
       {statusAtual !== "Completo" && (
-        <>
+        <> <div className="botoes-servico">
           {statusAtual !== "EmProgresso" && (
-          <button onClick={() => handleStatusChange("EmProgresso")}>
-            Começar Serviço
-          </button>)}
-          <button onClick={() => handleStatusChange("Completo")}>
+
+            <button className="botao-servico" onClick={() => handleStatusChange("EmProgresso")}>
+              Começar Serviço
+            </button >)}
+          <button className="botao-servico" onClick={() => handleStatusChange("Completo")}>
             Completar Serviço
           </button>
+        </div>
         </>
       )}
     </li>

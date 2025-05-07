@@ -1,14 +1,13 @@
-/* Painel Profissional Styles */
+/* Painel Profissional */
 .painel-profissional {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
   opacity: 0;
-  transition: all 0.9s ease;
+  transition: opacity 0.9s ease;
 }
-.appear{
+.appear {
   opacity: 1;
-
 }
 
 .painel-profissional h1 {
@@ -20,9 +19,10 @@
 
 .profile-section,
 .avaliacao-section,
-.servicos-section {
-  background: white;
-  border-radius: 12px;
+.servicos-section,
+.service-pedidos-section {
+  background: #fff;
+  border-radius: 10px;
   padding: 2rem;
   margin-bottom: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -30,32 +30,28 @@
 
 .profile-section h2,
 .avaliacao-section h2,
-.servicos-section h2 {
+.servicos-section h2,
+.service-pedidos-section h2 {
   color: #457b9d;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid #e9ecef;
 }
 
-/* Details View */
-.details {
-  display: grid;
-  gap: 1rem;
-}
-
-.details p {
+/* Detalhes de perfil */
+.detalhes p {
   font-size: 1.1rem;
   color: #1d3557;
   padding: 0.5rem 0;
 }
 
-.details strong {
+.detalhes strong {
   color: #457b9d;
   margin-right: 0.5rem;
 }
 
-/* Edit Form */
+/* Formulário de edição */
 .form {
   display: grid;
   gap: 1.5rem;
@@ -75,7 +71,7 @@
   border: 2px solid #e9ecef;
   border-radius: 8px;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
 .form input:focus,
@@ -90,14 +86,14 @@
   resize: vertical;
 }
 
-/* Buttons */
+/* Botões do perfil */
 .profile-section button {
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .profile-section button:first-of-type {
@@ -121,10 +117,39 @@
 }
 
 /* Avaliações */
-.avaliacao-section p {
-  font-size: 1.1rem;
+.avaliacoes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.avaliacao-item {
+  background: #f1f6f9;
+  border-left: 6px solid #457b9d;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.avaliacao-item:hover {
+  transform: translateY(-4px);
+}
+
+.avaliacao-item p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
   color: #1d3557;
-  line-height: 1.6;
+}
+
+.avaliacao-item strong {
+  color: #457b9d;
 }
 
 /* Serviços */
@@ -142,69 +167,109 @@
   color: #1d3557;
   font-weight: 500;
 }
-.headerbotao{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100vh;
-  
 
-}
-.botaovolta{
+.pedido_servico_container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
   justify-content: center;
-  align-items: center;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  margin: 2rem 0;
+}
+
+/* Cada item de pedido de serviço */
+.pedido_servico {
+  background: #f1f6f9;
+  color: #1d3557;
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pedido_servico:hover {
+  transform: translateY(-5px);
+}
+
+/* Texto dos campos */
+.pedido_servico p {
+  margin: 0.6rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Botão para criar serviço */
+.pedido_servico button {
   margin-top: 1rem;
-  background-color: none;
+  padding: 0.7rem 1.2rem;
   border: none;
-  font-size: 3em;
+  border-radius: 8px;
+  background-color: #1d3557;
+  color: #f1faee;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.botao-logout{
-  margin-left: 70%;
-  font-size: 1.3em;
-  margin-top: 1em;
-  background-color: #e63946;
-}
-.avaliacoes-container{
-  display: flex;
-  justify-content: center;
-  gap: 4em;
-  flex-wrap: wrap; 
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding: 2em;
 
+.pedido_servico button:hover {
+  background-color: #163149;
+  transform: scale(1.02);
 }
-.avaliacao-item{
-  border: #9dbfd4 solid 2px;
-  padding: 20px;
-  border-radius: 15px;
-  background-color:#9dbfd4 ;
-  
-}
-.pedido_servico_container{
-  display: flex;
-  justify-content: center;
-  gap: 6em;
-  flex-wrap: wrap; 
-  margin-top: 2em;
-  margin-bottom: 2em;
-  padding: 2em;
-  width: 50%;
-  margin: auto;
-}
-.pedido_servico{
-  background-color:#457b9d;
-  padding: 2em;
-  border-radius: 15px;
-  list-style: none;;
+
+/* Badge visual para serviço já criado */
+.jacriado {
+  margin-top: 1rem;
+  background-color: #7c222a;
   color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 8px;
 }
-.jacriado{
-  margin-top: 2em;
-  background-color: #e63946 ;
+
+/* Cabeçalho */
+.headerbotao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 2em;
 }
-/* Responsive Design */
+
+.botao-logout {
+  font-size: 1rem;
+  padding: 0.5em 1em;
+  background-color: #e63946;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.botao-logout:hover {
+  background-color: #d62839;
+}
+
+.botaovolta {
+  background: none;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+  color: #1d3557;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
   .painel-profissional {
     padding: 1rem;
@@ -213,7 +278,8 @@
 
   .profile-section,
   .avaliacao-section,
-  .servicos-section {
+  .servicos-section,
+  .service-pedidos-section {
     padding: 1.5rem;
   }
 
@@ -224,5 +290,22 @@
   .profile-section button {
     width: 100%;
     margin: 0.5rem 0;
+  }
+
+  .avaliacao-item,
+  .pedido_servico {
+    width: 100%;
+  }
+
+  .headerbotao {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1em;
+    gap: 1rem;
+  }
+
+  .botao-logout {
+    width: 100%;
+    margin-left: 0;
   }
 }

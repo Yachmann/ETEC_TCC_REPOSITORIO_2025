@@ -60,6 +60,13 @@
     background-color: #ffe3e3;
     color: #e63946;
   }
+  .erro{
+    margin-top: 1.5em;
+    background-color: #ffe3e3;
+    color: #e63946;
+    border-radius: 10px;
+    padding: 0.5em;
+  }
   
   .message.success {
     background-color: #d4edda;

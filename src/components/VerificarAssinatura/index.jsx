@@ -38,12 +38,18 @@ const VerificarAssinatura = ({ profissionalId, children }) => {
   }, [profissionalId]);
 
   return (
-    <>
+    <div className="verificar-assinatura-container">
       {!assinaturaAtiva && (
-        <p>Você precisa assinar um plano para acessar os serviços e pedidos de serviço.</p>
+        <p className="assinatura-inativa-msg">
+          Você precisa assinar um plano para acessar os serviços e pedidos de serviço.
+        </p>
       )}
-      {assinaturaAtiva && children}
-    </>
+      {assinaturaAtiva && (
+        <div className="children-container">
+          {children}
+        </div>
+      )}
+    </div>
   );
 };
 
