@@ -16,8 +16,31 @@ const PainelProfissional = ({ profissional }) => {
   const [pedidosServicos, setPedidosServicos] = useState([])
   const [assinaturaAtiva, setAssinaturaAtiva] = useState(false);
   const [avaliacoes, setAvaliacoes] = useState([])
-
+ 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = () => {
+      try {
+        const storedProfissional = localStorage.getItem('profissional');
+        if (!storedProfissional) {
+          navigate('/loginprofissional'); 
+          return;
+        }
+        const parsedProfissional = JSON.parse(storedProfissional);
+        if (!parsedProfissional?.id) {
+          navigate('/loginprofissional');
+          return;
+        }
+      } catch (error) {
+        console.error('Erro ao verificar autenticação:', error);
+        navigate('/loginprofissional');
+      }
+    };
+
+    checkAuth();
+  }, [navigate]); // Adicionamos navigate como dependência
+
 
   useEffect(() => {
     const verificarAssinatura = async () => {
@@ -63,6 +86,7 @@ const PainelProfissional = ({ profissional }) => {
       setUsuarios(usuariosMap);
     }
   };
+
   const fetchServicos = async () => {
     const { data, error } = await supabase
       .from('servicos')
@@ -183,8 +207,19 @@ const PainelProfissional = ({ profissional }) => {
 
       <div className={`painel-profissional ${appear ? 'appear' : ''}`}>
         <h1>Painel do Profissional</h1>
+
         <div className="profile-section">
-          <h2>Dados Pessoais</h2>
+          <div className='header-section'>
+            <h2 className='dados-title'>Dados Pessoais</h2>
+            {assinaturaAtiva && (
+              <button
+                className='planner-button'
+                onClick={() => navigate(`/planner/${profissional.id}`)}
+              >
+                <span className="icon">📋</span> Acessar Planner
+              </button>
+            )}
+          </div>
           {isEditing ? (
             <div className="form">
               <label>

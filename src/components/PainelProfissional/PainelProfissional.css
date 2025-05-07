@@ -9,6 +9,46 @@
 .appear {
   opacity: 1;
 }
+/* Adicione isso ao seu arquivo CSS */
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.dados-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.planner-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.8rem 1.5rem;
+  background-color: #457b9d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: auto; /* Isso empurra o botão para a direita */
+}
+
+.planner-button:hover {
+  background-color: #1d3557;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.planner-button .icon {
+  font-size: 1.2em;
+}
 
 .painel-profissional h1 {
   color: #1d3557;

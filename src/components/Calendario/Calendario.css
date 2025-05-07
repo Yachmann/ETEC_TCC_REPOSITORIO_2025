@@ -1,0 +1,56 @@
+/* Calendario.css */
+.calendar-wrapper {
+    background: #fff; padding: 2rem; border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08); max-width: 1000px; margin: 2rem auto;
+  }
+  .calendar-title {
+    color: #2a2e43;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .calendar-form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .input-field {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e2e2;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: #3f72af;
+  }
+  .btn-primary {
+    background: #3f72af;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .btn-primary:hover {
+    background: #2c4a85;
+  }
+  .loading {
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
+  }
+  .custom-calendar .rbc-toolbar button {
+    background: transparent;
+    border: none;
+    color: #3f72af;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .custom-calendar .rbc-toolbar button:hover {
+    color: #112d4e;
+  }
+  

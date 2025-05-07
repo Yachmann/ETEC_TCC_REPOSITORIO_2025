@@ -13,6 +13,7 @@ import LoginClientePage from './pages/LoginClientePage';
 import UsuarioPage from './pages/UsuarioPage';
 import SuccessPage from './pages/SuccessPage';
 import AboutPage from './pages/AboutPage';
+import NotasPage from "./pages/NotasPage";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <Route path='/usuario/:id' element={<UsuarioPage />}></Route>
           <Route path='/success' element={<SuccessPage />}></Route>
           <Route path='/about' element={<AboutPage />}></Route>
+          <Route path='/planner/:profissionalId' element={<NotasPage/>}></Route>
         </Routes>
     </Router>
   )
