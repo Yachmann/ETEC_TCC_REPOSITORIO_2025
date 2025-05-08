@@ -1,215 +1,130 @@
-import CampoTexto from '../CampoTexto'
-import supabase from '../../../supabase'
 import { useEffect, useState } from 'react'
-import './Form.css'
-import Backbutton from '../BackButton'
 import { useNavigate } from 'react-router-dom'
+import supabase from '../../../supabase'
+import CampoTexto from '../CampoTexto'
+import Spinner from '../Spinner'
+import Backbutton from '../BackButton'
+import './Form.css'
 
+export default function Form() {
+  const [nome, setNome] = useState('')
+  const [telefone, setTelefone] = useState('')
+  const [profissao, setProfissao] = useState('')
+  const [anosExperiencia, setAnosExperiencia] = useState('')
+  const [localizacao, setLocalizacao] = useState('')
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
+  const [senhaConfirma, setSenhaConfirma] = useState('')
+  const [latitude, setLatitude] = useState(null)
+  const [longitude, setLongitude] = useState(null)
+  const [cidadesSP, setCidadesSP] = useState([])
+  const [modoLocalizacao, setModoLocalizacao] = useState('auto')
+  const [message, setMessage] = useState('')
+  const [erro, setErro] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
-const Form = () => {
-    const [nome, setNome] = useState('')
-    const [telefone, setTelefone] = useState('')
-    const [profissao, setProfissao] = useState('')
-    const [anosExperiencia, setAnosExperiencia] = useState('')
-    const [localizacao, setLocalizacao] = useState('')
-    const [email, setEmail] = useState('')
-    const [senha, setSenha] = useState('')
-    const [senhaConfirma, setSenhaConfirma] = useState('');
-    const [message, setMessage] = useState('')
-    const [erro, setErro] = useState(null)
-    const [profissional, setProfissional] = useState('')
-    const navigate = useNavigate()
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          setLatitude(coords.latitude)
+          setLongitude(coords.longitude)
+        },
+        () => setErro('Não foi possível obter localização.'),
+        { timeout: 5000 }
+      )
+    }
+  }, [])
 
-    // validacoes.js
-    const isEmailValido = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  useEffect(() => {
+    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/SP/municipios')
+      .then(res => res.json())
+      .then(json => setCidadesSP(json.map(c => c.nome)))
+      .catch(() => setErro('Erro ao carregar cidades.'))
+  }, [])
 
-    const isSenhaForte = (senha) =>
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(senha); // mínimo 6 caracteres, letras e números
+  useEffect(() => {
+    if (modoLocalizacao === 'auto' && latitude && longitude) {
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+        .then(res => res.json())
+        .then(data => {
+          const addr = data.address || {}
+          setLocalizacao(addr.city || addr.town || addr.village || '')
+        })
+        .catch(() => setErro('Erro no geocoding.'))
+    }
+  }, [modoLocalizacao, latitude, longitude])
 
-    const isTelefoneValido = (telefone) => /^\d{10,}$/.test(telefone);
+  const isEmailValido = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
+  const isSenhaForte = s => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(s)
+  const isTelefoneValido = t => /^\d{10,}$/.test(t)
+  const isNumeroPositivo = v => Number(v) > 0
 
-    const isNumeroPositivo = (valor) => Number(valor) > 0;
+  const HandleSubmit = async e => {
+    e.preventDefault()
+    setErro(null)
+    if (!nome || !telefone || !profissao || !anosExperiencia || !localizacao || !email || !senha) {
+      setErro('Preencha todos os campos.'); return
+    }
+    if (!isEmailValido(email)) { setErro('E-mail inválido.'); return }
+    if (!isSenhaForte(senha)) { setErro('Senha fraca.'); return }
+    if (senha !== senhaConfirma) { setErro('Senhas não coincidem.'); return }
+    if (!isTelefoneValido(telefone)) { setErro('Telefone inválido.'); return }
+    if (!isNumeroPositivo(anosExperiencia)) { setErro('Anos de experiência deve ser positivo.'); return }
 
-    const fetchProfissional = async () => {
-        const { data, error } = await supabase
-            .from('profissionais')
-            .select('*')
-            .eq('email', email)
-            .eq('senha', senha);
+    const payload = { nome, email, telefone, profissao, anosExperiencia, localizacao, senha }
+    if (modoLocalizacao === 'auto') Object.assign(payload, { latitude, longitude })
 
-        if (error) {
-            setErro('Erro Interno');
-        } else {
-            if (data && data.length > 0) {
-                setProfissional(data[0]);
-                console.log('Usuário encontrado', data[0]);
-            } else {
-                setErro('Profissional não encontrado');
-            }
-        }
-    };
+    setLoading(true)
+    const { error } = await supabase.from('profissionais').insert([payload])
+    setLoading(false)
 
-    const HandleSubmit = async (e) => {
-        e.preventDefault();
+    if (error) {
+      setErro('Erro ao cadastrar: ' + error.message)
+    } else {
+      setMessage('Cadastro realizado com sucesso!')
+      setTimeout(() => navigate('/loginprofissional'), 1500)
+    }
+  }
 
-        // Verificações básicas
-        if (!nome || !telefone || !profissao || !anosExperiencia || !localizacao || !email || !senha) {
-            setErro('Por favor, preencha todos os campos.');
-            setTimeout(() => {
-                setErro(null)
-            }, 5000)
-            return;
-        }
+  return (
+    <div className="signup-container">
+      {loading && <Spinner />}
+      <Backbutton rota="/loginprofissional" />
+      <form className="signup-form" onSubmit={HandleSubmit}>
+        <h2>Cadastro de Profissional</h2>
+        {erro && <p className="message error">{erro}</p>}
+        {message && <p className="message success">{message}</p>}
 
-        if (!isEmailValido(email)) {
-            setErro('E-mail inválido.');
-            setTimeout(() => {
-                setErro(null)
-            }, 5000)
-            return;
-        }
+        <CampoTexto valor={nome} aoAlterar={setNome} Label="Nome" />
+        <CampoTexto valor={email} aoAlterar={setEmail} Label="Email" type="email" />
+        <CampoTexto valor={senha} aoAlterar={setSenha} Label="Senha" type="password" />
+        <CampoTexto valor={senhaConfirma} aoAlterar={setSenhaConfirma} Label="Confirmar Senha" type="password" />
+        <CampoTexto valor={telefone} aoAlterar={setTelefone} Label="Telefone" />
+        <CampoTexto valor={profissao} aoAlterar={setProfissao} Label="Profissão" />
+        <CampoTexto valor={anosExperiencia} aoAlterar={setAnosExperiencia} Label="Anos de Experiência" type="number" />
 
-        if (!isSenhaForte(senha)) {
-            setErro('A senha deve ter no mínimo 6 caracteres, incluindo letras e números.');
-            setTimeout(() => {
-                setErro(null)
-            }, 5000)
-            return;
-        }
-        if (senha !== senhaConfirma) {
-            setErro('As senhas não coincidem.');
-            setTimeout(() => {
-                setErro(null)
-            }, 5000)
-            return;
-        }
-
-        if (!isTelefoneValido(telefone)) {
-            setErro('Telefone inválido. Digite apenas números com no mínimo 10 dígitos.');
-            setTimeout(() => {
-                setErro(null)
-            }, 5000)
-            return;
-        }
-
-        if (!isNumeroPositivo(anosExperiencia)) {
-            setErro('Anos de experiência deve ser um número positivo.');
-            setTimeout(() => {
-                setErro(null)
-            }, 5000)
-            return;
-        }
-
-        const { error } = await supabase.from("profissionais").insert([
-            { nome, email, telefone, profissao, anosExperiencia, localizacao, senha },
-        ]);
-
-        if (error) {
-            setErro('Erro ao cadastrar: ' + error.message);
-        } else {
-            setMessage('Cadastro realizado com sucesso! Estamos te Redirecionando ...');
-            setAnosExperiencia('')
-            setEmail('')
-            setNome('')
-            setLocalizacao('')
-            setProfissao('')
-            setTelefone('')
-            setSenha('')
-            await fetchProfissional();
-            if (profissional && profissional.id) {
-                setTimeout(() => {
-                    navigate(`/loginprofissional`);
-                }, 2000);
-            } else {
-                setErro('Erro: Não foi possível encontrar o profissional.');
-                setTimeout(() => {
-                    setErro(null);
-                }, 5000);
-            }
-
-        }
-    };
-
-    return (
-        <div className="signup-container">
-            <Backbutton rota={'/loginprofissional'} />
-            <form className="signup-form" onSubmit={HandleSubmit}>
-                <h2>Cadastro de Profissional</h2>
-                <CampoTexto
-                    valor={nome}
-                    aoAlterar={setNome}
-                    Label='Nome'
-                    placeHolder='Digite seu nome completo...'
-                    required
-                />
-                <CampoTexto
-                    valor={email}
-                    aoAlterar={setEmail}
-                    Label='Email'
-                    placeHolder='Digite seu email...'
-                    type="email"
-                    required
-                />
-                <CampoTexto
-                    type={'password'}
-                    valor={senha}
-                    aoAlterar={setSenha}
-                    Label='Senha'
-                    placeHolder='Digite sua senha...'
-                    required
-                />
-                <CampoTexto
-                    type='password'
-                    valor={senhaConfirma}
-                    aoAlterar={setSenhaConfirma}
-                    Label='Confirme sua Senha'
-                    placeHolder='Digite sua senha novamente...'
-                    required
-                />
-
-                <CampoTexto
-                    valor={telefone}
-                    aoAlterar={setTelefone}
-                    Label='Telefone'
-                    placeHolder='Digite seu telefone...'
-                    required
-                />
-                <CampoTexto
-                    valor={profissao}
-                    aoAlterar={setProfissao}
-                    Label='Profissão'
-                    placeHolder='Digite sua profissão...'
-                    required
-                />
-                <CampoTexto
-                    valor={anosExperiencia}
-                    aoAlterar={setAnosExperiencia}
-                    Label='Anos de Experiência'
-                    placeHolder='Digite seus anos de experiência...'
-                    type="number"
-                    required
-                />
-                <CampoTexto
-                    valor={localizacao}
-                    aoAlterar={setLocalizacao}
-                    Label='Localização'
-                    placeHolder='Digite sua cidade/estado...'
-                    required
-                />
-                <button type='submit'>CADASTRAR</button>
-                {message && (
-                    <p className={`message ${message.includes('Erro') ? 'error' : 'success'}`}>
-                        {message}
-                    </p>
-                )}
-                {erro && (
-                    <p className='erro'>
-                        {erro}
-                    </p>
-                )}
-            </form>
+        <div className="modo-localizacao">
+          <label><input type="radio" value="auto" checked={modoLocalizacao==='auto'} onChange={()=>setModoLocalizacao('auto')} /> Detectar automaticamente</label>
+          <label><input type="radio" value="manual" checked={modoLocalizacao==='manual'} onChange={()=>setModoLocalizacao('manual')} /> Escolher cidade</label>
         </div>
-    )
+
+        {modoLocalizacao === 'auto' ? (
+          <CampoTexto valor={localizacao} Label="Localização (detectada)" readOnly />
+        ) : (
+          <div className="campo-manual">
+            <label>Município (SP):</label>
+            <select value={localizacao} onChange={e=>setLocalizacao(e.target.value)}>
+              <option value="">Selecione sua cidade...</option>
+              {cidadesSP.map(c=> <option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>
+        )}
+
+        <button type="submit" disabled={loading}>{loading?'Enviando...':'CADASTRAR'}</button>
+      </form>
+    </div>
+  )
 }
 
-export default Form
