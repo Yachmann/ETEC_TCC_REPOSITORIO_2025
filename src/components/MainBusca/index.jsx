@@ -1,7 +1,7 @@
 import CardProfissional from "../CardProfissional"
 import './MainBusca.css'
 
-const MainBusca = ({HandleProfissionalPage, profissionaisFiltrados, profissionais }) => {
+const MainBusca = ({HandleProfissionalPage, profissionaisFiltrados, profissionais,userId }) => {
     return (
         <>
             <div className="mainBusca">
@@ -11,6 +11,7 @@ const MainBusca = ({HandleProfissionalPage, profissionaisFiltrados, profissionai
                 <div className="cardContainer">
                     {profissionaisFiltrados.length === 0 ? profissionais.map(profissional => (
                         <CardProfissional
+                            userId={userId}
                             key={profissional.id}
                             id={profissional.id}
                             nome={profissional.nome}

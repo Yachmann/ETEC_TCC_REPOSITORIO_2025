@@ -5,7 +5,7 @@ import './busca.css'
 import { Link, useNavigate } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { CiUser } from "react-icons/ci";
+import { FaUser } from "react-icons/fa";
 import Spinner from "../components/spinner";
 
 function BuscarProfissionais() {
@@ -107,7 +107,7 @@ useEffect(() => {
 
   const HandleProfissionalPage = (e) => {
     console.log('profissional selecionado: ', e.target.id);
-    navegar(`/profissional/${e.target.id}`);
+    navegar(`/profissional/${e.target.id}`, { state: { userId: userId } });
   };
   const HandleFiltrarPorProximidade = (e)=> {
     setBusca('');
@@ -132,7 +132,7 @@ useEffect(() => {
 
       <div className="container">
         <Backbutton style="" rota={'/'} />
-        <Link className="user-icon" to={`/usuario/${userId}`}><CiUser /></Link>
+        <Link className="user-icon" to={`/usuario/${userId}`}><FaUser /></Link>
         <div className="header">
 
           <h1>Buscar Profissionais</h1>
@@ -172,7 +172,7 @@ useEffect(() => {
             Mostrar apenas profissionais próximos (até 10 km)
           </label>
           </div>
-          <MainBusca HandleProfissionalPage={HandleProfissionalPage} profissionais={profissionais} profissionaisFiltrados={profissionaisFiltrados}></MainBusca>
+          <MainBusca userId={userId} HandleProfissionalPage={HandleProfissionalPage} profissionais={profissionais} profissionaisFiltrados={profissionaisFiltrados}></MainBusca>
         </div>
       </div>
     </>

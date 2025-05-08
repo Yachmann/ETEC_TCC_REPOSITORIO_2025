@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import supabase from "../../supabase";
 import { useNavigate } from "react-router-dom";
 import Backbutton from '../components/Backbutton';
+import Spinner from '../components/Spinner'
 import './UsuarioPage.css';
 
 const UsuarioPage = () => {
   const [usuario, setUsuario] = useState(null);
   const [servicos, setServicos] = useState([]);
   const [estaEditando, setEstaEditando] = useState(false);
+  const [loading,setLoading] = useState(true);
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
@@ -66,7 +68,7 @@ const UsuarioPage = () => {
     };
 
     fetchUserData();
-    fetchUserServices();
+    fetchUserServices().finally(()=>setLoading(false));
   }, [navigate]);
 
   const handleChange = (e) => {
@@ -97,7 +99,9 @@ const UsuarioPage = () => {
     await supabase.auth.signOut();
     navigate("/logincliente");
   };
-
+if (loading) {
+  return(<div><h1>Carregando suas informações. Aguarde um Instante...</h1> <Spinner/></div>)
+}
   return (
     <div className="usuario-container">
       <div className="usuario-header">

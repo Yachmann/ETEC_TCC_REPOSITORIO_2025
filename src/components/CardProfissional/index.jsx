@@ -1,6 +1,6 @@
 import './CardProfissional.css'
 import { useState,useEffect } from 'react'
-const CardProfissional = ({abrirProfissional,id,nome,profissao,email,telefone,anosExperiencia,localizacao,valorBotao}) => {
+const CardProfissional = ({abrirProfissional,id,nome,profissao,email,telefone,anosExperiencia,localizacao,valorBotao,userId}) => {
     const [appear,setAppear] = useState(false)
     useEffect(() => {
         setAppear(true)

@@ -26,8 +26,8 @@
 /* Ícone de usuário */
 .user-icon {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 9%;
+  right: 15%;
   color: #1d3557;
   font-size: 2rem;
   transition: transform 0.3s ease, color 0.3s ease;
@@ -154,7 +154,11 @@
   }
 
   .user-icon {
-    position: static;
-    margin: 1rem 0;
+    position: absolute;
+    top: 9%;
+    right: 15%;
+    color: #1d3557;
+    font-size: 2rem;
+    transition: transform 0.3s ease, color 0.3s ease;
   }
 }

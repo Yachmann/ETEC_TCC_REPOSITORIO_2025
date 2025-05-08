@@ -7,10 +7,10 @@ import useEvaluations from '../../hooks/useEvaluations';
 import { useEffect } from 'react';
 import StarRating from '../RatingStars';
 
-const ProfissionalProfile = ({ profissional }) => {
+const ProfissionalProfile = ({ profissional, aoFavoritar, aoRemoverFavorito }) => {
   const [contactOptions, setContactOptions] = useState(false);
   const { evaluations, avaliacaoMedia, fetchEvaluations } = useEvaluations(profissional.id);
-
+  const [favoritos,setFavoritos] = useState([])
   const toggleContactOptions = () => {
     setContactOptions(!contactOptions);
   };
@@ -20,11 +20,24 @@ const ProfissionalProfile = ({ profissional }) => {
     }
   }, [profissional.id]);
 
-
+  const toggleFavorito = (id) => {
+    if (favoritos.includes(id)) {
+      setFavoritos(favoritos.filter(favId => favId !== id));
+      if (aoRemoverFavorito) aoRemoverFavorito(id);
+    } else {
+      setFavoritos([...favoritos, id]);
+      if (aoFavoritar) aoFavoritar(id);
+    }
+  };
+  
   return (
     <div className="profissionalProfile">
-      <Backbutton rota={'/buscar'}/>
+      <Backbutton rota={'/buscar'} />
       <div className="info">
+        <button onClick={() => toggleFavorito(profissional.id)}>
+          {favoritos.includes(profissional.id) ? "❤️" : "🤍"}
+        </button>
+
         <h1>{profissional.nome}</h1>
         <h3>{profissional.profissao.toUpperCase()}</h3>
         <h2>CONTATO</h2>
@@ -70,8 +83,8 @@ const ProfissionalProfile = ({ profissional }) => {
           </div>
         ) : null}
         {/* passando o objeto profissional para a pagina AvaliacaoPage por meio de State */}
-        <Link to={`/avaliar/${profissional.id}`} state= {{ profissional}}>
-          <button className='botaoavaliar'><p className='botao__texto'>Avaliar</p><FaRegStar className='star-icon'/></button>
+        <Link to={`/avaliar/${profissional.id}`} state={{ profissional }}>
+          <button className='botaoavaliar'><p className='botao__texto'>Avaliar</p><FaRegStar className='star-icon' /></button>
         </Link>
       </div>
     </div>

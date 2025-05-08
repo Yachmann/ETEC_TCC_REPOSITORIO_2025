@@ -14,12 +14,27 @@ import UsuarioPage from './pages/UsuarioPage';
 import SuccessPage from './pages/SuccessPage';
 import AboutPage from './pages/AboutPage';
 import NotasPage from "./pages/NotasPage";
+import { useEffect, useState } from "react";
 
 function App() {
 
+  const [temaEscuro, setTemaEscuro] = useState(() => {
+    const temaSalvo = localStorage.getItem("tema");
+    return temaSalvo ? JSON.parse(temaSalvo) : false;
+  });
 
+  useEffect(() => {
+    document.body.className = temaEscuro ? "dark-mode" : "light-mode";
+    localStorage.setItem("tema", JSON.stringify(temaEscuro));
+  }, [temaEscuro]);
   return (
     <Router>
+       <button
+        style={{ position: "fixed", top: 10, right: 10, zIndex: 1000 }}
+        onClick={() => setTemaEscuro((prev) => !prev)}
+      >
+        {temaEscuro ? "☀️ Tema Claro" : "🌙 Tema Escuro"}
+      </button>
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/cadastro" element={<Cadastro />}></Route>
