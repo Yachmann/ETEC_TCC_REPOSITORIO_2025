@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './PainelProfissional.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Backbutton from '../Backbutton';
 import supabase from '../../../supabase';
 import ServicoForm from '../ServicoForm';
 import Servico from '../Servico';
 import AssinarPlano from '../AssinarPlano';
 import VerificarAssinatura from '../VerificarAssinatura';
+import Spinner from '../spinner';
 
 const PainelProfissional = ({ profissional }) => {
   const [usuarios, setUsuarios] = useState({});
@@ -16,7 +17,9 @@ const PainelProfissional = ({ profissional }) => {
   const [pedidosServicos, setPedidosServicos] = useState([])
   const [assinaturaAtiva, setAssinaturaAtiva] = useState(false);
   const [avaliacoes, setAvaliacoes] = useState([])
- 
+  const [loading, setLoading] = useState(true)
+  const { id } = useParams();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +27,7 @@ const PainelProfissional = ({ profissional }) => {
       try {
         const storedProfissional = localStorage.getItem('profissional');
         if (!storedProfissional) {
-          navigate('/loginprofissional'); 
+          navigate('/loginprofissional');
           return;
         }
         const parsedProfissional = JSON.parse(storedProfissional);
@@ -47,7 +50,7 @@ const PainelProfissional = ({ profissional }) => {
       const ativa = await checkAssinaturaAtiva();
       setAssinaturaAtiva(ativa);
     };
-    verificarAssinatura();
+    verificarAssinatura().finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -195,6 +198,13 @@ const PainelProfissional = ({ profissional }) => {
     navigate('/');
   };
 
+  if (Number(id) !== profissional.id) {
+    navigate('/')
+  }
+  if (loading) {
+    return <div><Spinner /> <h2>Carregando Seus Dados. Aguarde um momento...</h2></div>
+  }
+
   return (
     <div>
       <div className='headerbotao'>
@@ -303,13 +313,18 @@ const PainelProfissional = ({ profissional }) => {
         <div className="avaliacao-section">
           <h2>Avaliações</h2>
           <div className='avaliacoes-container'>
-            {avaliacoes.map(avaliacao => (
-              <div key={avaliacao.id} className="avaliacao-item">
+            {loading ? (<Spinner />)
+              : !assinaturaAtiva ?
+                (<h3>Assine nosso plano para obter acesso às avaliações de seus Clientes</h3>)
+                : avaliacoes.map(avaliacao => (
+                  <div key={avaliacao.id} className="avaliacao-item">
 
-                <p><strong>Nota:</strong> {avaliacao.nota}</p>
-                <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
-              </div>
-            ))}
+                    <p><strong>Nota:</strong> {avaliacao.nota}</p>
+                    <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
+                  </div>
+                ))}
+
+
           </div>
         </div>
         <VerificarAssinatura profissionalId={profissional.id}>

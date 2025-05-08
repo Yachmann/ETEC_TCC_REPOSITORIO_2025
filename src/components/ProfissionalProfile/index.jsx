@@ -19,6 +19,8 @@ const ProfissionalProfile = ({ profissional }) => {
       fetchEvaluations();
     }
   }, [profissional.id]);
+
+
   return (
     <div className="profissionalProfile">
       <Backbutton rota={'/buscar'}/>

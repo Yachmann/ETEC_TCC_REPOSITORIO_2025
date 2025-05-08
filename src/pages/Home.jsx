@@ -41,7 +41,7 @@ const navigate = useNavigate()
 
       {/* Features Section */}
       <section className="features">
-        <h2>Porque escolher EmergencyPro?</h2>
+        <h2>Porque escolher ContratAÍ?</h2>
         <div className="features-grid">
           <div className="feature-card">
             <Clock color="#457b9d" size={32} />

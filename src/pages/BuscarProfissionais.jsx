@@ -98,11 +98,21 @@ function BuscarProfissionais() {
 
   };
 
+useEffect(() => {
+  if (!filtrarPorProximidade && !busca) {
+    // Se a busca estiver vazia e o filtro de proximidade foi desmarcado
+    setProfissionaisFiltrados([]);
+  }
+}, [filtrarPorProximidade, busca]);
 
   const HandleProfissionalPage = (e) => {
     console.log('profissional selecionado: ', e.target.id);
     navegar(`/profissional/${e.target.id}`);
   };
+  const HandleFiltrarPorProximidade = (e)=> {
+    setBusca('');
+    setFiltrarPorProximidade(e.target.checked)
+  }
 
   function calcularDistancia(lat1, lon1, lat2, lon2) {
     const R = 6371; // raio da Terra em km
@@ -137,14 +147,7 @@ function BuscarProfissionais() {
 
 
             </select>
-            <label>
-              <input
-                type="checkbox"
-                checked={filtrarPorProximidade}
-                onChange={(e) => setFiltrarPorProximidade(e.target.checked)}
-              />
-              Mostrar apenas profissionais próximos (até 20 km)
-            </label>
+
 
 
 
@@ -157,21 +160,18 @@ function BuscarProfissionais() {
           </div>
         </div>
         <div>
-          {/* <div className="profissionais">
-          {profissionais.map((profissional) => (
-            <CardProfissional
-              key={profissional.id}
-              id={profissional.id}
-              nome={profissional.nome}
-              profissao={profissional.profissao}
-              email={profissional.email}
-              telefone={profissional.telefone}
-              anosExperiencia={profissional.anosExperiencia}
-              localizacao={profissional.localizacao}
-              valorBotao={"Contratar"}
+          <div className="filtrarProximidadeContainer">
+          <label className="toggle-container">
+            <input
+              type="checkbox"
+              id="filtrarProximidade"
+              checked={filtrarPorProximidade}
+              onChange={(e) => HandleFiltrarPorProximidade(e)}
             />
-          ))}
-        </div> */}
+            <span className="toggle-switch"></span>
+            Mostrar apenas profissionais próximos (até 10 km)
+          </label>
+          </div>
           <MainBusca HandleProfissionalPage={HandleProfissionalPage} profissionais={profissionais} profissionaisFiltrados={profissionaisFiltrados}></MainBusca>
         </div>
       </div>
