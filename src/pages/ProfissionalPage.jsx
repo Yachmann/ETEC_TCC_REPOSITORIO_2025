@@ -16,6 +16,7 @@ const ProfissionalPage = () => {
     const [favoritado, setFavoritado] = useState(false);
 
     const userIdRecebido = location.state?.userId;
+        const vindoDeFavoritos = location.state?.vindoDeFavoritos;
 
     useEffect(() => {
         async function checkSession() {
@@ -23,29 +24,13 @@ const ProfissionalPage = () => {
             if (sessionError || !sessionData.session) {
                 // Redireciona para a página de login se não houver sessão ativa
                 navigate('/logincliente');
+                ser
             } else {
 
             }
         }
         checkSession();
     }, [navigate]);
-    useEffect(() => {
-        async function fetchFavorito() {
-            const { data, error } = await supabase
-                .from('favoritos')
-                .select('*')
-                .eq('usuario_id', 'cd82552e-c3d3-40ac-8019-5ac9359962a5')
-                .eq('profissional_id', '10');
-
-            if (error) {
-                console.error(error);
-            } else {
-                console.log(data);
-            }
-            
-        }
-        fetchFavorito();
-    })
     useEffect(() => {
 
         async function fetchProfissional() {
@@ -76,9 +61,9 @@ const ProfissionalPage = () => {
                 .select("*")
                 .eq("usuario_id", userIdRecebido)
                 .eq("profissional_id", id)
-                .single();
 
-            if (data) setFavoritado(true);
+
+            if (data && data.length>0) {setFavoritado(true); console.log('favoritado: ',data)}
             else setFavoritado(false);
         }
 
@@ -138,7 +123,7 @@ const ProfissionalPage = () => {
     return (
         <div>
 
-            <ProfissionalProfile aoToggleFavorito={alternarFavorito} favoritado={favoritado} aoFavoritar={() => adicionarFavorito(userIdRecebido, profissional.id)} aoRemoverFavorito={() => removerFavorito(userIdRecebido, profissional.id)} profissional={profissional} />
+            <ProfissionalProfile usuarioId={userIdRecebido} vindoDeFavoritos={vindoDeFavoritos} aoToggleFavorito={alternarFavorito} favoritado={favoritado} profissional={profissional} />
             <ServicoPedidoForm profissionalId={id} aoPedidoCriado={() => { }} />
         </div>
     );

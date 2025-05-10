@@ -1,26 +1,141 @@
 /* NotasPage.css */
-.notas-container { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); max-width: 800px; margin: 2rem auto; }
-.notas-container h2 { color: #2a2e43; font-size: 1.8rem; margin-bottom: 1rem; }
-.form-nota { display: grid; gap: 1rem; margin-bottom: 2rem; }
-.form-nota input, .form-nota textarea { padding: 0.75rem; border: 2px solid #e2e2e2; border-radius: 8px; transition: border-color .3s; }
-.form-nota input:focus, .form-nota textarea:focus { border-color: #3f72af; outline: none; }
-.form-nota button { background: #3f72af; color: #fff; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; }
-.lista-notas { list-style: none; padding: 0; }
-.nota { background: #f7f9fc; border-left: 4px solid #3f72af; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-.nota.concluida { opacity: .6; text-decoration: line-through; }
-.nota h3 { margin: 0; color: #112d4e; }
-.nota p { margin: .5rem 0; color: #444; }
-.nota small { color: #888; font-size: .85rem; }
-.acoes button { margin-left: .5rem;  border: 1px solid #3f72af; padding: .4rem .8rem; border-radius: 6px; cursor: pointer; }
-.acoes button:hover { background: #3f72af; color: #fff; }
-.concluir{
-  background-color: rgb(88, 155, 22);
+
+.notas-container {
+  background-color: var(--card-bg);
+  color: var(--text);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 2rem auto;
+  transition: background-color var(--transition), color var(--transition);
 }
-.apagar{
+
+.notas-container h2 {
+  color: var(--primary);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.form-nota {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.form-nota input,
+.form-nota textarea {
+  padding: 0.75rem;
+  border: 2px solid var(--bg);
+  border-radius: var(--radius);
+  background-color: var(--bg);
+  color: var(--text);
+  transition: border-color var(--transition), background-color var(--transition), color var(--transition);
+}
+
+.form-nota input:focus,
+.form-nota textarea:focus {
+  border-color: var(--secondary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.1);
+}
+
+.form-nota button {
+  background-color: var(--secondary);
+  color: var(--card-bg);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color var(--transition), transform 0.2s ease;
+}
+
+.form-nota button:hover {
+  background-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.lista-notas {
+  list-style: none;
+  padding: 0;
+}
+
+.nota {
+  background-color: var(--bg);
+  border-left: 4px solid var(--secondary);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.nota.concluida {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.nota h3 {
+  margin: 0;
+  color: var(--primary);
+}
+
+.nota p {
+  margin: 0.5rem 0;
+  color: var(--text);
+}
+
+.nota small {
+  color: var(--secondary);
+  font-size: 0.85rem;
+}
+
+.acoes button {
+  margin-left: 0.5rem;
+  border: 1px solid var(--secondary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.acoes button:hover {
+  background-color: var(--secondary);
+  color: var(--card-bg);
+}
+
+.acoes .concluir {
+  background-color: var(--accent);
+  color: var(--card-bg);
+}
+
+.acoes .concluir:hover {
+  background-color: var(--secondary);
+}
+
+.acoes .apagar {
   background-color: #ce281c;
+  color: var(--card-bg);
 }
+
+.acoes .apagar:hover {
+  background-color: #a81d17;
+}
+
 @media (max-width: 600px) {
-  .notas-container { padding: 1rem; margin: 1rem; }
-  .nota { flex-direction: column; align-items: flex-start; }
-  .acoes { margin-top: .5rem; }
+  .notas-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  .nota {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .acoes {
+    margin-top: 0.5rem;
+  }
 }

@@ -1,36 +1,102 @@
+/* MainBusca.css */
+
 .mainBusca {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-  
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+form {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+/* Se você tiver uma div .search-controls, por exemplo */
+.search-controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.search-controls select,
+.search-controls input {
+  flex: 1;
+  min-width: 200px;
+  background-color: var(--card-bg);
+  color: var(--text);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 0.6rem 1rem;
+  transition: border-color var(--transition);
+}
+.search-controls select:focus,
+.search-controls input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* Cards de profissionais */
+.cardContainer {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.cardContainer .card {
+  background-color: var(--card-bg);
+  color: var(--text);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, background-color var(--transition), color var(--transition);
+}
+
+.cardContainer .card:hover {
+  transform: translateY(-4px);
+}
+
+.cardContainer .card h3,
+.cardContainer .card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.cardContainer .card p {
+  margin: 0.3rem 0;
+}
+
+.cardContainer .card button {
+  margin-top: 1rem;
+  background-color: var(--primary);
+  color: var(--card-bg);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition), transform 0.2s;
+}
+.cardContainer .card button:hover {
+  background-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
   .cardContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  
-  form {
-    background: white;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    margin-bottom: 2rem;
+    grid-template-columns: 1fr;
   }
   
   .search-controls {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
-  
-  @media (max-width: 768px) {
-    .cardContainer {
-      grid-template-columns: 1fr;
-    }
-    
-    .search-controls {
-      flex-direction: column;
-    }
-  }
+}

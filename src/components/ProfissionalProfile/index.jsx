@@ -6,11 +6,13 @@ import Backbutton from '../Backbutton';
 import useEvaluations from '../../hooks/useEvaluations';
 import { useEffect } from 'react';
 import StarRating from '../RatingStars';
+import { MdFavorite } from "react-icons/md";
+import { MdFavoriteBorder } from "react-icons/md";
 
-const ProfissionalProfile = ({ profissional, aoFavoritar, aoRemoverFavorito }) => {
+const ProfissionalProfile = ({usuarioId,vindoDeFavoritos, profissional, favoritado, aoToggleFavorito }) => {
   const [contactOptions, setContactOptions] = useState(false);
   const { evaluations, avaliacaoMedia, fetchEvaluations } = useEvaluations(profissional.id);
-  const [favoritos,setFavoritos] = useState([])
+  const [favoritoAtivo, setFavoritoAtivo] = useState(favoritado);
   const toggleContactOptions = () => {
     setContactOptions(!contactOptions);
   };
@@ -19,24 +21,24 @@ const ProfissionalProfile = ({ profissional, aoFavoritar, aoRemoverFavorito }) =
       fetchEvaluations();
     }
   }, [profissional.id]);
+  useEffect(() => {
+    setFavoritoAtivo(favoritado);
+  }, [favoritado]);
+console.log('vindo de favoritos: ', vindoDeFavoritos)
 
-  const toggleFavorito = (id) => {
-    if (favoritos.includes(id)) {
-      setFavoritos(favoritos.filter(favId => favId !== id));
-      if (aoRemoverFavorito) aoRemoverFavorito(id);
-    } else {
-      setFavoritos([...favoritos, id]);
-      if (aoFavoritar) aoFavoritar(id);
-    }
-  };
-  
   return (
     <div className="profissionalProfile">
-      <Backbutton rota={'/buscar'} />
+      <Backbutton rota={ vindoDeFavoritos? `/usuario/${usuarioId}`:'/buscar'} />
       <div className="info">
-        <button onClick={() => toggleFavorito(profissional.id)}>
-          {favoritos.includes(profissional.id) ? "❤️" : "🤍"}
+        <div className='header'>
+        <button className='favorito-btn' onClick={() => {
+          setFavoritoAtivo(!favoritoAtivo);
+          if (aoToggleFavorito) aoToggleFavorito();
+        }}>
+          {favoritoAtivo ? <MdFavorite/> : <MdFavoriteBorder/>}
         </button>
+        </div>
+
 
         <h1>{profissional.nome}</h1>
         <h3>{profissional.profissao.toUpperCase()}</h3>

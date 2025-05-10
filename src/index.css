@@ -1,13 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* Botão de alternar tema */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--toggle-bg);
+  color: var(--toggle-color);
+  font-size: 1.2rem;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+
 :root {
-  --primary-color: #2c3e50;
-  --secondary-color: #3498db;
-  --accent-color: #e74c3c;
-  --text-color: #2c3e50;
-  --background-color: #f8f9fa;
-  --card-background: #ffffff;
-  --border-radius: 12px;
-  --transition-speed: 0.3s;
+  /* Tema claro */
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #1d3557;
+  --primary: #457b9d;
+  --accent: #e63946;
+  --transition: 0.3s ease;
+  --radius: 8px;
+}
+
+/* Tema escuro */
+body.dark-mode {
+  --bg: #121212;
+  --card-bg: #1e1e1e;
+  --text: #e0e0e0;
+  --primary: #1f6feb;
+  --accent: #ff6b6b;
 }
 
 * {
@@ -18,40 +50,32 @@
 }
 
 body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color var(--transition), color var(--transition);
 }
 
-/* Common button styles */
 button {
-  padding: 0.8rem 1.5rem;
+  padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: var(--border-radius);
-  background-color: var(--primary-color);
-  color: white;
-  font-weight: 500;
+  border-radius: var(--radius);
+  background-color: var(--primary);
+  color: var(--card-bg);
   cursor: pointer;
-  transition: all var(--transition-speed) ease;
+  transition: background-color var(--transition), transform 0.2s;
 }
-
 button:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--accent);
   transform: translateY(-2px);
 }
 
-/* Form styles */
 input, select {
-  width: 100%;
-  padding: 0.8rem;
-  border: 2px solid #e1e1e1;
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  transition: all var(--transition-speed) ease;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  transition: border-color var(--transition);
 }
-
 input:focus, select:focus {
-  border-color: var(--secondary-color);
+  border-color: var(--accent);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }

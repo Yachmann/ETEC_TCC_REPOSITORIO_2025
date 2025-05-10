@@ -1,16 +1,19 @@
-/* Painel Profissional */
+/* PainelProfissional.css */
+
 .painel-profissional {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
   opacity: 0;
   transition: opacity 0.9s ease;
+  background-color: var(--bg);
+  color: var(--text);
 }
-.appear {
+.painel-profissional.appear {
   opacity: 1;
 }
-/* Adicione isso ao seu arquivo CSS */
 
+/* Header com botão e título */
 .header-section {
   display: flex;
   justify-content: space-between;
@@ -25,70 +28,69 @@
   transform: translateX(-50%);
 }
 
+/* Botão planner */
 .planner-button {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 0.8rem 1.5rem;
-  background-color: #457b9d;
-  color: white;
+  background-color: var(--secondary);
+  color: var(--card-bg);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: auto; /* Isso empurra o botão para a direita */
+  transition: all var(--transition);
 }
-
 .planner-button:hover {
-  background-color: #1d3557;
+  background-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 .planner-button .icon {
   font-size: 1.2em;
 }
 
+/* Título principal */
 .painel-profissional h1 {
-  color: #1d3557;
+  color: var(--primary);
   font-size: 2.5rem;
   margin-bottom: 2rem;
   text-align: center;
 }
 
+/* Seções */
 .profile-section,
 .avaliacao-section,
 .servicos-section,
 .service-pedidos-section {
-  background: #fff;
-  border-radius: 10px;
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
   padding: 2rem;
   margin-bottom: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color var(--transition), color var(--transition);
 }
 
 .profile-section h2,
 .avaliacao-section h2,
 .servicos-section h2,
 .service-pedidos-section h2 {
-  color: #457b9d;
+  color: var(--secondary);
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 2px solid var(--bg);
 }
 
 /* Detalhes de perfil */
 .detalhes p {
   font-size: 1.1rem;
-  color: #1d3557;
+  color: var(--text);
   padding: 0.5rem 0;
 }
-
 .detalhes strong {
-  color: #457b9d;
-  margin-right: 0.5rem;
+  color: var(--secondary);
 }
 
 /* Formulário de edição */
@@ -96,31 +98,25 @@
   display: grid;
   gap: 1.5rem;
 }
-
 .form label {
-  display: grid;
-  gap: 0.5rem;
+  color: var(--secondary);
   font-weight: 500;
-  color: #457b9d;
 }
-
 .form input,
 .form textarea {
   width: 100%;
   padding: 0.8rem;
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
+  border: 2px solid var(--bg);
+  border-radius: var(--radius);
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: border-color var(--transition);
 }
-
 .form input:focus,
 .form textarea:focus {
-  border-color: #457b9d;
+  border-color: var(--secondary);
   outline: none;
   box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.1);
 }
-
 .form textarea {
   min-height: 120px;
   resize: vertical;
@@ -130,30 +126,23 @@
 .profile-section button {
   padding: 0.8rem 1.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow var(--transition);
 }
-
 .profile-section button:first-of-type {
-  background: #e63946;
-  color: white;
+  background-color: var(--accent);
+  color: var(--card-bg);
   margin-right: 1rem;
 }
-
 .profile-section button:last-of-type {
-  background: #457b9d;
-  color: white;
+  background-color: var(--secondary);
+  color: var(--card-bg);
 }
-
 .profile-section button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.profile-section button:active {
-  transform: translateY(0);
 }
 
 /* Avaliações */
@@ -161,35 +150,26 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  margin-top: 1em;
-  margin-bottom: 2em;
-  justify-content: center;
   padding: 1rem;
+  justify-content: center;
 }
-
 .avaliacao-item {
-  background: #f1f6f9;
-  border-left: 6px solid #457b9d;
+  background-color: var(--bg);
+  border-left: 6px solid var(--secondary);
   padding: 1.5rem;
-  border-radius: 10px;
-  width: 100%;
+  border-radius: var(--radius);
   max-width: 350px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
 }
-
 .avaliacao-item:hover {
   transform: translateY(-4px);
 }
-
 .avaliacao-item p {
-  font-size: 1rem;
-  margin: 0.5rem 0;
-  color: #1d3557;
+  color: var(--text);
 }
-
 .avaliacao-item strong {
-  color: #457b9d;
+  color: var(--secondary);
 }
 
 /* Serviços */
@@ -199,153 +179,103 @@
   display: grid;
   gap: 1rem;
 }
-
 .servicos-section li {
   padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  color: #1d3557;
+  background-color: var(--bg);
+  border-radius: var(--radius);
+  color: var(--text);
   font-weight: 500;
 }
 
+/* Pedidos de serviço */
 .pedido_servico_container {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   padding: 2rem;
   justify-content: center;
-  background: #ffffff;
-  border-radius: 12px;
+  background-color: var(--card-bg);
+  border-radius: var(--radius);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-  margin: 2rem 0;
 }
-
-/* Cada item de pedido de serviço */
 .pedido_servico {
-  background: #f1f6f9;
-  color: #1d3557;
+  background-color: var(--bg);
+  color: var(--text);
   padding: 1.5rem;
-  border-radius: 12px;
-  width: 100%;
+  border-radius: var(--radius);
   max-width: 360px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.25s ease;
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-
 .pedido_servico:hover {
   transform: translateY(-5px);
 }
-
-/* Texto dos campos */
 .pedido_servico p {
   margin: 0.6rem 0;
-  font-size: 1rem;
-  line-height: 1.5;
-  font-weight: 500;
 }
-
-/* Botão para criar serviço */
 .pedido_servico button {
   margin-top: 1rem;
   padding: 0.7rem 1.2rem;
+  background-color: var(--primary);
+  color: var(--card-bg);
   border: none;
-  border-radius: 8px;
-  background-color: #1d3557;
-  color: #f1faee;
+  border-radius: var(--radius);
   font-weight: bold;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color var(--transition), transform 0.2s ease;
 }
-
 .pedido_servico button:hover {
-  background-color: #163149;
+  background-color: var(--secondary);
   transform: scale(1.02);
 }
-
-/* Badge visual para serviço já criado */
 .jacriado {
   margin-top: 1rem;
-  background-color: #7c222a;
-  color: white;
-  font-weight: bold;
+  background-color: var(--accent);
+  color: var(--card-bg);
   text-align: center;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
 }
 
-/* Cabeçalho */
+/* Header e logout */
 .headerbotao {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1em 2em;
 }
-
 .botao-logout {
-  font-size: 1rem;
   padding: 0.5em 1em;
-  background-color: #e63946;
+  background-color: var(--accent);
+  color: var(--card-bg);
   border: none;
-  border-radius: 6px;
-  color: white;
+  border-radius: var(--radius);
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition);
 }
-
 .botao-logout:hover {
-  background-color: #d62839;
+  background-color: var(--secondary);
 }
-
 .botaovolta {
   background: none;
   border: none;
   font-size: 2em;
+  color: var(--text);
   cursor: pointer;
-  color: #1d3557;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .painel-profissional {
-    padding: 1rem;
-    margin: 1rem;
-  }
-
+  .painel-profissional { padding: 1rem; margin: 1rem; }
   .profile-section,
   .avaliacao-section,
   .servicos-section,
-  .service-pedidos-section {
-    padding: 1.5rem;
-  }
-
-  .form {
-    gap: 1rem;
-  }
-
-  .profile-section button {
-    width: 100%;
-    margin: 0.5rem 0;
-  }
-
-  .avaliacao-item,
-  .pedido_servico {
-    width: 100%;
-  }
-
-  .headerbotao {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1em;
-    gap: 1rem;
-  }
-
-  .botao-logout {
-    width: 100%;
-    margin-left: 0;
-  }
+  .service-pedidos-section { padding: 1.5rem; }
+  .form { gap: 1rem; }
+  .profile-section button { width: 100%; margin: 0.5rem 0; }
+  .avaliacao-item, .pedido_servico { width: 100%; }
+  .headerbotao { flex-direction: column; gap: 1rem; }
+  .botao-logout { width: 100%; }
 }
