@@ -4,7 +4,7 @@ import './Servico.css'
 const Servico = ({ servico, aoAlterarStatus, usuario }) => {
 
   const [statusAtual, setStatusAtual] = useState(servico.status);
-
+    const [usuarioBuscado, setUsuario] = useState(null);
   const handleStatusChange = async (statusNovo) => {
     const { data, error } = await supabase
       .from("servicos")
@@ -18,6 +18,26 @@ const Servico = ({ servico, aoAlterarStatus, usuario }) => {
       setStatusAtual(statusNovo); // Atualiza o status localmente para esconder os botões
     }
   };
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      const { data, error } = await supabase
+        .from("usuarios")
+        .select("*")
+        .eq("id", servico.usuario_id)
+
+
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        setUsuario(data[0]);
+        console.log('usuario do servico:',data[0])
+      }
+    };
+
+    fetchUsuario();
+  }, [servico.usuario_id]);
+
+
 
   const DefinirEstiloFundo = (status) => {
     switch (status) {
@@ -33,6 +53,7 @@ const Servico = ({ servico, aoAlterarStatus, usuario }) => {
 
   return (
     <li key={servico.id}>
+      <p className="paragrafo"> <div className="servico-item-titulo">Nome:</div> {usuarioBuscado?.nome.toUpperCase()}</p>
       <p className="paragrafo"> <div className="servico-item-titulo">User ID:</div> {servico.usuario_id}</p>
       <p className="paragrafo"> <div className="servico-item-titulo">Details:</div> {servico.detalhes}</p>
       <p className="paragrafo"> <div className="servico-item-titulo">Endereço:</div> {servico.endereco}</p>

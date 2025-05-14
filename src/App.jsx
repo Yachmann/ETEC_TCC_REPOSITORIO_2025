@@ -29,12 +29,12 @@ function App() {
 
   return (
     <Router>
-      Botão de alternar tema
+     
       <button
         className="theme-toggle"
         onClick={() => setTemaEscuro(prev => !prev)}
       >
-        {temaEscuro ? "☀️" : "🌙"}
+        {temaEscuro ? "☀️" : "🌙"} 
       </button>
 
       <Routes>

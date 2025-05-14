@@ -32,9 +32,16 @@
   cursor: pointer;
   color: var(--card-bg);
   transition: color var(--transition);
+  padding: 0;
+ 
+}
+.favorito-btn svg{
+  width: 40px;
+  height: 40px;
 }
 .favorito-btn:hover {
   color: var(--text);
+  background: transparent;
 }
 
 /* Títulos */
@@ -150,7 +157,7 @@
   gap: 0.5rem;
 }
 .botao__texto {
-  color: var(--primary);
+  color: wheat
   font-weight: 500;
 }
 .star-icon {
