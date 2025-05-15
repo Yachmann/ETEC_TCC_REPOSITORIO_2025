@@ -4,6 +4,7 @@ import CampoTexto from "../CampoTexto";
 import supabase from "../../../supabase";
 import './FormCadastroCliente.css';
 import Backbutton from "../BackButton";
+import { cpf } from 'cpf-cnpj-validator';
 
 const FormCadastroCliente = () => {
   const [nome, setNome] = useState('');
@@ -14,15 +15,17 @@ const FormCadastroCliente = () => {
   const [senha, setSenha] = useState('');
   const [senhaConfirma, setSenhaConfirma] = useState('');
   const [message, setMessage] = useState('');
+  const [erro, Seterro] = useState(null)
+  const [cpfForm, setCpfForm] = useState('')
   const navigate = useNavigate();
-  
+
   const isEmailValido = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const isSenhaForte = (senha) =>
     /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(senha); // Letras + números, mínimo 6 caracteres
-  
+
   const isTelefoneValido = (telefone) => /^\d{10,}$/.test(telefone);
-  
+
   const isMaiorDeIdade = (dataNascimento) => {
     const hoje = new Date();
     const nascimento = new Date(dataNascimento);
@@ -33,53 +36,63 @@ const FormCadastroCliente = () => {
     }
     return idade >= 18;
   };
-  
+  const formatarCPF = (cpf) => {
+    return cpf
+      .replace(/\D/g, '') // remove não dígitos
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!nome || !email || !telefone || !dataNascimento || !endereco || !senha || !senhaConfirma) {
       setMessage('Por favor, preencha todos os campos.');
       return;
     }
-  
+
     if (!isEmailValido(email)) {
       setMessage('E-mail inválido.');
       return;
     }
-  
+
     if (!isSenhaForte(senha)) {
       setMessage('A senha deve ter no mínimo 6 caracteres, incluindo letras e números.');
       return;
     }
-  
+
     if (!isTelefoneValido(telefone)) {
       setMessage('Telefone inválido. Digite apenas números com no mínimo 10 dígitos.');
       return;
     }
-  
+
     if (!isMaiorDeIdade(dataNascimento)) {
       setMessage('Você deve ter pelo menos 18 anos para se cadastrar.');
       return;
     }
-  
+
     if (senha !== senhaConfirma) {
       setMessage('As senhas não coincidem.');
       return;
     }
-  
+    if (!cpf.isValid(cpfForm)) {
+      Seterro('CPF Inválido!');
+      return;
+    }
     // Cadastro no Supabase
     const { data, error } = await supabase.auth.signUp({
       email,
       password: senha,
     });
-  
+
     if (error) {
       setMessage('Erro ao registrar usuário: ' + error.message);
     } else if (data && data.user) {
       const { error: userError } = await supabase
         .from('usuarios')
         .insert([{ id: data.user.id, nome, telefone, dataNascimento, endereco, email }]);
-  
+
       if (userError) {
         setMessage('Erro ao salvar informações do usuário: ' + userError.message);
       } else {
@@ -90,7 +103,7 @@ const FormCadastroCliente = () => {
       setMessage('Erro desconhecido ao registrar usuário.');
     }
   };
-  
+
 
   return (
     <div className="cadastro-container">
@@ -153,10 +166,27 @@ const FormCadastroCliente = () => {
           valor={senhaConfirma}
           required
         />
+        <div>
+          <label>CPF: </label>
+          <input
+            type="text"
+            placeholder="CPF"
+            value={cpfForm}
+            onChange={(e) => {
+              const valor = e.target.value
+              setCpfForm(formatarCPF(valor))
+            }}
+          />
+        </div>
         <button type="submit">CADASTRAR</button>
         {message && (
           <p className={`message ${message.includes('Erro') ? 'error' : 'success'}`}>
             {message}
+          </p>
+        )}
+        {erro && (
+          <p className={'message error'}>
+            {erro}
           </p>
         )}
       </form>

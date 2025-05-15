@@ -4,12 +4,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: var(--bg);
   padding: 2rem;
 }
 
 .cadastro-form {
-  background: white;
+  background: var(--card-bg);
   padding: 2.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -18,7 +18,7 @@
 }
 
 .cadastro-form h2 {
-  color: #1d3557;
+  color: var(--text);
   font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
@@ -28,8 +28,8 @@
 .cadastro-form button {
   width: 100%;
   padding: 1rem;
-  background: #e63946;
-  color: white;
+  background: var(--accent);
+  color: var(--card-bg);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -42,7 +42,7 @@
 }
 
 .cadastro-form button:hover {
-  background: #d62b38;
+  background: #d62b38; /* você pode criar uma variável --accent-hover se quiser */
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
 }
@@ -61,13 +61,13 @@
 }
 
 .message.error {
-  background-color: #ffe3e3;
-  color: #e63946;
+  background-color: var(--error-bg, #ffe3e3);
+  color: var(--error-text, var(--accent));
 }
 
 .message.success {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: var(--success-bg, #d4edda);
+  color: var(--success-text, #155724);
 }
 
 @keyframes fadeIn {
@@ -85,11 +85,11 @@
   .cadastro-container {
     padding: 1rem;
   }
-  
+
   .cadastro-form {
     padding: 1.5rem;
   }
-  
+
   .cadastro-form h2 {
     font-size: 1.75rem;
   }

@@ -5,6 +5,8 @@ import CampoTexto from '../CampoTexto'
 import Spinner from '../Spinner'
 import Backbutton from '../BackButton'
 import './Form.css'
+import { cpf } from 'cpf-cnpj-validator';
+import InputMask from 'react-input-mask';
 
 export default function Form() {
   const [nome, setNome] = useState('')
@@ -22,6 +24,86 @@ export default function Form() {
   const [message, setMessage] = useState('')
   const [erro, setErro] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [cpfForm, setCpfForm] = useState('')
+  const [outraProfissao,setOutraProfissao] = useState(null)
+  const profissoes = [
+    "Advogado(a)",
+    "Agente Autônomo de Investimentos",
+    "Analista de Marketing Digital",
+    "Arquiteto(a)",
+    "Artesão(ã)",
+    "Babá",
+    "Barbeiro(a)",
+    "Cabeleireiro(a)",
+    "Chef de Cozinha",
+    "Cientista de Dados",
+    "Coach de Carreira",
+    "Consultor(a)",
+    "Contador(a)",
+    "Confeiteiro(a)",
+    "Corretor(a) de Imóveis",
+    "Corretor(a) de Seguros",
+    "Costureiro(a)",
+    "Criador(a) de Conteúdo",
+    "Cuidador(a) de Pets",
+    "Designer Gráfico",
+    "Designer UX/UI",
+    "Designer de Interiores",
+    "Desenvolvedor(a) de Software",
+    "Diarista",
+    "DJ",
+    "Editor(a) de Vídeo",
+    "Eletricista",
+    "Empreendedor(a) de Clube de Assinatura",
+    "Enfermeiro(a)",
+    "Especialista em Cibersegurança",
+    "Esteticista",
+    "Fisioterapeuta",
+    "Fotógrafo(a)",
+    "Franqueado(a)",
+    "Guia Turístico",
+    "Influenciador(a) Digital",
+    "Instrutor(a) de Trânsito",
+    "Jornalista",
+    "Leiloeiro(a)",
+    "Maquiador(a)",
+    "Manicure/Pedicure",
+    "Marceneiro(a)",
+    "Massagista",
+    "Montador(a) de Móveis",
+    "Motorista de Aplicativo",
+    "Músico(a)",
+    "Nômade Digital",
+    "Nutricionista",
+    
+    "Padeiro(a)",
+    "Pedreiro(a)",
+    "Personal Trainer",
+    "Pintor(a)",
+    "Professor(a) Particular",
+    "Programador(a)",
+    "Programador(a) de Aplicativos Móveis",
+    "Proprietário(a) de Coworking",
+    "Proprietário(a) de E-commerce",
+    "Publicitário(a)",
+    "Redator(a) de Conteúdo",
+    "Representante Comercial",
+    "Social Media / Marketing Digital",
+    "Sommelier",
+    "Tatuador(a)",
+    "Terapeuta Ocupacional",
+    "Tradutor(a)/Intérprete",
+    "Turismólogo(a)",
+    "Vendedor(a) Online",
+    "Veterinário(a)",
+    "Videomaker",
+    "Youtuber",
+    "Outro(a)"
+  ]
+  
+
+
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -72,8 +154,12 @@ export default function Form() {
     if (senha !== senhaConfirma) { setErro('Senhas não coincidem.'); return }
     if (!isTelefoneValido(telefone)) { setErro('Telefone inválido.'); return }
     if (!isNumeroPositivo(anosExperiencia)) { setErro('Anos de experiência deve ser positivo.'); return }
-
-    const payload = { nome, email, telefone, profissao, anosExperiencia, localizacao, senha }
+    if (!cpf.isValid(cpfForm)) {
+      setErro('CPF Inválido!');
+      return;
+    }
+    const profissaoFinal = profissao === 'Outra' ? outraProfissao : profissao
+    const payload = { nome, email, telefone, profissao: profissaoFinal, anosExperiencia, localizacao, senha }
     if (modoLocalizacao === 'auto') Object.assign(payload, { latitude, longitude })
 
     setLoading(true)
@@ -87,6 +173,14 @@ export default function Form() {
       setTimeout(() => navigate('/loginprofissional'), 1500)
     }
   }
+  const formatarCPF = (cpf) => {
+    return cpf
+      .replace(/\D/g, '') // remove não dígitos
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  }
+
 
   return (
     <div className="signup-container">
@@ -102,12 +196,37 @@ export default function Form() {
         <CampoTexto valor={senha} aoAlterar={setSenha} Label="Senha" type="password" />
         <CampoTexto valor={senhaConfirma} aoAlterar={setSenhaConfirma} Label="Confirmar Senha" type="password" />
         <CampoTexto valor={telefone} aoAlterar={setTelefone} Label="Telefone" />
-        <CampoTexto valor={profissao} aoAlterar={setProfissao} Label="Profissão" />
+        <label>Profissão:</label>
+        <select value={profissao} onChange={(e) => setProfissao(e.target.value)}>
+          <option value="">Selecione sua profissão...</option>
+          {profissoes.map(p => (
+            <option key={p} value={p}>{p}</option>
+          ))}
+        </select>
+
+        {profissao === "Outro(a)" && (
+          <input
+            type="text"
+            placeholder="Digite sua profissão"
+            value={outraProfissao}
+            onChange={(e) => setOutraProfissao(e.target.value)}
+          />
+        )}
         <CampoTexto valor={anosExperiencia} aoAlterar={setAnosExperiencia} Label="Anos de Experiência" type="number" />
+        <label>CPF: </label>
+        <input
+          type="text"
+          placeholder="CPF"
+          value={cpfForm}
+          onChange={(e) => {
+            const valor = e.target.value
+            setCpfForm(formatarCPF(valor))
+          }}
+        />
 
         <div className="modo-localizacao">
-          <label><input type="radio" value="auto" checked={modoLocalizacao==='auto'} onChange={()=>setModoLocalizacao('auto')} /> Detectar automaticamente</label>
-          <label><input type="radio" value="manual" checked={modoLocalizacao==='manual'} onChange={()=>setModoLocalizacao('manual')} /> Escolher cidade</label>
+          <label><input type="radio" value="auto" checked={modoLocalizacao === 'auto'} onChange={() => setModoLocalizacao('auto')} /> Detectar automaticamente</label>
+          <label><input type="radio" value="manual" checked={modoLocalizacao === 'manual'} onChange={() => setModoLocalizacao('manual')} /> Escolher cidade</label>
         </div>
 
         {modoLocalizacao === 'auto' ? (
@@ -115,15 +234,16 @@ export default function Form() {
         ) : (
           <div className="campo-manual">
             <label>Município (SP):</label>
-            <select value={localizacao} onChange={e=>setLocalizacao(e.target.value)}>
+            <select value={localizacao} onChange={e => setLocalizacao(e.target.value)}>
               <option value="">Selecione sua cidade...</option>
-              {cidadesSP.map(c=> <option key={c} value={c}>{c}</option>)}
+              {cidadesSP.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
         )}
 
-        <button type="submit" disabled={loading}>{loading?'Enviando...':'CADASTRAR'}</button>
+        <button type="submit" disabled={loading}>{loading ? 'Enviando...' : 'CADASTRAR'}</button>
       </form>
+
     </div>
   )
 }

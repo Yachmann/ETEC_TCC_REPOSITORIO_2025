@@ -92,7 +92,9 @@
 .detalhes strong {
   color: var(--secondary);
 }
-
+.theme-toggle{
+  top: 13%;
+}
 /* Formulário de edição */
 .form {
   display: grid;

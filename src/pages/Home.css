@@ -22,6 +22,9 @@ body {
   color: var(--primary);
   line-height: 1.6;
 }
+.theme-toggle{
+  top: 10%;
+}
 
 .container {
   width: 100%;
