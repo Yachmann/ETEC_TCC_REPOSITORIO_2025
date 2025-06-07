@@ -8,6 +8,7 @@ import Servico from '../Servico';
 import AssinarPlano from '../AssinarPlano';
 import VerificarAssinatura from '../VerificarAssinatura';
 import Spinner from '../spinner';
+import CalendarioIndisponiveis from '../CalendarioIndisponiveis'; // ajuste o caminho se necessário
 
 const PainelProfissional = ({ profissional }) => {
   const [usuarios, setUsuarios] = useState({});
@@ -316,68 +317,82 @@ const PainelProfissional = ({ profissional }) => {
             {loading ? (<Spinner />)
               : !assinaturaAtiva ?
                 (<h3>Assine nosso plano para obter acesso às avaliações de seus Clientes</h3>)
-                : avaliacoes.map(avaliacao => (
+                : (avaliacoes.map(avaliacao => (
                   <div key={avaliacao.id} className="avaliacao-item">
 
                     <p><strong>Nota:</strong> {avaliacao.nota}</p>
                     <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
                   </div>
+
+                ))
+
+                )}
+
+            {!assinaturaAtiva ?
+              (<h3>Assine nosso plano para obter acesso às avaliações de seus Clientes</h3>)
+              :
+              <div className="indisponibilidade-section">
+                <h2>Definir Dias Indisponíveis</h2>
+                <CalendarioIndisponiveis profissionalId={profissional.id} />
+              </div>
+            }
+
+
+          </div>
+          <VerificarAssinatura profissionalId={profissional.id}>
+            <div className="servicos-section">
+              <h2>Serviços Requeridos</h2>
+              <ul>
+                {servicos.map(servico => (
+                  <Servico
+                    key={servico.id}
+                    servico={servico}
+                    usuario={usuarios[servico.usuario_id]}
+                    aoAlterarStatus={HandleStatusMudado}
+                  />
                 ))}
+              </ul>
+            </div>
+            <div className="service-pedidos-section">
+              <h2>Pedidos de Serviço</h2>
+              <ul className='pedido_servico_container'>
+                {pedidosServicos.map(pedido => {
+                  const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
 
+                  return (
+                    <li className='pedido_servico' key={pedido.id}>
+                      <p><strong>User ID:</strong> {pedido.user_id}</p>
+                      <p><strong>Detalhes:</strong> {pedido.detalhes}</p>
+                      <p><strong>Endereço:</strong> {pedido.endereco}</p>
+                      <p><strong>Data:</strong> {pedido.data_servico}</p>
 
-          </div>
+                      {jaCriado && (
+                        <h4 className='jacriado'>Já Criado</h4>
+                      )}
+
+                      {!jaCriado && (
+                        <button onClick={() => HandleServicoCriado({
+                          profissional_id: profissional.id,
+                          usuario_id: pedido.user_id,
+                          status: 'Pendente',
+                          detalhes: pedido.detalhes,
+                          endereco: pedido.endereco,
+                          data_servico: pedido.data_servico
+                        }, pedido.id)}>
+                          Criar Serviço
+                        </button>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+
+            </div>
+          </VerificarAssinatura>
         </div>
-        <VerificarAssinatura profissionalId={profissional.id}>
-          <div className="servicos-section">
-            <h2>Serviços Requeridos</h2>
-            <ul>
-              {servicos.map(servico => (
-                <Servico
-                  key={servico.id}
-                  servico={servico}
-                  usuario={usuarios[servico.usuario_id]}
-                  aoAlterarStatus={HandleStatusMudado}
-                />
-              ))}
-            </ul>
-          </div>
-          <div className="service-pedidos-section">
-            <h2>Pedidos de Serviço</h2>
-            <ul className='pedido_servico_container'>
-              {pedidosServicos.map(pedido => {
-                const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
-
-                return (
-                  <li className='pedido_servico' key={pedido.id}>
-                    <p><strong>User ID:</strong> {pedido.user_id}</p>
-                    <p><strong>Detalhes:</strong> {pedido.detalhes}</p>
-                    <p><strong>Endereço:</strong> {pedido.endereco}</p>
-
-                    {jaCriado && (
-                      <h4 className='jacriado'>Já Criado</h4>
-                    )}
-
-                    {!jaCriado && (
-                      <button onClick={() => HandleServicoCriado({
-                        profissional_id: profissional.id,
-                        usuario_id: pedido.user_id,
-                        status: 'Pendente',
-                        detalhes: pedido.detalhes,
-                        endereco: pedido.endereco
-                      }, pedido.id)}>
-                        Criar Serviço
-                      </button>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-
-          </div>
-        </VerificarAssinatura>
       </div>
-    </div>
-  );
+      </div>
+      );
 };
 
-export default PainelProfissional;
+      export default PainelProfissional;

@@ -57,6 +57,7 @@ const Servico = ({ servico, aoAlterarStatus, usuario }) => {
       <p className="paragrafo"> <div className="servico-item-titulo">User ID:</div> {servico.usuario_id}</p>
       <p className="paragrafo"> <div className="servico-item-titulo">Details:</div> {servico.detalhes}</p>
       <p className="paragrafo"> <div className="servico-item-titulo">Endereço:</div> {servico.endereco}</p>
+      <p className="paragrafo"> <div className="servico-item-titulo">Data:</div> {servico.data_servico}</p>
       {usuario && (
         <div>
           <p className="contato-titulo"><strong>Contato do Usuário:</strong></p>
