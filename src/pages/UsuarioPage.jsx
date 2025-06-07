@@ -8,7 +8,7 @@ import './UsuarioPage.css';
 const UsuarioPage = () => {
   const [usuario, setUsuario] = useState(null);
   const [servicos, setServicos] = useState([]);
-  const [favoritos, setFavoritos] = useState([]);          
+  const [favoritos, setFavoritos] = useState([]);
   const [estaEditando, setEstaEditando] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({ nome: "", email: "", telefone: "", dataNascimento: "", endereco: "" });
@@ -36,8 +36,17 @@ const UsuarioPage = () => {
       // 2️⃣ Buscar serviços
       const { data: s, error: errS } = await supabase
         .from("servicos")
-        .select("*")
+        .select(`
+    *,
+    profissionais:profissional_id (
+      id,
+      nome,
+      email,
+      telefone
+    )
+  `)
         .eq("usuario_id", userId);
+      console.log('data:', s)
       if (errS) console.error(errS);
       else setServicos(s);
 
@@ -55,7 +64,7 @@ const UsuarioPage = () => {
       else {
 
         setFavoritos(favs.map(f => f.profissionais));
-        console.log('favoritos: ',favs)
+        console.log('favoritos: ', favs)
       }
 
       setLoading(false);
@@ -85,9 +94,9 @@ const UsuarioPage = () => {
     await supabase.auth.signOut();
     navigate("/logincliente");
   };
-const HandleDirecionar = (profissionalid)=>{
-  navigate(`/profissional/${profissionalid}`,{ state: { userId: usuario.id, vindoDeFavoritos: true } })
-}
+  const HandleDirecionar = (profissionalid) => {
+    navigate(`/profissional/${profissionalid}`, { state: { userId: usuario.id, vindoDeFavoritos: true } })
+  }
   if (loading) {
     return (
       <div className="loading">
@@ -111,11 +120,11 @@ const HandleDirecionar = (profissionalid)=>{
         <h2>Dados Pessoais</h2>
         {estaEditando ? (
           <div className="form">
-            {["nome","email","telefone","dataNascimento","endereco"].map(field => (
+            {["nome", "email", "telefone", "dataNascimento", "endereco"].map(field => (
               <label key={field}>
-                {field.charAt(0).toUpperCase()+field.slice(1)}:
+                {field.charAt(0).toUpperCase() + field.slice(1)}:
                 <input
-                  type={field==="dataNascimento"?"date":"text"}
+                  type={field === "dataNascimento" ? "date" : "text"}
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
@@ -128,7 +137,7 @@ const HandleDirecionar = (profissionalid)=>{
         ) : (
           <div className="detalhes">
             {Object.entries(formData).map(([key, val]) => (
-              <p key={key}><strong>{key.charAt(0).toUpperCase()+key.slice(1)}:</strong> {val}</p>
+              <p key={key}><strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {val}</p>
             ))}
             <button onClick={() => setEstaEditando(true)}>Editar</button>
           </div>
@@ -146,8 +155,8 @@ const HandleDirecionar = (profissionalid)=>{
                 <h3>{p.nome}</h3>
                 <p>{p.profissao}</p>
                 <p>{p.localizacao}</p>
-                <button className="ver-mais" onClick={()=>HandleDirecionar(p.id)} >
-                Ver Mais</button>
+                <button className="ver-mais" onClick={() => HandleDirecionar(p.id)} >
+                  Ver Mais</button>
               </div>
             ))}
           </div>
@@ -158,9 +167,41 @@ const HandleDirecionar = (profissionalid)=>{
         <h2>Serviços</h2>
         <ul>
           {servicos.map(s => (
-            <li key={s.id}>
-              <p>Detalhes: {s.detalhes}</p>
-              <p className={s.status.toLowerCase()}>Status: {s.status}</p>
+            <li key={s.id} className="servico-item">
+              <p><strong>Detalhes:</strong> {s.detalhes}</p>
+              <p className={`status ${s.status.toLowerCase()}`}>
+                <strong>Status:</strong> {s.status}
+              </p>
+              {s.profissionais && (
+                <>
+                  <p><strong>Profissional:</strong> {s.profissionais.nome}</p>
+
+                  <div className="botoes-servico">
+                    <a
+                      href={`https://wa.me/55${s.profissionais.telefone?.replace(/\D/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="botao-contato"
+                    >
+                      WhatsApp
+                    </a>
+
+                    <a
+                      href={`mailto:${s.profissionais.email}`}
+                      className="botao-contato"
+                    >
+                      Email
+                    </a>
+
+                    <button
+                      onClick={() => HandleDirecionar(s.profissionais.id)}
+                      className="botao-ver-mais"
+                    >
+                      Ver Perfil
+                    </button>
+                  </div>
+                </>
+              )}
             </li>
           ))}
         </ul>

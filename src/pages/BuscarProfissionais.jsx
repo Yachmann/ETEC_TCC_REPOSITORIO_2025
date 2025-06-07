@@ -152,7 +152,7 @@ useEffect(() => {
 
 
             <input
-              className="border p-2 rounded ml-2 w-64"
+              className="buscaInput"
               value={busca}
               onChange={HandleBusca}
               placeholder="Digite sua busca..."

@@ -67,7 +67,7 @@ body {
 
 .nav-links a {
   text-decoration: none;
-  color: var(--primary);
+  
   font-weight: 500;
   transition: color var(--transition);
 }

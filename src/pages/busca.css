@@ -61,18 +61,24 @@
   border-radius: var(--radius);
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   transition: background var(--transition);
+  transition: 0.3s ease;
 }
 .filtrarProximidadeContainer:hover {
-  background: var(--primary);
-  color: var(--card-bg);
+  transition: 0.3 all ease-in-out;
+  transform: translateY(-2px);
 }
-
+.buscaInput{
+  height: 50px;
+}
 .toggle-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   color: var(--text);
+}
+.toggle-container:hover{
+  color: var(--accent);
 }
 .toggle-container input[type="checkbox"] {
   position: absolute; /* Esconde o checkbox padrão */

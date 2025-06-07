@@ -9,7 +9,7 @@ const AssinarPlano = ({ profissionalId }) => {
   const handleCheckout = async () => {
     try {
       const payload = {
-        priceId: 'price_1RHUr5CemoYFtpZyec8tdm8f',
+        priceId: 'price_1RTuMACemoYFtpZyQtbjYQnw',
         profissionalId,
       };
 
