@@ -3,8 +3,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import supabase from "../../supabase";
 import { useEffect, useState } from "react";
 import ServicoPedidoForm from "../components/ServicoPedidoForm";
-import Spinner from '../components/Spinner'
-
+import Spinner from '../components/Spinner';
+import { motion } from 'framer-motion';
 
 const ProfissionalPage = () => {
     const { id } = useParams();
@@ -16,7 +16,7 @@ const ProfissionalPage = () => {
     const [favoritado, setFavoritado] = useState(false);
 
     const userIdRecebido = location.state?.userId;
-        const vindoDeFavoritos = location.state?.vindoDeFavoritos;
+    const vindoDeFavoritos = location.state?.vindoDeFavoritos;
 
     useEffect(() => {
         async function checkSession() {
@@ -63,7 +63,7 @@ const ProfissionalPage = () => {
                 .eq("profissional_id", id)
 
 
-            if (data && data.length>0) {setFavoritado(true); console.log('favoritado: ',data)}
+            if (data && data.length > 0) { setFavoritado(true); console.log('favoritado: ', data) }
             else setFavoritado(false);
         }
 
@@ -121,11 +121,17 @@ const ProfissionalPage = () => {
     }
 
     return (
-        <div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
+            <div>
 
-            <ProfissionalProfile usuarioId={userIdRecebido} vindoDeFavoritos={vindoDeFavoritos} aoToggleFavorito={alternarFavorito} favoritado={favoritado} profissional={profissional} />
-            <ServicoPedidoForm profissionalId={id} aoPedidoCriado={() => { }} />
-        </div>
+                <ProfissionalProfile usuarioId={userIdRecebido} vindoDeFavoritos={vindoDeFavoritos} aoToggleFavorito={alternarFavorito} favoritado={favoritado} profissional={profissional} />
+                <ServicoPedidoForm profissionalId={id} aoPedidoCriado={() => { }} />
+            </div>
+        </motion.div>
     );
 }
 export default ProfissionalPage;

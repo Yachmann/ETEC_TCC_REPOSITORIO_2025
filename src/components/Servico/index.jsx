@@ -60,7 +60,7 @@ const Servico = ({ servico, aoAlterarStatus, usuario }) => {
       <p className="paragrafo"> <div className="servico-item-titulo">Data:</div> {servico.data_servico}</p>
       {usuario && (
         <div>
-          <p className="contato-titulo"><strong>Contato do Usuário:</strong></p>
+          <p className="contato-titulo"><strong>Contato do Usuário</strong></p>
         <div className="contato-usuario">
           <a
             href={`mailto:${usuario.email}`}

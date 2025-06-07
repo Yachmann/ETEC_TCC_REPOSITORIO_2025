@@ -65,6 +65,7 @@ li p[style] {
   background-color: var(--primary);
   color: #fff;
   margin-bottom: 0.3em;
+  text-align: center;
 }
 
 .botao-servico {

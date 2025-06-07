@@ -9,7 +9,7 @@ import AssinarPlano from '../AssinarPlano';
 import VerificarAssinatura from '../VerificarAssinatura';
 import Spinner from '../spinner';
 import CalendarioIndisponiveis from '../CalendarioIndisponiveis'; // ajuste o caminho se necessário
-
+import { motion } from 'framer-motion';
 const PainelProfissional = ({ profissional }) => {
   const [usuarios, setUsuarios] = useState({});
   const [formData, setFormData] = useState(profissional);
@@ -207,192 +207,208 @@ const PainelProfissional = ({ profissional }) => {
   }
 
   return (
-    <div>
-      <div className='headerbotao'>
-        <Backbutton rota={'/'} />
-        <button className='botao-logout' onClick={HandleLogout}>Logout</button>
-      </div>
-      {console.log('Renderização do componente. Assinatura ativa:', assinaturaAtiva)}
-      {assinaturaAtiva ? null : (<AssinarPlano profissionalId={profissional.id} />)}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
+      <div>
+        <div className='headerbotao'>
+          <Backbutton rota={'/'} />
+          <button className='botao-logout' onClick={HandleLogout}>Logout</button>
+        </div>
+        {console.log('Renderização do componente. Assinatura ativa:', assinaturaAtiva)}
+        {assinaturaAtiva ? null : (<AssinarPlano profissionalId={profissional.id} />)}
 
 
-      <div className={`painel-profissional ${appear ? 'appear' : ''}`}>
-        <h1>Painel do Profissional</h1>
+        <div className={`painel-profissional ${appear ? 'appear' : ''}`}>
+          <h1>Painel do Profissional</h1>
 
-        <div className="profile-section">
-          <div className='header-section'>
-            <h2 className='dados-title'>Dados Pessoais</h2>
-            {assinaturaAtiva && (
-              <button
-                className='planner-button'
-                onClick={() => navigate(`/planner/${profissional.id}`)}
-              >
-                <span className="icon">📋</span> Acessar Planner
-              </button>
+          <div className="profile-section">
+            <div className='header-section'>
+              <h2 className='dados-title'>Dados Pessoais</h2>
+              {assinaturaAtiva && (
+                <button
+                  className='planner-button'
+                  onClick={() => navigate(`/planner/${profissional.id}`)}
+                >
+                  <span className="icon">📋</span> Acessar Planner
+                </button>
+              )}
+            </div>
+            {isEditing ? (
+              <div className="form">
+                <label>
+                  Nome:
+                  <input
+                    type="text"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Profissão:
+                  <input
+                    type="text"
+                    name="profissao"
+                    value={formData.profissao}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Email:
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Telefone:
+                  <input
+                    type="tel"
+                    name="telefone"
+                    value={formData.telefone}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Localização:
+                  <input
+                    type="text"
+                    name="localizacao"
+                    value={formData.localizacao}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Anos de Experiência:
+                  <input
+                    type="number"
+                    name="anosExperiencia"
+                    value={formData.anosExperiencia}
+                    onChange={handleChange}
+                  />
+                </label>
+                <label>
+                  Sobre:
+                  <textarea
+                    name="sobre"
+                    value={formData.sobre}
+                    onChange={handleChange}
+                  />
+                </label>
+                <button onClick={handleSave}>Salvar</button>
+                <button onClick={() => setIsEditing(false)}>Cancelar</button>
+              </div>
+            ) : (
+              <div className="detalhes">
+                <p><strong>Nome:</strong> {formData.nome}</p>
+                <p><strong>Profissão:</strong> {formData.profissao}</p>
+                <p><strong>Email:</strong> {formData.email}</p>
+                <p><strong>Telefone:</strong> {formData.telefone}</p>
+                <p><strong>Localização:</strong> {formData.localizacao}</p>
+                <p><strong>Anos de Experiência:</strong> {formData.anosExperiencia}</p>
+                <p><strong>Sobre:</strong> {formData.sobre}</p>
+                <button onClick={() => setIsEditing(true)}>Editar</button>
+              </div>
             )}
           </div>
-          {isEditing ? (
-            <div className="form">
-              <label>
-                Nome:
-                <input
-                  type="text"
-                  name="nome"
-                  value={formData.nome}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Profissão:
-                <input
-                  type="text"
-                  name="profissao"
-                  value={formData.profissao}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Email:
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Telefone:
-                <input
-                  type="tel"
-                  name="telefone"
-                  value={formData.telefone}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Localização:
-                <input
-                  type="text"
-                  name="localizacao"
-                  value={formData.localizacao}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Anos de Experiência:
-                <input
-                  type="number"
-                  name="anosExperiencia"
-                  value={formData.anosExperiencia}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Sobre:
-                <textarea
-                  name="sobre"
-                  value={formData.sobre}
-                  onChange={handleChange}
-                />
-              </label>
-              <button onClick={handleSave}>Salvar</button>
-              <button onClick={() => setIsEditing(false)}>Cancelar</button>
-            </div>
-          ) : (
-            <div className="detalhes">
-              <p><strong>Nome:</strong> {formData.nome}</p>
-              <p><strong>Profissão:</strong> {formData.profissao}</p>
-              <p><strong>Email:</strong> {formData.email}</p>
-              <p><strong>Telefone:</strong> {formData.telefone}</p>
-              <p><strong>Localização:</strong> {formData.localizacao}</p>
-              <p><strong>Anos de Experiência:</strong> {formData.anosExperiencia}</p>
-              <p><strong>Sobre:</strong> {formData.sobre}</p>
-              <button onClick={() => setIsEditing(true)}>Editar</button>
-            </div>
-          )}
-        </div>
-        <div className="avaliacao-section">
-          <h2>Avaliações</h2>
-          <div className='avaliacoes-container'>
-            {loading ? (<Spinner />)
-              : !assinaturaAtiva ?
-                (<h3>Assine nosso plano para obter acesso às avaliações de seus Clientes</h3>)
-                : (avaliacoes.map(avaliacao => (
-                  <div key={avaliacao.id} className="avaliacao-item">
+          <div className="avaliacao-section">
+            <h2>Avaliações</h2>
+            <div className='avaliacoes-container'>
+              {loading ? (<Spinner />)
+                : !assinaturaAtiva ?
+                  (<h3>Assine nosso plano para obter acesso às avaliações de seus Clientes</h3>)
+                  : (avaliacoes.map(avaliacao => (
+                    <div key={avaliacao.id} className="avaliacao-item">
 
-                    <p><strong>Nota:</strong> {avaliacao.nota}</p>
-                    <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
+                      <p><strong>Nota:</strong> {avaliacao.nota}</p>
+                      <p><strong>Comentário:</strong> {avaliacao.comentario}</p>
+                    </div>
+
+                  ))
+
+                  )}
+
+
+
+
+            </div>
+            <div className='service-pedidos-section' style={{ marginTop: '40%' }}>
+              {loading ? (<Spinner />)
+                : !assinaturaAtiva ?
+                  (<h3>Assine nosso plano para obter acesso às avaliações de seus Clientes</h3>)
+                  :
+                  <div className="indisponibilidade-section">
+                    <h2>Definir Dias Indisponíveis</h2>
+                    <CalendarioIndisponiveis profissionalId={profissional.id} />
                   </div>
+              }
 
-                ))
 
-                )}
 
-            {!assinaturaAtiva ?
-              (<h3>Assine nosso plano para obter acesso às avaliações de seus Clientes</h3>)
-              :
-              <div className="indisponibilidade-section">
-                <h2>Definir Dias Indisponíveis</h2>
-                <CalendarioIndisponiveis profissionalId={profissional.id} />
+
+            </div>
+
+
+            <VerificarAssinatura profissionalId={profissional.id}>
+              <div className="servicos-section">
+                <h2>Serviços Requeridos</h2>
+                <ul>
+                  {servicos.map(servico => (
+                    <Servico
+                      key={servico.id}
+                      servico={servico}
+                      usuario={usuarios[servico.usuario_id]}
+                      aoAlterarStatus={HandleStatusMudado}
+                    />
+                  ))}
+                </ul>
               </div>
-            }
+              <div className="service-pedidos-section">
+                <h2>Pedidos de Serviço</h2>
+                <ul className='pedido_servico_container'>
+                  {pedidosServicos.map(pedido => {
+                    const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
 
+                    return (
+                      <li className='pedido_servico' key={pedido.id}>
+                        <p><strong>User ID:</strong> {pedido.user_id}</p>
+                        <p><strong>Detalhes:</strong> {pedido.detalhes}</p>
+                        <p><strong>Endereço:</strong> {pedido.endereco}</p>
+                        <p><strong>Data:</strong> {pedido.data_servico}</p>
 
+                        {jaCriado && (
+                          <h4 className='jacriado'>Já Criado</h4>
+                        )}
+
+                        {!jaCriado && (
+                          <button onClick={() => HandleServicoCriado({
+                            profissional_id: profissional.id,
+                            usuario_id: pedido.user_id,
+                            status: 'Pendente',
+                            detalhes: pedido.detalhes,
+                            endereco: pedido.endereco,
+                            data_servico: pedido.data_servico
+                          }, pedido.id)}>
+                            Criar Serviço
+                          </button>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+
+              </div>
+            </VerificarAssinatura>
           </div>
-          <VerificarAssinatura profissionalId={profissional.id}>
-            <div className="servicos-section">
-              <h2>Serviços Requeridos</h2>
-              <ul>
-                {servicos.map(servico => (
-                  <Servico
-                    key={servico.id}
-                    servico={servico}
-                    usuario={usuarios[servico.usuario_id]}
-                    aoAlterarStatus={HandleStatusMudado}
-                  />
-                ))}
-              </ul>
-            </div>
-            <div className="service-pedidos-section">
-              <h2>Pedidos de Serviço</h2>
-              <ul className='pedido_servico_container'>
-                {pedidosServicos.map(pedido => {
-                  const jaCriado = servicos.some(servico => servico.usuario_id === pedido.user_id && servico.detalhes === pedido.detalhes);
-
-                  return (
-                    <li className='pedido_servico' key={pedido.id}>
-                      <p><strong>User ID:</strong> {pedido.user_id}</p>
-                      <p><strong>Detalhes:</strong> {pedido.detalhes}</p>
-                      <p><strong>Endereço:</strong> {pedido.endereco}</p>
-                      <p><strong>Data:</strong> {pedido.data_servico}</p>
-
-                      {jaCriado && (
-                        <h4 className='jacriado'>Já Criado</h4>
-                      )}
-
-                      {!jaCriado && (
-                        <button onClick={() => HandleServicoCriado({
-                          profissional_id: profissional.id,
-                          usuario_id: pedido.user_id,
-                          status: 'Pendente',
-                          detalhes: pedido.detalhes,
-                          endereco: pedido.endereco,
-                          data_servico: pedido.data_servico
-                        }, pedido.id)}>
-                          Criar Serviço
-                        </button>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-
-            </div>
-          </VerificarAssinatura>
         </div>
       </div>
-      </div>
-      );
+    </motion.div>
+  );
 };
 
-      export default PainelProfissional;
+export default PainelProfissional;

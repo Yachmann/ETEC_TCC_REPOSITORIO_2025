@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import supabase from '../../../supabase';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { motion } from 'framer-motion';
 const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
   const [detalhes, setDetalhes] = useState('');
   const [message, setMessage] = useState('');
   const [endereco, setEndereco] = useState('');
   const [dataServico, setDataServico] = useState('');
   const [diasIndisponiveis, setDiasIndisponiveis] = useState([]);
+  const [sucesso, setSucesso] = useState(null)
   useEffect(() => {
     const carregarDiasIndisponiveis = async () => {
       const { data, error } = await supabase
@@ -57,6 +59,10 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       setDetalhes('');
       setEndereco('');
       setMessage('Pedido de serviço criado com sucesso!');
+      setSucesso('Alterado Com Sucesso!')
+      setTimeout(() => {
+        setSucesso(null)
+      }, 3000)
     } else {
       setMessage('O pedido foi criado, mas nenhum dado foi retornado.');
       console.warn('Nenhum dado retornado pelo insert.');
@@ -92,7 +98,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       </label>
       <label>
         <span>Data do Serviço:</span>
-        <DatePicker
+        <DatePicker className='react-datepicker'
           selected={dataServico}
           onChange={(date) => setDataServico(date)}
           filterDate={(date) => !isDayBlocked(date)} // bloqueia datas indisponíveis
@@ -101,8 +107,13 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
           required
         />
       </label>
-      <button type="submit">Requerir Serviço</button>
-      {message && <p className={`message ${message.includes('Erro') ? 'error' : 'success'}`}>{message}</p>}
+      <button className='servicoformbutton' type="submit">Requerir Serviço</button>
+      {message.includes('Erro') && <p className={`message error'`}>{message}</p>}
+      {sucesso && (
+        <div class="mensagem-sucesso">
+          {sucesso}
+        </div>
+      )}
     </form>
   );
 };

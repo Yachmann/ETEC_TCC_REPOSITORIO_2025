@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import supabase from '../../../supabase';
-
+import { motion } from 'framer-motion';
 const ServicoForm = ({ profissionalId, aoServicoCriado }) => {
   const [userId, setUserId] = useState('');
   const [details, setDetails] = useState('');
@@ -33,6 +33,11 @@ const ServicoForm = ({ profissionalId, aoServicoCriado }) => {
   
 
   return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
     <form onSubmit={handleSubmit}>
       <label>
         User ID:
@@ -51,6 +56,7 @@ const ServicoForm = ({ profissionalId, aoServicoCriado }) => {
       </label>
       <button type="submit">Create Service</button>
     </form>
+    </motion.div>
   );
 };
 

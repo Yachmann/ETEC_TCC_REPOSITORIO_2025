@@ -1,0 +1,34 @@
+/* AvaliacaoPage.css */
+
+.containerr {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1em;
+}
+
+
+.tituloavaliacaoform{
+
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.2rem;
+  text-align: center;
+margin-top: 3em;
+}
+
+
+@media (max-width: 640px) {
+  .container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}

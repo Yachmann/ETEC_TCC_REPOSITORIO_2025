@@ -59,7 +59,7 @@
 }
 
 /* Botão de enviar pedido */
-.servico-pedido-form button {
+.servicoformbutton {
   width: 100%;
   padding: 1rem;
   background-color: var(--accent);
@@ -96,3 +96,41 @@
   background-color: rgba(46, 204, 113, 0.1);
   color: #27ae60;
 }
+/* Container do calendário popup */
+.react-datepicker-popper {
+  z-index: 9999; /* Garante que fique por cima de outros elementos */
+}
+
+/* Calendário em si */
+.react-datepicker {
+  background-color: var(--card-bg);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+/* Dias disponíveis */
+.react-datepicker__day {
+  color: var(--text);
+}
+
+/* Dia selecionado */
+.react-datepicker__day--selected {
+  background-color: var(--accent);
+  color: white;
+}
+
+/* Dia bloqueado */
+.react-datepicker__day--disabled {
+  color: gray;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* Hover nos dias */
+.react-datepicker__day:hover {
+  background-color: var(--primary);
+  color: white;
+}
+

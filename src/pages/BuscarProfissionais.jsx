@@ -7,7 +7,7 @@ import Backbutton from "../components/Backbutton";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaUser } from "react-icons/fa";
 import Spinner from "../components/spinner";
-
+import { motion } from 'framer-motion';
 function BuscarProfissionais() {
   const [profissionais, setProfissionais] = useState([]);
   const [busca, setBusca] = useState("");
@@ -98,18 +98,18 @@ function BuscarProfissionais() {
 
   };
 
-useEffect(() => {
-  if (!filtrarPorProximidade && !busca) {
-    // Se a busca estiver vazia e o filtro de proximidade foi desmarcado
-    setProfissionaisFiltrados([]);
-  }
-}, [filtrarPorProximidade, busca]);
+  useEffect(() => {
+    if (!filtrarPorProximidade && !busca) {
+      // Se a busca estiver vazia e o filtro de proximidade foi desmarcado
+      setProfissionaisFiltrados([]);
+    }
+  }, [filtrarPorProximidade, busca]);
 
   const HandleProfissionalPage = (e) => {
     console.log('profissional selecionado: ', e.target.id);
     navegar(`/profissional/${e.target.id}`, { state: { userId: userId } });
   };
-  const HandleFiltrarPorProximidade = (e)=> {
+  const HandleFiltrarPorProximidade = (e) => {
     setBusca('');
     setFiltrarPorProximidade(e.target.checked)
   }
@@ -128,54 +128,60 @@ useEffect(() => {
   }
   if (loading) return <Spinner />
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
+      <>
 
-      <div className="container">
-        <Backbutton style="" rota={'/'} />
-        <Link className="user-icon" to={`/usuario/${userId}`}><FaUser /></Link>
-        <div className="header">
+        <div className="container">
+          <Backbutton style="" rota={'/'} />
+          <Link className="user-icon" to={`/usuario/${userId}`}><FaUser /></Link>
+          <div className="header">
 
-          <h1>Buscar Profissionais</h1>
-          <div className="busca">
-            <h3>Filtrar por:</h3>
-            <select value={selectedSearch} onChange={(e) => setSelectedSearch(e.target.value)}>
-              <option value='' disabled>Escolha um filtro...</option>
-              {/* {searchOptions.map(item => (<option key={item} value={item}>{item}</option>))} */}
-              <option key='Nome' value={'Nome'}>Nome</option>
-              <option key='localizacao' value={'localizacao'}>Localização</option>
-              <option key='profissao' value={'profissao'}>Profissão</option>
-
-
-            </select>
+            <h1>Buscar Profissionais</h1>
+            <div className="busca">
+              <h3>Filtrar por:</h3>
+              <select value={selectedSearch} onChange={(e) => setSelectedSearch(e.target.value)}>
+                <option value='' disabled>Escolha um filtro...</option>
+                {/* {searchOptions.map(item => (<option key={item} value={item}>{item}</option>))} */}
+                <option key='Nome' value={'Nome'}>Nome</option>
+                <option key='localizacao' value={'localizacao'}>Localização</option>
+                <option key='profissao' value={'profissao'}>Profissão</option>
 
 
+              </select>
 
 
-            <input
-              className="buscaInput"
-              value={busca}
-              onChange={HandleBusca}
-              placeholder="Digite sua busca..."
-            />
+
+
+              <input
+                className="buscaInput"
+                value={busca}
+                onChange={HandleBusca}
+                placeholder="Digite sua busca..."
+              />
+            </div>
+          </div>
+          <div>
+            <div className="filtrarProximidadeContainer">
+              <label className="toggle-container">
+                <input
+                  type="checkbox"
+                  id="filtrarProximidade"
+                  checked={filtrarPorProximidade}
+                  onChange={(e) => HandleFiltrarPorProximidade(e)}
+                />
+                <span className="toggle-switch"></span>
+                Mostrar apenas profissionais próximos (até 10 km)
+              </label>
+            </div>
+            <MainBusca userId={userId} HandleProfissionalPage={HandleProfissionalPage} profissionais={profissionais} profissionaisFiltrados={profissionaisFiltrados}></MainBusca>
           </div>
         </div>
-        <div>
-          <div className="filtrarProximidadeContainer">
-          <label className="toggle-container">
-            <input
-              type="checkbox"
-              id="filtrarProximidade"
-              checked={filtrarPorProximidade}
-              onChange={(e) => HandleFiltrarPorProximidade(e)}
-            />
-            <span className="toggle-switch"></span>
-            Mostrar apenas profissionais próximos (até 10 km)
-          </label>
-          </div>
-          <MainBusca userId={userId} HandleProfissionalPage={HandleProfissionalPage} profissionais={profissionais} profissionaisFiltrados={profissionaisFiltrados}></MainBusca>
-        </div>
-      </div>
-    </>
+      </>
+    </motion.div>
   );
 }
 
