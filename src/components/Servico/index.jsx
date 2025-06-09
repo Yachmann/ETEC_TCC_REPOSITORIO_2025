@@ -52,7 +52,7 @@ const Servico = ({ servico, aoAlterarStatus, usuario }) => {
   };
 
   return (
-    <li key={servico.id}>
+    <li className="servico" key={servico.id}>
       <p className="paragrafo"> <div className="servico-item-titulo">Nome:</div> {usuarioBuscado?.nome.toUpperCase()}</p>
       <p className="paragrafo"> <div className="servico-item-titulo">User ID:</div> {servico.usuario_id}</p>
       <p className="paragrafo"> <div className="servico-item-titulo">Details:</div> {servico.detalhes}</p>

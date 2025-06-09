@@ -125,7 +125,7 @@ const UsuarioPage = () => {
           <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
 
-        <h1>Olá, {formData.nome.toUpperCase()}</h1>
+        <h1 className="titleuser">Olá, {formData.nome.toUpperCase()}</h1>
 
         {/* Dados Pessoais */}
         <section className="perfil-secao">

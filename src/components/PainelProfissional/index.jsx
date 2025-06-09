@@ -376,7 +376,7 @@ const PainelProfissional = ({ profissional }) => {
 
                     return (
                       <li className='pedido_servico' key={pedido.id}>
-                        <p><strong>User ID:</strong> {pedido.user_id}</p>
+                        <p ><strong>User ID:</strong> {pedido.user_id}</p>
                         <p><strong>Detalhes:</strong> {pedido.detalhes}</p>
                         <p><strong>Endereço:</strong> {pedido.endereco}</p>
                         <p><strong>Data:</strong> {pedido.data_servico}</p>

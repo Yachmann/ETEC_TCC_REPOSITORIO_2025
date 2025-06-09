@@ -339,4 +339,12 @@ h1 {
     width: 100%;
     margin: 0.5rem 0;
   }
+  
+.logout-button {
+  position: absolute;
+  right: 5%;
+}
+.titleuser{
+  margin-top: 3em;
+}
 }
