@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Backbutton from "../components/Backbutton";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaUser } from "react-icons/fa";
-import Spinner from "../components/spinner";
+
 import { motion } from 'framer-motion';
 function BuscarProfissionais() {
   const [profissionais, setProfissionais] = useState([]);
@@ -126,7 +126,7 @@ function BuscarProfissionais() {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c; // distância em km
   }
-  if (loading) return <Spinner />
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

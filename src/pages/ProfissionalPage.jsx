@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import supabase from "../../supabase";
 import { useEffect, useState } from "react";
 import ServicoPedidoForm from "../components/ServicoPedidoForm";
-import Spinner from '../components/Spinner';
+
 import { motion } from 'framer-motion';
 
 const ProfissionalPage = () => {
@@ -107,7 +107,7 @@ const ProfissionalPage = () => {
 
 
     if (!profissional && loading) {
-        return <div><Spinner /> <h2>Carregando...</h2>;</div>
+        return <div> <h2>Carregando...</h2>;</div>
     }
     if (profissional && profissional.id !== Number(id)) {
         navigate('/');
