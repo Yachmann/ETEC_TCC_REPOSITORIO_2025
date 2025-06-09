@@ -7,7 +7,7 @@ import ServicoForm from '../ServicoForm';
 import Servico from '../Servico';
 import AssinarPlano from '../AssinarPlano';
 import VerificarAssinatura from '../VerificarAssinatura';
-import Spinner from '../spinner';
+
 import CalendarioIndisponiveis from '../CalendarioIndisponiveis'; // ajuste o caminho se necessário
 import { motion } from 'framer-motion';
 const PainelProfissional = ({ profissional }) => {
@@ -203,7 +203,7 @@ const PainelProfissional = ({ profissional }) => {
     navigate('/')
   }
   if (loading) {
-    return <div><Spinner /> <h2>Carregando Seus Dados. Aguarde um momento...</h2></div>
+    return <div><h2>Carregando Seus Dados. Aguarde um momento...</h2></div>
   }
 
   return (

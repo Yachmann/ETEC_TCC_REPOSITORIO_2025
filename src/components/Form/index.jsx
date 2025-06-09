@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import supabase from '../../../supabase'
 import CampoTexto from '../CampoTexto'
 import Spinner from '../Spinner'
-import Backbutton from '../BackButton'
+import Backbutton from '../Backbutton/index.jsx'
 import './Form.css'
 import { cpf } from 'cpf-cnpj-validator';
 import InputMask from 'react-input-mask';

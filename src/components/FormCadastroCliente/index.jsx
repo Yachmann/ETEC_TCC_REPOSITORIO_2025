@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CampoTexto from "../CampoTexto";
 import supabase from "../../../supabase";
 import './FormCadastroCliente.css';
-import Backbutton from "../BackButton";
+import Backbutton from "../Backbutton/index.jsx";
 import { cpf } from 'cpf-cnpj-validator';
 
 const FormCadastroCliente = () => {
