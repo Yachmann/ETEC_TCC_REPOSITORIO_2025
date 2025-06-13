@@ -14,6 +14,7 @@ const ProfissionalPage = () => {
     const [errorMessage, setErrorMessage] = useState(false)
     const location = useLocation()
     const [favoritado, setFavoritado] = useState(false);
+    const [assinaturaAtiva, setAssinaturaAtiva] = useState(false)
 
     const userIdRecebido = location.state?.userId;
     const vindoDeFavoritos = location.state?.vindoDeFavoritos;
@@ -24,13 +25,34 @@ const ProfissionalPage = () => {
             if (sessionError || !sessionData.session) {
                 // Redireciona para a página de login se não houver sessão ativa
                 navigate('/logincliente');
-                ser
-            } else {
-
             }
         }
         checkSession();
     }, [navigate]);
+    const checkAssinaturaAtiva = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('assinaturas')
+                .select('id')
+                .eq('profissional_id', id)
+                .eq('status', 'active');
+            setAssinaturaAtiva(true)
+
+            if (error) {
+                console.error('Erro ao verificar assinatura:', error.message);
+                return false;
+                
+            }
+
+            setAssinaturaAtiva( data && data.length > 0)
+            console.log('Assinatura ativa?', assinaturaAtiva, data);
+            
+
+        } catch (err) {
+            console.error('Erro inesperado ao verificar assinatura:', err.message);
+            return false;
+        }
+    };
     useEffect(() => {
 
         async function fetchProfissional() {
@@ -47,10 +69,12 @@ const ProfissionalPage = () => {
                 }, 2000)
             } else {
                 setProfissional(data);
+                checkAssinaturaAtiva()
             }
         }
         fetchProfissional().finally(() => setLoading(false));
     }, [id]);
+
     useEffect(() => {
         console.log('profissional:', profissional);
     }, [profissional]);
@@ -119,7 +143,7 @@ const ProfissionalPage = () => {
             color: `#e63946`
         }} className="error">{errorMessage}</div>
     }
-
+console.log('assinatura: ',assinaturaAtiva)
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -129,7 +153,8 @@ const ProfissionalPage = () => {
             <div>
 
                 <ProfissionalProfile usuarioId={userIdRecebido} vindoDeFavoritos={vindoDeFavoritos} aoToggleFavorito={alternarFavorito} favoritado={favoritado} profissional={profissional} />
-                <ServicoPedidoForm profissionalId={id} aoPedidoCriado={() => { }} />
+                {assinaturaAtiva && <ServicoPedidoForm profissionalId={id} aoPedidoCriado={() => { }} /> }
+
             </div>
         </motion.div>
     );

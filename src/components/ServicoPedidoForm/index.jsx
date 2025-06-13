@@ -1,9 +1,8 @@
 import './ServicoPedidoForm.css';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import supabase from '../../../supabase';
+import emailjs from 'emailjs-com';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { motion } from 'framer-motion';
 const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
   const [detalhes, setDetalhes] = useState('');
   const [message, setMessage] = useState('');
@@ -11,6 +10,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
   const [dataServico, setDataServico] = useState('');
   const [diasIndisponiveis, setDiasIndisponiveis] = useState([]);
   const [sucesso, setSucesso] = useState(null)
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     const carregarDiasIndisponiveis = async () => {
       const { data, error } = await supabase
@@ -32,42 +32,75 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    try {
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 
-    if (sessionError || !sessionData.session) {
-      setMessage('Usuário não está logado.');
-      return;
-    }
-    if (!dataServico) {
-      setMessage('Por favor, selecione uma data válida.');
-      return;
-    }
-    const dataISO = dataServico.toISOString().split('T')[0]; // "2025-06-10"
-    const userId = sessionData.session.user.id;
+      if (sessionError || !sessionData.session) {
+        setMessage('Usuário não está logado.');
+        return;
+      }
 
-    const { data, error } = await supabase
-      .from('servicos_pedidos')
-      .insert([{ user_id: userId, profissional_id: profissionalId, detalhes, endereco, data_servico: dataISO }])
-      .select('*');
+      if (!dataServico) {
+        setMessage('Por favor, selecione uma data válida.');
+        return;
+      }
 
-    if (error) {
-      console.error('Erro ao criar pedido de serviço:', error);
-      setMessage('Erro ao criar pedido de serviço: ' + error.message);
-    } else if (data && data.length > 0) {
-      console.log('criando pedido para o profissional de id = ', profissionalId);
-      aoPedidoCriado(data[0]);
-      setDetalhes('');
-      setEndereco('');
-      setMessage('Pedido de serviço criado com sucesso!');
-      setSucesso('Criado Com Sucesso! Aguarde Resposta Profissional')
-      setTimeout(() => {
-        setSucesso(null)
-      }, 3000)
-    } else {
-      setMessage('O pedido foi criado, mas nenhum dado foi retornado.');
-      console.warn('Nenhum dado retornado pelo insert.');
+      const dataISO = dataServico.toISOString().split('T')[0];
+      const userId = sessionData.session.user.id;
+
+      // 1. Cria o pedido no banco
+      setLoading(true)
+      const { data, error } = await supabase
+        .from('servicos_pedidos')
+        .insert([{ user_id: userId, profissional_id: profissionalId, detalhes, endereco, data_servico: dataISO }])
+        .select('*');
+
+      if (error) throw new Error(error.message);
+
+      // 2. Busca o e-mail do profissional
+      const { data: profissionalData, error: profError } = await supabase
+        .from('profissionais')
+        .select('email, nome')
+        .eq('id', profissionalId)
+        .single(); // já retorna um objeto direto
+
+      if (profError) throw new Error('Erro ao buscar e-mail do profissional.');
+
+      // 3. Envia o e-mail via EmailJS
+      const emailParams = {
+        to_email: profissionalData.email,
+        to_name: profissionalData.nome || 'Profissional',
+        message: `Você recebeu um novo pedido de serviço!\n\nDetalhes: ${detalhes}\nEndereço: ${endereco}\nData: ${dataISO}`,
+        data_servico: dataISO,
+        endereco: endereco,
+      };
+
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        emailParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      // 4. Feedback para o usuário
+      if (data && data.length > 0) {
+        aoPedidoCriado(data[0]);
+        setDetalhes('');
+        setEndereco('');
+        setMessage('');
+        setSucesso('Criado Com Sucesso! Aguarde Resposta Profissional');
+        setTimeout(() => setSucesso(null), 3000);
+      } else {
+        setMessage('O pedido foi criado, mas nenhum dado foi retornado.');
+      }
+
+    } catch (err) {
+      console.error('Erro no pedido:', err);
+      setMessage('Erro ao criar pedido ou enviar e-mail: ' + err.message);
     }
+    setLoading(false)
   };
+
   // Função para bloquear datas no calendário
   const isDayBlocked = (date) => {
     return diasIndisponiveis.some(diaIndisponivel => {
@@ -107,10 +140,12 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
           required
         />
       </label>
-      <button className='servicoformbutton' type="submit">Requerir Serviço</button>
+      <button disabled={loading} className='servicoformbutton' type="submit">
+        {loading ? 'Carregando...' : 'Requerir Serviço'}
+      </button>
       {message.includes('Erro') && <p className={`message error'`}>{message}</p>}
       {sucesso && (
-        <div class="mensagem-sucesso">
+        <div className="mensagem-sucesso">
           {sucesso}
         </div>
       )}

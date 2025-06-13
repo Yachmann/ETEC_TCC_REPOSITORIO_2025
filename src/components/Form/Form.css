@@ -98,7 +98,12 @@ select::placeholder,
 .signup-form input::placeholder {
   color: #999;
 }
-
+.modo-localizacao{
+  display: flex;
+  flex-direction: column ;
+  gap: 1em;
+  margin-bottom: 2em;
+}
 @media (max-width: 768px) {
   .signup-container {
     padding: 1rem;

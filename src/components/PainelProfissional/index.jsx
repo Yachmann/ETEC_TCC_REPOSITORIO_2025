@@ -7,7 +7,7 @@ import ServicoForm from '../ServicoForm';
 import Servico from '../Servico';
 import AssinarPlano from '../AssinarPlano';
 import VerificarAssinatura from '../VerificarAssinatura';
-
+import emailjs from 'emailjs-com';
 import CalendarioIndisponiveis from '../CalendarioIndisponiveis'; // ajuste o caminho se necessário
 import { motion } from 'framer-motion';
 const PainelProfissional = ({ profissional }) => {
@@ -19,6 +19,7 @@ const PainelProfissional = ({ profissional }) => {
   const [assinaturaAtiva, setAssinaturaAtiva] = useState(false);
   const [avaliacoes, setAvaliacoes] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingService, setLoadingService] = useState(false)
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -131,23 +132,57 @@ const PainelProfissional = ({ profissional }) => {
   };
 
 
+
   const HandleServicoCriado = async (novoServico, pedidoId) => {
-    const { data, error } = await supabase
-      .from('servicos')
-      .insert([novoServico])
-      .select('*')
+    try {
+      // Criar o serviço
+      setLoadingService(true)
+      const { data, error } = await supabase
+        .from('servicos')
+        .insert([novoServico])
+        .select('*');
 
-    if (error) {
-      console.error('Erro ao criar serviço:', error);
-    } else if (data && data.length > 0) {
-      setServicos([...servicos, data[0]]);
-      setPedidosServicos(pedidosServicos.filter(pedido => pedido.id !== pedidoId))
+      if (error) throw error;
 
-    } else {
-      console.warn('O serviço foi criado, mas nenhum dado foi retornado.');
+      if (data && data.length > 0) {
+
+        // Buscar o pedido original para saber o ID do usuário
+        const pedido = pedidosServicos.find(p => p.id === pedidoId);
+        if (!pedido) {
+          console.warn('Pedido não encontrado.');
+          return;
+        }
+
+        const usuario = usuarios[pedido.user_id];
+        if (!usuario || !usuario.email) {
+          console.warn('Usuário não encontrado ou sem e-mail.');
+          return;
+        }
+
+        const emailParams = {
+          to_name: usuario.nome,
+          to_email: usuario.email,
+          message: `Seu pedido foi aceito pelo profissional ${profissional.nome}! Ele entrará em contato com você em breve.`,
+          data_servico: novoServico.data_servico,
+          endereco: novoServico.endereco,
+        };
+
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE2_ID,
+          emailParams,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        );
+        setServicos([...servicos, data[0]]);
+        setPedidosServicos(pedidosServicos.filter(pedido => pedido.id !== pedidoId));
+        console.log('E-mail enviado ao usuário com sucesso!');
+      }
+    } catch (err) {
+      console.error('Erro ao criar serviço ou enviar e-mail:', err.message || err);
     }
-
+    setLoadingService(false)
   };
+
 
   const HandleStatusMudado = (servicoId, statusNovo) => {
     setServicos(servicos.map(servico => servico.id === servicoId ? { ...servico, status: statusNovo } : servico));
@@ -386,7 +421,7 @@ const PainelProfissional = ({ profissional }) => {
                         )}
 
                         {!jaCriado && (
-                          <button onClick={() => HandleServicoCriado({
+                          <button disabled={loadingService} onClick={() => HandleServicoCriado({
                             profissional_id: profissional.id,
                             usuario_id: pedido.user_id,
                             status: 'Pendente',
@@ -394,7 +429,7 @@ const PainelProfissional = ({ profissional }) => {
                             endereco: pedido.endereco,
                             data_servico: pedido.data_servico
                           }, pedido.id)}>
-                            Criar Serviço
+                            {loadingService ? 'Carregando...' : 'Criar Serviço'}
                           </button>
                         )}
                       </li>
