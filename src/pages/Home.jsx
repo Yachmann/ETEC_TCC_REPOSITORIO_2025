@@ -25,13 +25,13 @@ const Home = () => {
             <nav className="navbar">
               <div className="logo">
 
-                <h1>Contrat<span>Aí</span></h1>
+                <h1 className='h1Contrata'>Contrat<span>Aí</span></h1>
               </div>
               <div className="nav-links">
-                <a href="about">Como Funciona</a>
+                <a id='headerb3' className='btn-secondary' href="about">Como Funciona</a>
 
-                <Link to="/loginprofissional" className="btn-secondary">Logar como Profissional</Link>
-                <Link to="/buscar" className="btn-primary">Achar Profissional</Link>
+                <Link id='headerb1' to="/loginprofissional" className="btn-secondary">Logar como Profissional</Link>
+                <Link id='headerb2' to="/buscar" className="btn-primary">Achar Profissional</Link>
               </div>
             </nav>
 

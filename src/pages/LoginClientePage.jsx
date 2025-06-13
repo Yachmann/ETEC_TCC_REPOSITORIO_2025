@@ -60,30 +60,34 @@ const LoginClientePage = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-      <div className="login-cliente-container">
+      <div className="login-container">
         <Backbutton rota={'/'} />
         <h1>Login de Usuário</h1>
-        <form className="login-cliente-form" onSubmit={handleSubmit}>
-          <label>
-            <span>Email:</span>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            <span>Senha:</span>
-            <input
-              type="password"
-              name="senha"
-              value={formData.senha}
-              onChange={handleChange}
-            />
-          </label>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className='campoTexto'>
+            <label>
+              <span>Email:</span>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
+          <div className='campoTexto'>
+            <label>
+              <span>Senha:</span>
+              <input
+                type="password"
+                name="senha"
+                value={formData.senha}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
           <button type="submit">Login</button>
-          <p>Não tem uma conta? <Link to={'/cadastrocliente'}>Cadastre-se</Link></p>
+          <p className='pformclient'>Não tem uma conta? <Link className='link' to={'/cadastrocliente'}>Cadastre-se</Link></p>
         </form>
         {message && <p className={`message ${message.includes('Erro') ? 'error' : 'success'}`}>{message}</p>}
       </div>

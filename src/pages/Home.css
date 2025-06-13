@@ -207,23 +207,45 @@ body {
 /* Responsivo */
 @media (max-width: 768px) {
   .hero-content h1 {
+    margin-top: 7em;
     font-size: 2rem;
+  }
+  .h1Contrata{
+    margin-top: 1em;
   }
 
   .hero-buttons {
     flex-direction: column;
     gap: 1rem;
   }
-
+  #headerb1,#headerb2{
+    width: 50%;
+    font-size: 0.8em;
+    display: none;
+  }
   .nav-links {
-    flex-direction: column;
+    text-align: center;
+    flex-direction: row;
+    justify-content: center;
     gap: 1rem;
     margin-top: 1rem;
     width: 100%;
   }
 
   .navbar {
-    align-items: flex-start;
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    flex-direction: column; /* Faz o logo e os links ficarem em coluna */
+    padding: 0.5rem 5%; /* Reduz altura do header */
+  }
+
+  .logo {
+    width: 100%;
+    text-align: center; /* Centraliza o nome do site */
+    margin-bottom: 0.5rem;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem; /* Um pouco menor no mobile */
   }
 
   .features h2,
@@ -235,6 +257,7 @@ body {
     padding: 1.5rem;
   }
 }
+
 
 /* Scrollbar */
 ::-webkit-scrollbar {

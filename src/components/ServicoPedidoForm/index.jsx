@@ -59,7 +59,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       setDetalhes('');
       setEndereco('');
       setMessage('Pedido de serviço criado com sucesso!');
-      setSucesso('Alterado Com Sucesso!')
+      setSucesso('Criado Com Sucesso! Aguarde Resposta Profissional')
       setTimeout(() => {
         setSucesso(null)
       }, 3000)

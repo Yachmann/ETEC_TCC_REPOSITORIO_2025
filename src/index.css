@@ -16,6 +16,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  z-index: 3;
 }
 .theme-toggle:hover {
   transform: scale(1.1);

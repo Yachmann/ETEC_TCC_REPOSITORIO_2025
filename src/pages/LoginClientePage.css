@@ -23,7 +23,10 @@
   width: 100%;
   max-width: 400px;
 }
-
+.pformclient{
+  margin-top: 1em;
+  text-align: center;
+}
 .login-cliente-form label {
   display: block;
   margin-bottom: 1.5rem;
