@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import supabase from '../../../supabase';
 import emailjs from 'emailjs-com';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
   const [detalhes, setDetalhes] = useState('');
   const [message, setMessage] = useState('');
