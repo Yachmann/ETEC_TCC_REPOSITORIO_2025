@@ -8,10 +8,11 @@ const app = express();
 const stripeKey = process.env.STRIPE_API_KEY;
 const stripe = new Stripe(stripeKey); // Substitua pela sua chave secreta do Stripe
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://contrataioficial.vercel.app'
-];
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
 
 app.use(cors({
   origin: ['http://localhost:5173', 'https://contrataioficial.vercel.app'],
@@ -54,8 +55,9 @@ app.post('/create-checkout-session', async (req, res) => {
           },
         ],
         mode: 'subscription', // Ou 'payment' dependendo do tipo de plano
-        success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `http://localhost:5173/cancel`,
+        success_url: `https://contrataioficial.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `https://contrataioficial.vercel.app/cancel`,
+
         metadata: {
           profissionalId: profissionalId, // Envia o ID do profissional
         },
@@ -77,11 +79,6 @@ app.post('/create-checkout-session', async (req, res) => {
 
 
 
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
 
 app.get('/subscription-status/:sessionId', async (req, res) => {
   const { sessionId } = req.params;
@@ -115,4 +112,5 @@ app.get('/subscription-status/:sessionId', async (req, res) => {
   }
 });
 // Inicia o servidor
-app.listen(4242, () => console.log('Servidor rodando na porta 4242'));
+const PORT = process.env.PORT || 4242;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
