@@ -8,7 +8,26 @@ const app = express();
 const stripeKey = process.env.STRIPE_API_KEY;
 const stripe = new Stripe(stripeKey); // Substitua pela sua chave secreta do Stripe
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://contrataioficial.vercel.app'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Permite requisições sem origin (ex: Postman, curl)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `O CORS não permite acesso do origin: ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Endpoint para criar uma sessão de checkout
