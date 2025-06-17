@@ -25,7 +25,7 @@ export default function Form() {
   const [erro, setErro] = useState(null)
   const [loading, setLoading] = useState(false)
   const [cpfForm, setCpfForm] = useState('')
-  const [outraProfissao,setOutraProfissao] = useState(null)
+  const [outraProfissao, setOutraProfissao] = useState(null)
   const profissoes = [
     "Advogado(a)",
     "Agente Autônomo de Investimentos",
@@ -75,7 +75,7 @@ export default function Form() {
     "Músico(a)",
     "Nômade Digital",
     "Nutricionista",
-    
+
     "Padeiro(a)",
     "Pedreiro(a)",
     "Personal Trainer",
@@ -100,7 +100,7 @@ export default function Form() {
     "Youtuber",
     "Outro(a)"
   ]
-  
+
 
 
 
@@ -139,7 +139,8 @@ export default function Form() {
   }, [modoLocalizacao, latitude, longitude])
 
   const isEmailValido = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
-  const isSenhaForte = s => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(s)
+  const isSenhaForte = s => /^.{8,}$/.test(s);
+
   const isTelefoneValido = t => /^\d{10,}$/.test(t)
   const isNumeroPositivo = v => Number(v) > 0
 

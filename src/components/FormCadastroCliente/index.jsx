@@ -21,8 +21,7 @@ const FormCadastroCliente = () => {
 
   const isEmailValido = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const isSenhaForte = (senha) =>
-    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(senha); // Letras + números, mínimo 6 caracteres
+  const isSenhaForte = (senha) => /^.{8,}$/.test(senha);
 
   const isTelefoneValido = (telefone) => /^\d{10,}$/.test(telefone);
 
