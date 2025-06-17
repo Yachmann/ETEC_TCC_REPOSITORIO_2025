@@ -1,49 +1,57 @@
-import React from 'react';
-import './AssinarPlano.css'; // crie este arquivo se ainda não existir
+import React, { useState } from 'react';
+import supabase from '../../../supabase'; // ajuste o caminho se precisar
+import './AssinarPlano.css';
 
-const AssinarPlano = ({ profissionalId }) => {
+const AssinarPlano = ({ profissionalId, onAssinaturaAtivada }) => {
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState(null);
+
   if (!profissionalId) {
     return <p className="alerta-assinatura">Profissional ID não fornecido.</p>;
   }
 
-  const handleCheckout = async () => {
+  const handleSimularAssinatura = async () => {
+    setLoading(true);
+    setErro(null);
     try {
-      const payload = {
-        priceId: 'price_1RTuMACemoYFtpZyQtbjYQnw',
-        profissionalId,
-      };
+      // Atualiza a assinatura para "active" ou cria uma nova com status active
+      const { data, error } = await supabase
+        .from('assinaturas')
+        .upsert(
+          { profissional_id: profissionalId, status: 'active' }, 
+          { onConflict: 'profissional_id' }
+        );
 
-      const response = await fetch('https://etectccrepositorio2025-production.up.railway.app/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        alert(`Erro na resposta do backend: ${errorText}`);
+      if (error) {
+        setErro('Erro ao ativar assinatura: ' + error.message);
+        setLoading(false);
         return;
       }
 
-      const { url } = await response.json();
-      window.location.href = url; // Redireciona para o Stripe Checkout
-    } catch (error) {
-      alert(`Erro ao criar sessão de checkout: ${error.message}`);
+      // Opcional: avisa o componente pai que a assinatura foi ativada
+      if (onAssinaturaAtivada) onAssinaturaAtivada();
+
+    } catch (err) {
+      setErro('Erro inesperado: ' + err.message);
     }
+    setLoading(false);
   };
 
   return (
     <div className="assinatura-wrapper">
       <p className="alerta-assinatura">
-        Você ainda não possui uma assinatura ativa. Assine um plano para começar a receber pedidos.
+        Você ainda não possui uma assinatura ativa. Clique para simular assinatura.
       </p>
-      <button className="botao-assinar-plano" onClick={handleCheckout}>
-        Assinar Plano
+      {erro && <p className="erro">{erro}</p>}
+      <button
+        className="botao-assinar-plano"
+        onClick={handleSimularAssinatura}
+        disabled={loading}
+      >
+        {loading ? 'Ativando...' : 'Ativar Assinatura'}
       </button>
     </div>
-  );
+  );  c
 };
 
 export default AssinarPlano;

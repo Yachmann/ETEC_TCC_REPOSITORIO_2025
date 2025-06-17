@@ -253,7 +253,12 @@ const PainelProfissional = ({ profissional }) => {
           <button className='botao-logout' onClick={HandleLogout}>Logout</button>
         </div>
         {console.log('Renderização do componente. Assinatura ativa:', assinaturaAtiva)}
-        {assinaturaAtiva ? null : (<AssinarPlano profissionalId={profissional.id} />)}
+        {assinaturaAtiva ? null : (
+          <AssinarPlano
+            profissionalId={profissional.id}
+            onAssinaturaAtivada={() => setAssinaturaAtiva(true)}
+          />
+        )}
 
 
         <div className={`painel-profissional ${appear ? 'appear' : ''}`}>

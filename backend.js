@@ -14,14 +14,6 @@ const supabase = createClient(
 );
 
 
-app.use(cors({
-  origin: ['http://localhost:5173', 'https://contrataioficial.vercel.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// 🔧 Adicione isso logo após
-app.options('*', cors()); // <- ESSENCIAL para aceitar OPTIONS de qualquer rota
 
 app.use(express.json());
 

@@ -9,10 +9,11 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
   const [detalhes, setDetalhes] = useState('');
   const [message, setMessage] = useState('');
   const [endereco, setEndereco] = useState('');
-  const [dataServico, setDataServico] = useState('');
+  const [dataServico, setDataServico] = useState(null);
   const [diasIndisponiveis, setDiasIndisponiveis] = useState([]);
-  const [sucesso, setSucesso] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [sucesso, setSucesso] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const carregarDiasIndisponiveis = async () => {
       const { data, error } = await supabase
@@ -23,7 +24,6 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       if (error) {
         console.error('Erro ao carregar dias indisponíveis:', error);
       } else {
-        // Extrai só as datas em string para facilitar comparação
         const datas = data.map(d => d.data);
         setDiasIndisponiveis(datas);
       }
@@ -31,6 +31,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
 
     carregarDiasIndisponiveis();
   }, [profissionalId]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,8 +51,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       const dataISO = dataServico.toISOString().split('T')[0];
       const userId = sessionData.session.user.id;
 
-      // 1. Cria o pedido no banco
-      setLoading(true)
+      setLoading(true);
       const { data, error } = await supabase
         .from('servicos_pedidos')
         .insert([{ user_id: userId, profissional_id: profissionalId, detalhes, endereco, data_servico: dataISO }])
@@ -59,16 +59,14 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
 
       if (error) throw new Error(error.message);
 
-      // 2. Busca o e-mail do profissional
       const { data: profissionalData, error: profError } = await supabase
         .from('profissionais')
         .select('email, nome')
         .eq('id', profissionalId)
-        .single(); // já retorna um objeto direto
+        .single();
 
       if (profError) throw new Error('Erro ao buscar e-mail do profissional.');
 
-      // 3. Envia o e-mail via EmailJS
       const emailParams = {
         to_email: profissionalData.email,
         to_name: profissionalData.nome || 'Profissional',
@@ -84,7 +82,6 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
-      // 4. Feedback para o usuário
       if (data && data.length > 0) {
         aoPedidoCriado(data[0]);
         setDetalhes('');
@@ -100,14 +97,20 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       console.error('Erro no pedido:', err);
       setMessage('Erro ao criar pedido ou enviar e-mail: ' + err.message);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
-  // Função para bloquear datas no calendário
+  // Função que compara só ano, mês e dia para evitar problema de fuso horário
+  const isSameDay = (d1, d2) =>
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+
   const isDayBlocked = (date) => {
     return diasIndisponiveis.some(diaIndisponivel => {
-      const dia = new Date(diaIndisponivel);
-      return dia.toDateString() === date.toDateString();
+      // Cria a data no horário local adicionando T00:00:00 para evitar UTC
+      const dia = new Date(diaIndisponivel + 'T00:00:00');
+      return isSameDay(dia, date);
     });
   };
 
@@ -115,7 +118,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
     <form className="servico-pedido-form" onSubmit={handleSubmit}>
       <h3>Solicitar Serviço</h3>
       <label>
-        <span >Detalhes do Serviço:</span>
+        <span>Detalhes do Serviço:</span>
         <textarea
           value={detalhes}
           onChange={(e) => setDetalhes(e.target.value)}
@@ -133,24 +136,21 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       </label>
       <label>
         <span>Data do Serviço:</span>
-        <DatePicker className='react-datepicker'
+        <DatePicker
+          className="react-datepicker"
           selected={dataServico}
           onChange={(date) => setDataServico(date)}
-          filterDate={(date) => !isDayBlocked(date)} // bloqueia datas indisponíveis
+          filterDate={(date) => !isDayBlocked(date)}
           placeholderText="Selecione a data do serviço"
           dateFormat="dd/MM/yyyy"
           required
         />
       </label>
-      <button disabled={loading} className='servicoformbutton' type="submit">
+      <button disabled={loading} className="servicoformbutton" type="submit">
         {loading ? 'Carregando...' : 'Requerir Serviço'}
       </button>
-      {message.includes('Erro') && <p className={`message error'`}>{message}</p>}
-      {sucesso && (
-        <div className="mensagem-sucesso">
-          {sucesso}
-        </div>
-      )}
+      {message.includes('Erro') && <p className="message error">{message}</p>}
+      {sucesso && <div className="mensagem-sucesso">{sucesso}</div>}
     </form>
   );
 };
