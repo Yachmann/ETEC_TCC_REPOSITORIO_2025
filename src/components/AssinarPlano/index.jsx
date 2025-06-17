@@ -13,7 +13,7 @@ const AssinarPlano = ({ profissionalId }) => {
         profissionalId,
       };
 
-      const response = await fetch('https://etectccrepositorio2025-production.up.railway.app', {
+      const response = await fetch('https://etectccrepositorio2025-production.up.railway.app/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
