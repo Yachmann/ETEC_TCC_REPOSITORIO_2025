@@ -9,7 +9,7 @@ html, body {
 :root {
   --primary: #1d3557;
   --secondary: #457b9d;
-  --accent: #e63946;
+  --accent: #457b9d;
   --bg: #f8f9fa;
   --white: #ffffff;
   --radius: 12px;
@@ -58,6 +58,7 @@ body {
   font-weight: 700;
   color: var(--accent);
   cursor: pointer;
+  margin-top: 0.001rem;
 }
 
 .logo span {
