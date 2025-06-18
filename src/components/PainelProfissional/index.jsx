@@ -113,7 +113,7 @@ const PainelProfissional = ({ profissional }) => {
       console.error('Erro ao Buscar Avaliacoes:', error);
     }
     else {
-      console.log(data)
+
       setAvaliacoes(data)
     }
   }
@@ -175,7 +175,7 @@ const PainelProfissional = ({ profissional }) => {
         );
         setServicos([...servicos, data[0]]);
         setPedidosServicos(pedidosServicos.filter(pedido => pedido.id !== pedidoId));
-        console.log('E-mail enviado ao usuário com sucesso!');
+
       }
     } catch (err) {
       console.error('Erro ao criar serviço ou enviar e-mail:', err.message || err);
@@ -186,14 +186,24 @@ const PainelProfissional = ({ profissional }) => {
 
   const HandleStatusMudado = (servicoId, statusNovo) => {
     setServicos(servicos.map(servico => servico.id === servicoId ? { ...servico, status: statusNovo } : servico));
-    console.log(statusNovo)
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  const HandleDeletarPedidoServico =async (pedidoId) => {
+     const { data, error } = await supabase
+      .from(`servicos_pedidos`)
+      .delete()
+      .eq('id', pedidoId)
+    if (error) {
+      console.error('Erro ao Deletar', error);
+    }
+    else {
+      fetchServicosPedidos()
+    }
+  }
   const handleSave = async () => {
     // Save the updated data to the database
     await supabase.from('profissionais').update(formData).eq('id', profissional.id);
@@ -220,7 +230,6 @@ const PainelProfissional = ({ profissional }) => {
       }
 
       const assinaturaEstaAtiva = data && data.length > 0;
-      console.log('Assinatura ativa?', assinaturaEstaAtiva, data);
       return assinaturaEstaAtiva;
 
     } catch (err) {
@@ -252,7 +261,7 @@ const PainelProfissional = ({ profissional }) => {
           <Backbutton rota={'/'} />
           <button className='botao-logout' onClick={HandleLogout}>Logout</button>
         </div>
-        {console.log('Renderização do componente. Assinatura ativa:', assinaturaAtiva)}
+
         {assinaturaAtiva ? null : (
           <AssinarPlano
             profissionalId={profissional.id}
@@ -422,20 +431,26 @@ const PainelProfissional = ({ profissional }) => {
                         <p><strong>Data:</strong> {pedido.data_servico}</p>
 
                         {jaCriado && (
-                          <h4 className='jacriado'>Já Criado</h4>
+                          <div>
+                            <h4 className='jacriado'>Já Criado</h4>
+                            <button onClick={()=>HandleDeletarPedidoServico(pedido.id)}>Apagar</button>
+                          </div>
                         )}
 
                         {!jaCriado && (
-                          <button disabled={loadingService} onClick={() => HandleServicoCriado({
-                            profissional_id: profissional.id,
-                            usuario_id: pedido.user_id,
-                            status: 'Pendente',
-                            detalhes: pedido.detalhes,
-                            endereco: pedido.endereco,
-                            data_servico: pedido.data_servico
-                          }, pedido.id)}>
-                            {loadingService ? 'Carregando...' : 'Criar Serviço'}
-                          </button>
+                          <div>
+                            <button disabled={loadingService} onClick={() => HandleServicoCriado({
+                              profissional_id: profissional.id,
+                              usuario_id: pedido.user_id,
+                              status: 'Pendente',
+                              detalhes: pedido.detalhes,
+                              endereco: pedido.endereco,
+                              data_servico: pedido.data_servico
+                            }, pedido.id)}>
+                              {loadingService ? 'Carregando...' : 'Criar Serviço'}
+                            </button>
+                            <button className='deletar' onClick={()=>HandleDeletarPedidoServico(pedido.id)}>Rejeitar Serviço</button>
+                          </div>
                         )}
                       </li>
                     );

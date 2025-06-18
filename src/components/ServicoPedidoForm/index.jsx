@@ -12,6 +12,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
   const [dataServico, setDataServico] = useState(null);
   const [diasIndisponiveis, setDiasIndisponiveis] = useState([]);
   const [sucesso, setSucesso] = useState(null);
+  const [erro, setErro] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (endereco == '' || !dataServico || detalhes == '') return setErro('Preencha Todos Os Campos!')
 
     try {
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
@@ -151,6 +153,7 @@ const ServicoPedidoForm = ({ profissionalId, aoPedidoCriado }) => {
       </button>
       {message.includes('Erro') && <p className="message error">{message}</p>}
       {sucesso && <div className="mensagem-sucesso">{sucesso}</div>}
+      {erro && <div className="message error">{erro}</div>}
     </form>
   );
 };

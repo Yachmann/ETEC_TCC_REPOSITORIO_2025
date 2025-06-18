@@ -30,7 +30,7 @@ const Servico = ({ servico, aoAlterarStatus, usuario }) => {
         console.error("Error fetching user:", error);
       } else {
         setUsuario(data[0]);
-        console.log('usuario do servico:',data[0])
+        
       }
     };
 

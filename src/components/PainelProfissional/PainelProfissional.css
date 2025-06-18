@@ -272,7 +272,18 @@
   padding: 0.5rem;
   border-radius: var(--radius);
 }
+.deletar {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
+.botao-servico.deletar:hover {
+  background-color: #e60000;
+} 
 /* Header e logout */
 .headerbotao {
   display: flex;
