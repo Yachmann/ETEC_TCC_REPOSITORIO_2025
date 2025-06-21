@@ -192,8 +192,8 @@ export default function Form() {
         {erro && <p className="message error">{erro}</p>}
         {message && <p className="message success">{message}</p>}
 
-        <CampoTexto valor={nome} aoAlterar={setNome} Label="Nome" />
-        <CampoTexto valor={email} aoAlterar={setEmail} Label="Email" type="email" />
+        <CampoTexto valor={nome} aoAlterar={setNome} Label="Nome Completo" />
+        <CampoTexto valor={email} aoAlterar={setEmail} Label="E-mail" type="email" />
         <CampoTexto valor={senha} aoAlterar={setSenha} Label="Senha" type="password" />
         <CampoTexto valor={senhaConfirma} aoAlterar={setSenhaConfirma} Label="Confirmar Senha" type="password" />
         <CampoTexto valor={telefone} aoAlterar={setTelefone} Label="Telefone" />
@@ -214,16 +214,19 @@ export default function Form() {
           />
         )}
         <CampoTexto valor={anosExperiencia} aoAlterar={setAnosExperiencia} Label="Anos de Experiência" type="number" />
-        <label>CPF: </label>
-        <input
-          type="text"
-          placeholder="CPF"
-          value={cpfForm}
-          onChange={(e) => {
-            const valor = e.target.value
-            setCpfForm(formatarCPF(valor))
-          }}
-        />
+        <div className='campoTexto'>
+          <label>CPF: </label>
+          <input
+            
+            type="text"
+            placeholder="CPF"
+            value={cpfForm}
+            onChange={(e) => {
+              const valor = e.target.value
+              setCpfForm(formatarCPF(valor))
+            }}
+          />
+        </div>
 
         <div className="modo-localizacao">
           <label><input type="radio" value="auto" checked={modoLocalizacao === 'auto'} onChange={() => setModoLocalizacao('auto')} /> Detectar automaticamente</label>

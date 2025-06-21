@@ -31,8 +31,8 @@ const LoginForm = ({onLogin}) => {
                 required
                 type="password"
             />
-            <p>Nao tem uma conta? <Link className="link" to={'/cadastro'}>Cadastre-se</Link></p>
             <button type="submit">ENTRAR</button>
+            <p>Nao tem uma conta? <Link className="link" to={'/cadastro'}>Cadastre-se</Link></p>
         </form>
     );
 }

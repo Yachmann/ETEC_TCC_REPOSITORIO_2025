@@ -165,7 +165,7 @@ const FormCadastroCliente = () => {
           valor={senhaConfirma}
           required
         />
-        <div>
+        <div className="campoTexto"> 
           <label>CPF: </label>
           <input
             type="text"

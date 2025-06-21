@@ -55,7 +55,7 @@ const RatingForm = ({ profissional, onNewEvaluation, refreshEvaluations }) => {
             </select>
           </label>
           <CampoTexto valor={comment} aoAlterar={setComment} />
-          <button type="submit">Submit</button>
+          <button type="submit">Enviar</button>
           {message && <p className="message success">{message}</p>}
         </form>
       </>
