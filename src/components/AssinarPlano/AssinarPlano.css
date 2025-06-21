@@ -34,3 +34,170 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(29, 53, 87, 0.2);
 }
+
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 2rem;
+}
+
+.signup-form {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 10em;
+}
+
+.signup-form h2 {
+
+  color: var(--text);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  margin-top: 1em;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.signup-form button {
+  width: 100%;
+  padding: 1rem;
+  background: var(--accent);
+  color: var(--card-bg);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.signup-form button:hover {
+  background: #d62b38;
+  /* ou crie: var(--accent-hover) */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.message.error,
+.erro {
+  background-color: #ffe3e3;
+  color: var(--accent);
+  border-radius: 10px;
+  padding: 0.5em;
+  margin-top: 1.5em;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+select,
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="number"],
+.signup-form input[type="password"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e1e1e1;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: all var(--transition-speed) ease;
+  margin-bottom: 1.5rem;
+  background-color: white;
+}
+
+.campoTexto {
+  margin-bottom: 1.5rem;
+}
+
+.campoTexto label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.campoTexto input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e1e1e1;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: all var(--transition-speed) ease;
+}
+
+.campoTexto input:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.campoTexto input::placeholder {
+  color: #999;
+}
+
+.campoTextoErro input {
+  border-color: var(--accent-color);
+}
+
+.campoTextoErro input::placeholder {
+  color: var(--accent-color);
+}
+
+select:focus,
+.signup-form input[type="text"]:focus,
+.signup-form input[type="email"]:focus,
+.signup-form input[type="number"]:focus,
+.signup-form input[type="password"]:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+select::placeholder,
+.signup-form input::placeholder {
+  color: #999;
+}
+
+.modo-localizacao {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 2em;
+}
+
+@media (max-width: 768px) {
+  .signup-container {
+    padding: 1rem;
+  }
+
+  .signup-form {
+    padding: 1.5rem;
+  }
+}
+
+.subtitulo {
+  margin-top: 2em;
+  margin-bottom: 4em;
+}

@@ -23,7 +23,7 @@ const AssinarPlano = ({ profissionalId, onAssinaturaAtivada }) => {
           { onConflict: 'profissional_id' }
 
         );
-      navigate(`/assinaturapage`)
+      navigate(`/assinaturapage`, {state: {profissionalId: profissionalId}})
 
       if (error) {
         setErro('Erro ao ativar assinatura: ' + error.message);
