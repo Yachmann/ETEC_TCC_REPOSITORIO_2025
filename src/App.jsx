@@ -15,6 +15,7 @@ import UsuarioPage from "./pages/UsuarioPage";
 import SuccessPage from "./pages/SuccessPage";
 import AboutPage from "./pages/AboutPage";
 import NotasPage from "./pages/NotasPage";
+import AssinaturaCartao from "./pages/AssinaturaPage";
 
 function App() {
   const [temaEscuro, setTemaEscuro] = useState(() => {
@@ -51,6 +52,7 @@ function App() {
         <Route path="/usuario/:id" element={<UsuarioPage />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/assinaturapage" element={<AssinaturaCartao />} />
         <Route path="/planner/:profissionalId" element={<NotasPage />} />
       </Routes>
     </Router>

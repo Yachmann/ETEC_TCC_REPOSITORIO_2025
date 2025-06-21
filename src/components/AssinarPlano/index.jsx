@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import supabase from '../../../supabase'; // ajuste o caminho se precisar
 import './AssinarPlano.css';
+import { useNavigate } from 'react-router-dom';
 
 const AssinarPlano = ({ profissionalId, onAssinaturaAtivada }) => {
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState(null);
-
+  const navigate = useNavigate()
   if (!profissionalId) {
     return <p className="alerta-assinatura">Profissional ID não fornecido.</p>;
   }
@@ -18,9 +19,11 @@ const AssinarPlano = ({ profissionalId, onAssinaturaAtivada }) => {
       const { data, error } = await supabase
         .from('assinaturas')
         .upsert(
-          { profissional_id: profissionalId, status: 'active' }, 
+          { profissional_id: profissionalId, status: 'active' },
           { onConflict: 'profissional_id' }
+
         );
+      navigate(`/assinaturapage`)
 
       if (error) {
         setErro('Erro ao ativar assinatura: ' + error.message);
@@ -51,7 +54,7 @@ const AssinarPlano = ({ profissionalId, onAssinaturaAtivada }) => {
         {loading ? 'Ativando...' : 'Ativar Assinatura'}
       </button>
     </div>
-  );  c
+  ); c
 };
 
 export default AssinarPlano;

@@ -159,7 +159,8 @@ export default function Form() {
       setErro('CPF Inválido!');
       return;
     }
-    const profissaoFinal = profissao === 'Outra' ? outraProfissao : profissao
+    const profissaoFinal = profissao === 'Outro(a)' ? outraProfissao : profissao
+
     const payload = { nome, email, telefone, profissao: profissaoFinal, anosExperiencia, localizacao, senha }
     if (modoLocalizacao === 'auto') Object.assign(payload, { latitude, longitude })
 
