@@ -51,8 +51,8 @@ const LoginPage = () => {
             <div className="login-container">
                 <Backbutton rota={'/'} />
                 <h1>Login de Profissional</h1>
-                {error && <p className="error-message">{error}</p>}
                 <LoginForm loading={loading} onLogin={HandleLogin} />
+                {error && <p className="error-message">{error}</p>}
             </div>
         </motion.div>
     );
