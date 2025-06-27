@@ -3,7 +3,7 @@ import { useState } from "react";
 import './LoginForm.css';
 import { Link } from "react-router-dom";
 
-const LoginForm = ({onLogin}) => {
+const LoginForm = ({onLogin,loading}) => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
@@ -31,7 +31,7 @@ const LoginForm = ({onLogin}) => {
                 required
                 type="password"
             />
-            <button type="submit">ENTRAR</button>
+            <button disabled={loading} type="submit">{loading? 'Carregando...' : 'ENTRAR'}</button>
             <p>Nao tem uma conta? <Link className="link" to={'/cadastro'}>Cadastre-se</Link></p>
         </form>
     );

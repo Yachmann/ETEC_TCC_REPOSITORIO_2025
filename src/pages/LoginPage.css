@@ -28,6 +28,10 @@
   font-weight: 500;
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+}
 .linkback {
   margin-right: 80%;
   font-size: 3.3em;

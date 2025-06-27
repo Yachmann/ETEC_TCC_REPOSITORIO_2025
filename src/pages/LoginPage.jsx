@@ -6,9 +6,11 @@ import './LoginPage.css';
 import { IoIosArrowBack } from "react-icons/io";
 import Backbutton from "../components/Backbutton";
 import { motion } from 'framer-motion';
+import { set } from "date-fns";
 const LoginPage = () => {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const profissional = localStorage.getItem('profissional')
         if (profissional) {
@@ -18,6 +20,7 @@ const LoginPage = () => {
     })
 
     const HandleLogin = async (email, senha) => {
+        setLoading(true);
         console.log(email, senha);
         const { data, error } = await supabase
             .from('profissionais')
@@ -27,12 +30,16 @@ const LoginPage = () => {
             .single();
 
         if (error) {
-            setError('Invalid email or password');
+            setError('Email ou senha inválidos.');
+            setTimeout(() => {
+                setError(null);
+            },2000)
         } else {
             localStorage.setItem('profissional', JSON.stringify(data));
             console.log('navegar para /logged/' + data.id);
             navigate('/logged/' + data.id);
         }
+        setLoading(false);
     }
 
     return (
@@ -45,7 +52,7 @@ const LoginPage = () => {
                 <Backbutton rota={'/'} />
                 <h1>Login de Profissional</h1>
                 {error && <p className="error-message">{error}</p>}
-                <LoginForm onLogin={HandleLogin} />
+                <LoginForm loading={loading} onLogin={HandleLogin} />
             </div>
         </motion.div>
     );

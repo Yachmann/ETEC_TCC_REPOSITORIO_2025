@@ -4,13 +4,29 @@ import supabase from '../../supabase';
 import Backbutton from '../components/Backbutton';
 import './LoginClientePage.css';
 import { motion } from 'framer-motion';
+
 const LoginClientePage = () => {
   const [formData, setFormData] = useState({
     email: '',
     senha: '',
   });
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState(null);
   const navigate = useNavigate();
+  const traduzErro = (mensagemOriginal) => {
+    if (mensagemOriginal.includes('Invalid login credentials')) {
+      return 'Email ou senha inválidos.';
+    }
+    if (mensagemOriginal.includes('Email not confirmed')) {
+      return 'Email não confirmado. Verifique sua caixa de entrada.';
+    }
+    if (mensagemOriginal.includes('User not found')) {
+      return 'Usuário não encontrado.';
+    }
+
+    return 'Erro ao logar usuário: ' + mensagemOriginal;
+  };
 
   useEffect(() => {
     const checkSession = async () => {
@@ -31,6 +47,7 @@ const LoginClientePage = () => {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const { email, senha } = formData;
 
@@ -40,7 +57,10 @@ const LoginClientePage = () => {
     });
 
     if (error) {
-      setMessage('Erro ao logar usuário: ' + error.message);
+      setErro(traduzErro(error.message));
+      setTimeout(() => {
+        setErro(null);
+      }, 2000)
     } else {
       const { data: sessionData } = await supabase.auth.getSession();
       const session = sessionData?.session;
@@ -52,6 +72,7 @@ const LoginClientePage = () => {
         setMessage('Erro ao obter sessão do usuário.');
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -86,10 +107,11 @@ const LoginClientePage = () => {
               />
             </label>
           </div>
-          <button type="submit">Login</button>
+          <button disabled={loading} type="submit">{loading ? 'Carregando...' : 'Login'}</button>
           <p className='pformclient'>Não tem uma conta? <Link className='link' to={'/cadastrocliente'}>Cadastre-se</Link></p>
         </form>
         {message && <p className={`message ${message.includes('Erro') ? 'error' : 'success'}`}>{message}</p>}
+        {erro && <p className={`message error`}>{erro}</p>}
       </div>
     </motion.div>
   );

@@ -145,6 +145,7 @@ export default function Form() {
   const isNumeroPositivo = v => Number(v) > 0
 
   const HandleSubmit = async e => {
+
     e.preventDefault()
     setErro(null)
     if (!nome || !telefone || !profissao || !anosExperiencia || !localizacao || !email || !senha) {
