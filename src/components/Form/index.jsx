@@ -151,13 +151,14 @@ export default function Form() {
     if (!nome || !telefone || !profissao || !anosExperiencia || !localizacao || !email || !senha) {
       setErro('Preencha todos os campos.'); return
     }
-    if (!isEmailValido(email)) { setErro('E-mail inválido.'); return }
-    if (!isSenhaForte(senha)) { setErro('Senha fraca.'); return }
-    if (senha !== senhaConfirma) { setErro('Senhas não coincidem.'); return }
-    if (!isTelefoneValido(telefone)) { setErro('Telefone inválido.'); return }
-    if (!isNumeroPositivo(anosExperiencia)) { setErro('Anos de experiência deve ser positivo.'); return }
+    if (!isEmailValido(email)) { setErro('E-mail inválido.'); setTimeout(()=>setErro(null),3000); return }
+    if (!isSenhaForte(senha)) { setErro('Senha fraca.');  setTimeout(()=>setErro(null),3000); return }
+    if (senha !== senhaConfirma) { setErro('Senhas não coincidem.');  setTimeout(()=>setErro(null),3000); return }
+    if (!isTelefoneValido(telefone)) { setErro('Telefone inválido.');  setTimeout(()=>setErro(null),3000); return }
+    if (!isNumeroPositivo(anosExperiencia)) { setErro('Anos de experiência deve ser positivo.');  setTimeout(()=>setErro(null),3000); return }
     if (!cpf.isValid(cpfForm)) {
       setErro('CPF Inválido!');
+       setTimeout(()=>setErro(null),3000);
       return;
     }
     const profissaoFinal = profissao === 'Outro(a)' ? outraProfissao : profissao
@@ -191,8 +192,7 @@ export default function Form() {
       <Backbutton rota="/loginprofissional" />
       <form className="signup-form" onSubmit={HandleSubmit}>
         <h2>Cadastro de Profissional</h2>
-        {erro && <p className="message error">{erro}</p>}
-        {message && <p className="message success">{message}</p>}
+
 
         <CampoTexto valor={nome} aoAlterar={setNome} Label="Nome Completo" />
         <CampoTexto valor={email} aoAlterar={setEmail} Label="E-mail" type="email" />
@@ -219,7 +219,7 @@ export default function Form() {
         <div className='campoTexto'>
           <label>CPF: </label>
           <input
-            
+
             type="text"
             placeholder="CPF"
             value={cpfForm}
@@ -249,6 +249,8 @@ export default function Form() {
 
         <button type="submit" disabled={loading}>{loading ? 'Enviando...' : 'CADASTRAR'}</button>
       </form>
+      {erro && <p className="message error">{erro}</p>}
+      {message && <p className="message success">{message}</p>}
 
     </div>
   )

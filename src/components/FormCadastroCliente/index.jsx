@@ -48,35 +48,42 @@ const FormCadastroCliente = () => {
 
     if (!nome || !email || !telefone || !dataNascimento || !endereco || !senha || !senhaConfirma) {
       setMessage('Por favor, preencha todos os campos.');
+      setTimeout(() => setMessage(null), 3000);
       return;
     }
 
     if (!isEmailValido(email)) {
       setMessage('E-mail inválido.');
+      setTimeout(() => setMessage(null), 3000);
       return;
     }
 
     if (!isSenhaForte(senha)) {
       setMessage('A senha deve ter no mínimo 6 caracteres, incluindo letras e números.');
+      setTimeout(() => setMessage(null), 3000);
       return;
     }
 
     if (!isTelefoneValido(telefone)) {
       setMessage('Telefone inválido. Digite apenas números com no mínimo 10 dígitos.');
+      setTimeout(() => setMessage(null), 3000);
       return;
     }
 
     if (!isMaiorDeIdade(dataNascimento)) {
       setMessage('Você deve ter pelo menos 18 anos para se cadastrar.');
+      setTimeout(() => setMessage(null), 3000);
       return;
     }
 
     if (senha !== senhaConfirma) {
       setMessage('As senhas não coincidem.');
+      setTimeout(() => setMessage(null), 3000);
       return;
     }
     if (!cpf.isValid(cpfForm)) {
       Seterro('CPF Inválido!');
+      setTimeout(() => setMessage(null), 3000);
       return;
     }
     // Cadastro no Supabase
@@ -165,7 +172,7 @@ const FormCadastroCliente = () => {
           valor={senhaConfirma}
           required
         />
-        <div className="campoTexto"> 
+        <div className="campoTexto">
           <label>CPF: </label>
           <input
             type="text"
